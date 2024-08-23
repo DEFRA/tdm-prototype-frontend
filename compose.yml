@@ -44,7 +44,7 @@ services:
 
 ################################################################################
 
-  your-frontend:
+  tdm-prototype-frontend:
     build: ./
     ports:
       - '3000:3000'
@@ -67,26 +67,27 @@ services:
     networks:
       - cdp-tenant
 
-  # your-backend:
-  #   image: defradigital/your-backend:${YOUR_BACKEND_VERSION:-latest}
-  #   ports:
-  #     - '3555:3555'
-  #   links:
-  #     - 'localstack:localstack'
-  #     - 'mongodb:mongodb'
-  #   depends_on:
-  #     localstack:
-  #       condition: service_healthy
-  #     mongodb:
-  #       condition: service_started
-  #   env_file:
-  #     - 'compose/aws.env'
-  #   environment:
-  #     PORT: 3555
-  #     NODE_ENV: development
-  #     LOCALSTACK_ENDPOINT: http://localstack:4566
-  #   networks:
-  #     - cdp-tenant
+  tdm-prototype-backend:
+     build: ../tdm-prototype-backend
+     ports:
+       - '3080:8080'
+     links:
+       - 'localstack:localstack'
+       - 'mongodb:mongodb'
+     depends_on:
+       localstack:
+         condition: service_healthy
+       mongodb:
+         condition: service_started
+     environment:
+       PORT: 3555
+#       NODE_ENV: development
+       ASPNETCORE_ENVIRONMENT: Development
+       LOCALSTACK_ENDPOINT: http://localstack:4566
+       Mongo__DatabaseUri: mongodb://mongodb:27017
+#       Mongo__DatabaseName: tdm-prototype-backend
+     networks:
+       - cdp-tenant
 
 ################################################################################
 
