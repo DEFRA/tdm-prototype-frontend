@@ -81,11 +81,9 @@ services:
          condition: service_started
      environment:
        PORT: 3555
-#       NODE_ENV: development
        ASPNETCORE_ENVIRONMENT: Development
        LOCALSTACK_ENDPOINT: http://localstack:4566
        Mongo__DatabaseUri: mongodb://mongodb:27017
-#       Mongo__DatabaseName: tdm-prototype-backend
      networks:
        - cdp-tenant
 
