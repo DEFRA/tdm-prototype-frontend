@@ -80,7 +80,6 @@ services:
        mongodb:
          condition: service_started
      environment:
-       PORT: 3555
        ASPNETCORE_ENVIRONMENT: Development
        LOCALSTACK_ENDPOINT: http://localstack:4566
        Mongo__DatabaseUri: mongodb://mongodb:27017
@@ -100,7 +99,26 @@ services:
       mongodb:
         condition: service_started
     environment:
-      PORT: 3555
+      ASPNETCORE_ENVIRONMENT: Development
+      LOCALSTACK_ENDPOINT: http://localstack:4566
+      Mongo__DatabaseUri: mongodb://mongodb:27017
+    networks:
+      - cdp-tenant
+
+
+  tdm-prototype-cds-simulator:
+    build: ../tdm-prototype-cds-simulator
+    ports:
+      - '3082:8080'
+    links:
+      - 'localstack:localstack'
+      - 'mongodb:mongodb'
+    depends_on:
+      localstack:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    environment:
       ASPNETCORE_ENVIRONMENT: Development
       LOCALSTACK_ENDPOINT: http://localstack:4566
       Mongo__DatabaseUri: mongodb://mongodb:27017
