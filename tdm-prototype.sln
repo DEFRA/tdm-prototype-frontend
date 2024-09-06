@@ -8,6 +8,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeBackend.Types",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsonapi-consumer", "../tdm-prototype-backend\libs\jsonapi-consumer\jsonapi-consumer.csproj", "{608DBE7A-761B-4017-8A55-275E40E99CB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeDmpSynchroniser", "..\tdm-prototype-dmp-synchroniser\TdmPrototypeDmpSynchroniser\TdmPrototypeDmpSynchroniser.csproj", "{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeDmpSynchroniser.Test", "..\tdm-prototype-dmp-synchroniser\TdmPrototypeDmpSynchroniser.Test\TdmPrototypeDmpSynchroniser.Test.csproj", "{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeCdsSimulator", "..\tdm-prototype-cds-simulator\TdmPrototypeCdsSimulator\TdmPrototypeCdsSimulator.csproj", "{53DAC342-05BA-47F4-A485-07E7AB5A47D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeCdsSimulator.Test", "..\tdm-prototype-cds-simulator\TdmPrototypeCdsSimulator.Test\TdmPrototypeCdsSimulator.Test.csproj", "{A81A95B7-4801-424B-873F-0432BCF7E6E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{15D14A90-C070-4673-9592-A7BCE025226F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CdsSimulator", "CdsSimulator", "{F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DmpSynchroniser", "DmpSynchroniser", "{1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{BA33B34A-7E32-4A5D-AFFC-DA8CB176F8F1}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tdm-prototype-frontend", "tdm-prototype-frontend.njsproj", "{3A4E9185-A910-475B-9FEC-475429FED37A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +48,32 @@ Global
 		{608DBE7A-761B-4017-8A55-275E40E99CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{608DBE7A-761B-4017-8A55-275E40E99CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{608DBE7A-761B-4017-8A55-275E40E99CB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
+		{53DAC342-05BA-47F4-A485-07E7AB5A47D0} = {F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}
+		{A81A95B7-4801-424B-873F-0432BCF7E6E0} = {F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}
+		{C3A6F1D8-ECA1-4A90-B3A5-662E259D0251} = {15D14A90-C070-4673-9592-A7BCE025226F}
+		{FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A} = {15D14A90-C070-4673-9592-A7BCE025226F}
+		{18DE4B25-FF6B-4E24-BE27-EC9724BE68A8} = {15D14A90-C070-4673-9592-A7BCE025226F}
+		{608DBE7A-761B-4017-8A55-275E40E99CB2} = {15D14A90-C070-4673-9592-A7BCE025226F}
+		{3A4E9185-A910-475B-9FEC-475429FED37A} = {BA33B34A-7E32-4A5D-AFFC-DA8CB176F8F1}
 	EndGlobalSection
 EndGlobal
