@@ -3,7 +3,41 @@
 {% block content %}
   {{ appHeading({
     text: heading,
-    caption: "Core delivery platform Node.js Frontend Template."
+    caption: "IPAFFS notifications management"
+  }) }}
+
+  {{ govukTable({
+    attributes: {
+      'data-module': 'moj-sortable-table'
+    },
+    head: [
+      {
+        text: "ID",
+        attributes: {
+          "aria-sort": "ascending"
+        }
+      },
+      {
+        text: "Type",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Updated",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "# Packages",
+        attributes: {
+          "aria-sort": "none"
+        },
+        format: "numeric"
+      }
+    ],
+    rows: notifications
   }) }}
 
 {% endblock %}
