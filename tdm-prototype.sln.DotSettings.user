@@ -1,7 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fcraig_002Fsrc_002Fdefra_002Ftdm_002Dprototype_002Ftdm_002Dprototype_002Ddmp_002Dsynchroniser_002FTdmPrototypeDmpSynchroniser_002FLibs_002FTdmPrototypeBackend_002ETypes_002FTdmPrototypeBackend_002ETypes_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/craig/.nuget/packages/azure.storage.blobs/12.22.0-beta.1/lib/net6.0/Azure.Storage.Blobs.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=10cf94b0_002De60f_002D4c09_002Db0f4_002Dcefc6a28fa32/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BookValidateIsbn" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A::net8.0::TdmPrototypeBackend.Test.CreateResourceIntegrationTests.CreateMovementMatchedIpaffsNotification&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A::net8.0::TdmPrototypeBackend.Test.CreateResourceIntegrationTests.CreateMovement&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Test.SyncClearanceRequestTests.BookValidateIsbn&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Test.SyncClearanceRequestTests.ClearanceRequest_ShouldDeserialise&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncClearanceRequestTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncIpaffsNotificationTests.ShouldDeserialise&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=3da1aea4_002D9035_002D421e_002Da049_002D05985db02817_0023jsonapi_002Dconsumer/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

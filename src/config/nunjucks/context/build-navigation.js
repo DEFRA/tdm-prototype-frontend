@@ -9,6 +9,11 @@ export function buildNavigation(request) {
       isActive: request?.path === '/'
     },
     {
+      text: 'Notifications',
+      url: '/notifications',
+      isActive: request?.path === '/notifications'
+    },
+    {
       text: 'About',
       url: '/about',
       isActive: request?.path === '/about'

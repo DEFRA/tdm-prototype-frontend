@@ -23,6 +23,18 @@ export const config = convict({
     default: 3000,
     env: 'PORT'
   },
+  tdmBackendApi: {
+    doc: 'The Trade Data Matching json:api backend.',
+    format: String,
+    default: 'https://localhost:7094/api',
+    env: 'TDM_API_BACKEND'
+  },
+  tdmBackendExampleNotification: {
+    doc: 'An example CHED ID from the backend.',
+    format: String,
+    default: 'CHEDP.GB.2024.1012765',
+    env: 'TDM_API_EXAMPLE_NOTIFICATION'
+  },
   staticCacheTimeout: {
     doc: 'Static cache timeout in milliseconds',
     format: Number,
@@ -32,7 +44,7 @@ export const config = convict({
   serviceName: {
     doc: 'Applications Service Name',
     format: String,
-    default: 'tdm-prototype-frontend'
+    default: 'ALVS V2 POC'
   },
   root: {
     doc: 'Project root',

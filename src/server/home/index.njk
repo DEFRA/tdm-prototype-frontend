@@ -3,20 +3,102 @@
 {% block content %}
   {{ appHeading({
     text: heading,
-    caption: "Core delivery platform Node.js Frontend Template."
+    caption: "ALVS V2 POC Hosted on Core delivery platform."
   }) }}
 
   {% call appPageBody() %}
     <p>
-      Welcome to the Frontend Template, a starter kit for Core Delivery Platform Node.js Frontends 🚀
+      Welcome to the ALVS v2 Prototype 🚀
     </p>
-    <p>
-      Based on <a href="https://github.com/DEFRA/design-standards">DEFRA</a> and <a
-              href="https://design-system.service.gov.uk/">GOV.UK</a> best practices this starter kit provides you with
-      a deployable, production ready template 🙌🏻 to start your new service with.
+     Currently implemented:
     </p>
 
     <ul>
+      <li>
+        Connectivity & testing for Azure Blob Storage & Azure Service Bus, connecting over the public internet.
+      </li>
+      <li>
+        Full schema of IPAFFS notification, initial POC schema for movements & GMRs
+      </li>
+      <li>
+        Synchronisation of IPAFFS Notifications and ALVS Clearance Requests from the DMP Azure Data Lake into a CDP Mongo DB Database.
+      </li>
+      <li>
+        Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
+        <ul>
+              <li>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications">Query all IPAFFS Notifications</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications/{{tdmBackendExampleNotification}}">Retrieve a single IPAFFS Notifcation</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications?filter=equals(notificationType,%27Cveda%27)">Retrieve only CHEDA IPAFFS Notifications</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications/{{tdmBackendExampleNotification}}?fields[ipaffsNotifications]=status,notificationType,partOne">Retrieve a single IPAFFS Notifcation but only certain fields<</a>
+              </li>
+            </ul>
+      </li>
+    </ul>
+
+    </p>
+     What is in scope for the initial POC but not yet implemented:
+    </p>
+
+    <ul>
+      <li>
+        Level 1 matching
+      </li>
+      <li>
+        Full schema for movements (GVMS) & GMRs
+      </li>
+      <li>
+        Record level UI
+      </li>
+      <li>
+        Aggregate / reporting UI
+      </li>
+      <li>
+        Real time updates via Azure Service Bus
+      </li>
+      <li>
+        Connectivity to Azure blob storage and bus via MPLS
+      </li>
+
+    </ul>
+
+    </p>
+     What is in scope for the extended POC:
+    </p>
+
+    <ul>
+      <li>Proxy of SOAP traffic between CDS & ALVS and between ALVS & IPAFFS</li>
+    </ul>
+
+    </p>
+     What is not in scope for the Initial POC:
+    </p>
+
+    <ul>
+      <li>
+        Level 2 & 3 matching
+      </li>
+      <li>
+        Cutover process
+      </li>
+    </ul>
+    <p>
+      This service is based on <a href="https://github.com/DEFRA/design-standards">DEFRA</a> and <a
+              href="https://design-system.service.gov.uk/">GOV.UK</a> best practices:
+    </p>
+
+    <ul>
+
+      <li>
+        <a href="https://jsonapi.org/">json:api a specification for building APIs in JSON</a>
+      </li>
+
       <li>
         <a href="https://frontend.design-system.service.gov.uk/">GOV.UK Frontend</a>
       </li>
