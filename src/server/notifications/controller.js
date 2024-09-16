@@ -15,8 +15,9 @@ const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
 // Define Model
 jsonApi.define('ipaffsNotification', {
   version: '',
-  notificationStatus: '',
+  status: '',
   notificationType: '',
+  ipaffsType: '',
   lastUpdated: '',
   partOne: {
     commodities: {
@@ -29,14 +30,21 @@ export const notificationsController = {
   async handler(request, h) {
     const logger = createLogger()
 
-    const { data } = await jsonApi.findAll('ipaffsNotifications')
+    const { data } = await jsonApi.findAll('ipaffsNotifications', {
+      sort: '-lastUpdated',
+      // 'page[size]':1,
+      'fields[ipaffsNotifications]': 'lastUpdated,status,ipaffsType,partOne'
+    })
     logger.info(data[0])
-    var notifications = map(data, (n) => [
+    const notifications = map(data, (n) => [
       {
         text: n.id
       },
       {
-        text: n.notificationType
+        text: n.status
+      },
+      {
+        text: n.ipaffsType
       },
       {
         text: n.lastUpdated

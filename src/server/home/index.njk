@@ -27,16 +27,19 @@
         Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
         <ul>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications">Query all IPAFFS Notifications</a>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications">Retrieve all IPAFFS Notifications</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications?sort=-lastUpdated">Retrieve all IPAFFS Notifications, order by last updated descending</a>
               </li>
               <li>
                 <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications/{{tdmBackendExampleNotification}}">Retrieve a single IPAFFS Notifcation</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications?filter=equals(notificationType,%27Cveda%27)">Retrieve only CHEDA IPAFFS Notifications</a>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA IPAFFS Notifications</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications/{{tdmBackendExampleNotification}}?fields[ipaffsNotifications]=status,notificationType,partOne">Retrieve a single IPAFFS Notifcation but only certain fields<</a>
+                <a target="_blank" href="{{ tdmBackendApi }}/ipaffsnotifications/{{tdmBackendExampleNotification}}?fields[ipaffsNotifications]=status,ipaffsType,partOne">Retrieve a single IPAFFS Notifcation but only certain fields</a>
               </li>
             </ul>
       </li>
