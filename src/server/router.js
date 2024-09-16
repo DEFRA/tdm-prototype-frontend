@@ -5,6 +5,7 @@ import { home } from '~/src/server/home/index.js'
 import { serveStaticFiles } from '~/src/server/common/helpers/serve-static-files.js'
 import { about } from '~/src/server/about/index.js'
 import { notifications } from '~/src/server/notifications/index.js'
+import { notificationsv2 } from '~/src/server/notifications-v2/index.js'
 
 /**
  * @satisfies {ServerRegisterPluginObject<void>}
@@ -19,7 +20,7 @@ export const router = {
       await server.register([health])
 
       // Application specific routes, add your own routes here
-      await server.register([notifications, home, about])
+      await server.register([notifications, notificationsv2, home, about])
 
       // Static assets
       await server.register([serveStaticFiles])
