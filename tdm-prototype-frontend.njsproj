@@ -50,6 +50,6 @@
     <Content Include="webpack.config.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\server\notifications-v2\helpers\" />
+    <Folder Include="src\server\notifications\helpers\" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,5 @@
 import { config } from '~/src/config/index.js'
 import { map } from 'lodash-es'
-/**
- * A GDS styled example notifications page controller.
- * Provided as an example, remove or modify as required.
- * @satisfies {Partial<ServerRoute>}
- */
-// import { proxyFetch } from '~/src/server/common/helpers/proxy-fetch'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 
 import JsonApi from 'devour-client'
@@ -26,7 +20,7 @@ jsonApi.define('ipaffsNotification', {
   }
 })
 
-export const notificationsv2Controller = {
+export const notificationsListController = {
   async handler(request, h) {
     const logger = createLogger()
     const chedType = request.query?.chedType || 'Cveda'
@@ -43,7 +37,11 @@ export const notificationsv2Controller = {
     })
 
     const notifications = map(data, (n) => [
-      { kind: 'link', url: '123', value: n.id },
+      {
+        kind: 'link',
+        url: `/notification/${n.id}?chedType=${chedType}`,
+        value: n.id
+      },
       { kind: 'text', value: n.status },
       { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
       // {"kind":"text", "url":"123", "value": n.status},
@@ -54,28 +52,28 @@ export const notificationsv2Controller = {
       }
     ])
 
-    return h.view('notifications-v2/index', {
-      pageTitle: 'Notifications v2',
-      heading: 'Notifications v2',
+    return h.view('notifications/list', {
+      pageTitle: 'Notifications',
+      heading: 'Notifications',
       tabs: [
         {
           isActive: chedType === 'Cveda',
-          url: `/notifications-v2?chedType=Cveda`,
+          url: `/notifications?chedType=Cveda`,
           label: 'CHEDA'
         },
         {
           isActive: chedType === 'Ced',
-          url: `/notifications-v2?chedType=Ced`,
+          url: `/notifications?chedType=Ced`,
           label: 'CHEDD'
         },
         {
           isActive: chedType === 'Cvedp',
-          url: `/notifications-v2?chedType=Cvedp`,
+          url: `/notifications?chedType=Cvedp`,
           label: 'CHEDP'
         },
         {
           isActive: chedType === 'Chedpp',
-          url: `/notifications-v2?chedType=Chedpp`,
+          url: `/notifications?chedType=Chedpp`,
           label: 'CHEDPP'
         }
       ],
@@ -86,7 +84,7 @@ export const notificationsv2Controller = {
           href: '/'
         },
         {
-          text: 'Notifications v2'
+          text: 'Notifications'
         }
       ],
       notifications

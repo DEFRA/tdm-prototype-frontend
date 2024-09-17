@@ -1,0 +1,21 @@
+{% extends "layouts/page.njk" %}
+
+{% block content %}
+  {{ appHeading({
+    text: heading,
+    caption: "IPAFFS notifications management"
+  }) }}
+
+  ID : {{ notification.id }}
+  <br/>
+  Status: {{ notification.status }}
+  <br/>
+  lastUpdatedBy: {{ notification.lastUpdatedBy.displayName }}
+  <br/>
+  person responsible: <a href="/person/{{notification.partOne.personResponsible.id}}">{{ notification.partOne.personResponsible.name }}</a>
+  <br/>
+  importer: <a href="/importers/{{notification.partOne.importer.id}}">{{ notification.partOne.importer.companyName }}</a>
+  <br/>
+  consignor: <a href="/consignors/{{notification.partOne.consignor.id}}">{{ notification.partOne.consignor.companyName }}</a>
+
+{% endblock %}
