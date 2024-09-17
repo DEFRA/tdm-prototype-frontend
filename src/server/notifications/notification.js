@@ -77,7 +77,7 @@ export const notificationController = {
         },
         {
           text: 'Notifications',
-          href: '/notifications?chedType='
+          href: `/notifications?chedType=${chedType}`
         },
         {
           text: `Notification ${chedId}`
