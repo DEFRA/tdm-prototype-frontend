@@ -45,6 +45,7 @@
     <Content Include="package-lock.json" />
     <Content Include="postcss.config.js" />
     <Content Include="README.md" />
+    <Content Include="src\server\common\components\hero\_hero.scss" />
     <Content Include="stylelint.config.js" />
     <Content Include="webpack.config.js" />
   </ItemGroup>

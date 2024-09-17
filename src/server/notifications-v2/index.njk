@@ -1,7 +1,6 @@
-{% extends 'layouts/page.njk' %}
+{% extends "layouts/tabbed-page.njk" %}
 
-
-{% block content %}
+{% block beforeTabContent %}
   {{ appHeading({
     text: heading,
     caption: "IPAFFS notifications management"
@@ -18,6 +17,20 @@
     aside: {
       html: "CCC"
     }
+  }) }}
+
+{% endblock %}
+
+{% block tabContent %}
+  {{ appEntityList({
+    headings: [
+      { text: "ID", size: "large" },
+      { text: "Status", size: "small" },
+      { text: "Updated", size: "small" },
+      { text: "# Packages", size: "small" }
+    ],
+    entityRows: notifications,
+    noResult: "There are no CHEDS available at the moment"
   }) }}
 
 {% endblock %}

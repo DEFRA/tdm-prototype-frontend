@@ -29,38 +29,57 @@ jsonApi.define('ipaffsNotification', {
 export const notificationsv2Controller = {
   async handler(request, h) {
     const logger = createLogger()
+    const chedType = request.query?.chedType || 'Cveda'
+
+    logger.info(
+      `Querying JSON API for ipaffsNotifications, chedType=${chedType}`
+    )
 
     const { data } = await jsonApi.findAll('ipaffsNotifications', {
       sort: '-lastUpdated',
+      filter: `equals(ipaffsType,'${chedType}')`,
       // 'page[size]':1,
       'fields[ipaffsNotifications]': 'lastUpdated,status,ipaffsType,partOne'
     })
-    logger.info(data[0])
+
     const notifications = map(data, (n) => [
+      { kind: 'link', url: '123', value: n.id },
+      { kind: 'text', value: n.status },
+      { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
+      // {"kind":"text", "url":"123", "value": n.status},
       {
-        text: n.id
-      },
-      {
-        text: n.status
-      },
-      {
-        text: n.ipaffsType
-      },
-      {
-        text: n.lastUpdated
-      },
-      {
-        text: n.partOne.commodities.numberOfPackages,
-        format: 'numeric',
-        attributes: {
-          'data-sort-value': '1897'
-        }
+        kind: 'text',
+        url: '123',
+        value: n.partOne.commodities.numberOfPackages
       }
     ])
 
     return h.view('notifications-v2/index', {
       pageTitle: 'Notifications v2',
       heading: 'Notifications v2',
+      tabs: [
+        {
+          isActive: chedType === 'Cveda',
+          url: `/notifications-v2?chedType=Cveda`,
+          label: 'CHEDA'
+        },
+        {
+          isActive: chedType === 'Ced',
+          url: `/notifications-v2?chedType=Ced`,
+          label: 'CHEDD'
+        },
+        {
+          isActive: chedType === 'Cvedp',
+          url: `/notifications-v2?chedType=Cvedp`,
+          label: 'CHEDP'
+        },
+        {
+          isActive: chedType === 'Chedpp',
+          url: `/notifications-v2?chedType=Chedpp`,
+          label: 'CHEDPP'
+        }
+      ],
+      displayTabs: true,
       breadcrumbs: [
         {
           text: 'Home',
