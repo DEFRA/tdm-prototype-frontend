@@ -1,0 +1,11 @@
+{% extends "layouts/page.njk" %}
+
+{% block content %}
+
+  {% block beforeTabContent %}{% endblock %}
+
+  {% call appTabs({ tabs: tabs, displayTabs: displayTabs }) %}
+    {% block tabContent %}{% endblock %}
+  {% endcall %}
+
+{% endblock %}

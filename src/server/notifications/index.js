@@ -1,4 +1,5 @@
-import { notificationsController } from '~/src/server/notifications/controller.js'
+import { notificationController } from '~/src/server/notifications/notification.js'
+import { notificationsListController } from '~/src/server/notifications/notifications-list.js'
 
 /**
  * Sets up the routes used in the /notifications page.
@@ -13,7 +14,12 @@ export const notifications = {
         {
           method: 'GET',
           path: '/notifications',
-          ...notificationsController
+          ...notificationsListController
+        },
+        {
+          method: 'GET',
+          path: '/notification/{id}',
+          ...notificationController
         }
       ])
     }
