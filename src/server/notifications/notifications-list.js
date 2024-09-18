@@ -1,5 +1,5 @@
 import { config } from '~/src/config/index.js'
-import { map } from 'lodash-es'
+// import { map } from 'lodash-es'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 
 import JsonApi from 'devour-client'
@@ -36,21 +36,25 @@ export const notificationsListController = {
       'fields[ipaffsNotifications]': 'lastUpdated,status,ipaffsType,partOne'
     })
 
-    const notifications = map(data, (n) => [
-      {
-        kind: 'link',
-        url: `/notification/${n.id}?chedType=${chedType}`,
-        value: n.id
-      },
-      { kind: 'text', value: n.status },
-      { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
-      // {"kind":"text", "url":"123", "value": n.status},
-      {
-        kind: 'text',
-        url: '123',
-        value: n.partOne.commodities.numberOfPackages
-      }
-    ])
+    const notifications = data.map(
+      (
+        /** @type {{ id: any; status: any; lastUpdated: string | number | Date; partOne: { commodities: { numberOfPackages: any; }; }; }} */ n
+      ) => [
+        {
+          kind: 'link',
+          url: `/notification/${n.id}?chedType=${chedType}`,
+          value: n.id
+        },
+        { kind: 'text', value: n.status },
+        { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
+        // {"kind":"text", "url":"123", "value": n.status},
+        {
+          kind: 'text',
+          url: '123',
+          value: n.partOne.commodities.numberOfPackages
+        }
+      ]
+    )
 
     return h.view('notifications/list', {
       pageTitle: 'Notifications',
