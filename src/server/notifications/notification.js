@@ -25,7 +25,15 @@ jsonApi.define('ipaffsNotification', {
   },
   partOne: {
     commodities: {
-      numberOfPackages: 0
+      numberOfPackages: 0,
+      countryOfOrigin: '',
+      commodityComplement: [
+        {
+          commodityID: '',
+          commodityDescription: '',
+          complementName: ''
+        }
+      ]
     },
     consignor: {
       id: '',
@@ -65,7 +73,30 @@ export const notificationController = {
         'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
     })
     logger.info(`Result received, ${data.id}`)
-    logger.info(data.lastUpdatedBy)
+
+    const ipaffsCommodities = data.partOne.commodities.commodityComplement.map(
+      (c) => [
+        { kind: 'text', value: c.commodityID },
+        { kind: 'text', value: c.commodityDescription },
+        {
+          kind: 'text',
+          value: c.complementName
+        },
+        {
+          kind: 'text',
+          value: 0
+        },
+        {
+          kind: 'text',
+          value: 0
+        },
+        {
+          kind: 'text',
+          value: 0
+        },
+        { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
+      ]
+    )
 
     return h.view('notifications/notification', {
       pageTitle: `Notification ${chedId}`,
@@ -83,7 +114,9 @@ export const notificationController = {
           text: `Notification ${chedId}`
         }
       ],
-      notification: data
+      notification: data,
+      lastUpdated: new Date(data.lastUpdated).toLocaleString(),
+      ipaffsCommodities
     })
   }
 }

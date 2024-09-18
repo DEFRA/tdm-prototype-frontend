@@ -1,21 +1,157 @@
 {% extends "layouts/page.njk" %}
 
 {% block content %}
-  {{ appHeading({
-    text: heading,
-    caption: "IPAFFS notifications management"
+
+{{ govukTable({
+  caption: "Import Documentation Matching Outcome",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Outcome"
+      },
+      {
+        text: appTag({
+          text: "No Match",
+          classes: ['govuk-tag--red']
+        })
+      }
+    ],
+    [
+      {
+        text: "Last Updated"
+      },
+      {
+        text: lastUpdated
+      }
+    ]
+  ]
+}) }}
+
+{{ govukTable({
+  caption: "HMRC Customs Declaration Information",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Customs Declaration Reference"
+      },
+      {
+        text: "TODO"
+      }
+    ],
+    [
+      {
+        text: "Final State"
+      },
+      {
+        text: "TODO"
+      }
+    ],
+     [
+       {
+         text: "Item Number"
+       },
+       {
+         text: "TODO"
+       }
+     ]
+  ]
+}) }}
+{{ appHeading({
+  caption:"Commodity Information"
+}) }}
+{{ appEntityList({
+    headings: [
+      { text: "Type", size: "large" },
+      { text: "Commodity Code", size: "small" },
+      { text: "Commodity Description", size: "small" },
+      { text: "Quantity", size: "small" },
+      { text: "Weight (KG)", size: "small" },
+      { text: "# Items", size: "small" },
+      { text: "Match Status", size: "small" }
+    ],
+    entityRows: [],
+    noResult: "There are no Commodities on the movement"
   }) }}
 
-  ID : {{ notification.id }}
-  <br/>
-  Status: {{ notification.status }}
-  <br/>
-  lastUpdatedBy: {{ notification.lastUpdatedBy.displayName }}
-  <br/>
-  person responsible: <a href="/person/{{notification.partOne.personResponsible.id}}">{{ notification.partOne.personResponsible.name }}</a>
-  <br/>
-  importer: <a href="/importers/{{notification.partOne.importer.id}}">{{ notification.partOne.importer.companyName }}</a>
-  <br/>
-  consignor: <a href="/consignors/{{notification.partOne.consignor.id}}">{{ notification.partOne.consignor.companyName }}</a>
+{{ govukTable({
+  caption: "IPAFFS Notification (CHED) Information",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Common Health Entry Document (CHED) Reference"
+      },
+      {
+        text: notification.id
+      }
+    ],
+    [
+      {
+        text: "Final State"
+      },
+      {
+        text: notification.status
+      }
+    ],
+    [
+      {
+        text: "Country Of Origin"
+      },
+      {
+        text: notification.partOne.commodities.countryOfOrigin
+      }
+    ],
+     [
+       {
+         text: "Item Number"
+       },
+       {
+         text: "TODO"
+       }
+     ],
+     [
+       {
+         text: "Last Updated By"
+       },
+       {
+         text: notification.lastUpdatedBy.displayName
+       }
+     ],
+     [
+       {
+         text: "Importer"
+       },
+       {
+         text: notification.partOne.importer.companyName
+       }
+     ],
+     [
+       {
+         text: "Consignor"
+       },
+       {
+         text: notification.partOne.consignor.companyName
+       }
+     ]
+  ]
+}) }}
+  {{ appHeading({
+    caption:"Commodity Information"
+  }) }}
+  {{ appEntityList({
+      headings: [
+        { text: "Commodity Code", size: "small" },
+        { text: "Commodity Description", size: "small" },
+        { text: "Complement Description", size: "small" },
+        { text: "Quantity", size: "small" },
+        { text: "Weight (KG)", size: "small" },
+        { text: "# Items", size: "small" },
+        { text: "Match Status", size: "small" }
+      ],
+      entityRows: ipaffsCommodities,
+      noResult: "There are no Commodities on the notification"
+    }) }}
 
 {% endblock %}

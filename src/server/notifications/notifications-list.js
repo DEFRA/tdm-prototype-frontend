@@ -1,7 +1,7 @@
 import { config } from '~/src/config/index.js'
 // import { map } from 'lodash-es'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
-
+// import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
 import JsonApi from 'devour-client'
 
 const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
@@ -47,12 +47,11 @@ export const notificationsListController = {
         },
         { kind: 'text', value: n.status },
         { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
-        // {"kind":"text", "url":"123", "value": n.status},
         {
           kind: 'text',
-          url: '123',
           value: n.partOne.commodities.numberOfPackages
-        }
+        },
+        { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
       ]
     )
 
@@ -91,7 +90,9 @@ export const notificationsListController = {
           text: 'Notifications'
         }
       ],
-      notifications
+      // data,
+      notifications,
+      chedType
     })
   }
 }
