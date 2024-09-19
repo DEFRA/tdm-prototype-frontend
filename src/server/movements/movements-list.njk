@@ -1,0 +1,20 @@
+{% extends "layouts/page.njk" %}
+
+{% block content %}
+  {{ appHeading({
+    text: heading,
+    caption: "Movements management"
+  }) }}
+
+  {{ appEntityList({
+    headings: [
+      { text: "ID", size: "large" },
+      { text: "Status", size: "small" },
+      { text: "Updated", size: "small" },
+      { text: "Match Outcome", size: "small" }
+    ],
+    entityRows: movements,
+    noResult: "There are no movements available at the moment"
+  }) }}
+
+{% endblock %}

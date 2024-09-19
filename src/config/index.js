@@ -32,7 +32,7 @@ export const config = convict({
   tdmBackendExampleNotification: {
     doc: 'An example CHED ID from the backend.',
     format: String,
-    default: 'CHEDP.GB.2024.1012765',
+    default: 'CHEDA.GB.2024.1009875',
     env: 'TDM_API_EXAMPLE_NOTIFICATION'
   },
   staticCacheTimeout: {

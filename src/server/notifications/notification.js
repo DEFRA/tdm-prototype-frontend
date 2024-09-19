@@ -7,54 +7,9 @@ import { config } from '~/src/config/index.js'
  */
 // import { proxyFetch } from '~/src/server/common/helpers/proxy-fetch'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
+import { matchStatusElementListItem } from '~/src/server/notifications/helpers/match-status.js'
 
-import JsonApi from 'devour-client'
-
-const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
-
-// Define Model
-jsonApi.define('ipaffsNotification', {
-  version: '',
-  status: '',
-  notificationType: '',
-  ipaffsType: '',
-  lastUpdated: '',
-  lastUpdatedBy: {
-    displayName: '',
-    userId: ''
-  },
-  partOne: {
-    commodities: {
-      numberOfPackages: 0,
-      countryOfOrigin: '',
-      commodityComplement: [
-        {
-          commodityID: '',
-          commodityDescription: '',
-          complementName: ''
-        }
-      ]
-    },
-    consignor: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
-    },
-    personResponsible: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
-    },
-    importer: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
-    }
-  }
-})
+import { jsonApi } from '~/src/server/common/models.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -65,15 +20,15 @@ export const notificationController = {
     const chedType = request.query?.chedType || 'Cveda'
 
     logger.info(
-      `Querying JSON API for ipaffsNotification, chedId=${chedId}, chedType=${chedType}`
+      `Querying JSON API for notification, chedId=${chedId}, chedType=${chedType}`
     )
 
-    const { data } = await jsonApi.find('ipaffsNotifications', chedId, {
-      'fields[ipaffsNotifications]':
+    const { data } = await jsonApi.find('notifications', chedId, {
+      'fields[notifications]':
         'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
     })
     logger.info(`Result received, ${data.id}`)
-
+    logger.info(data.movement)
     const ipaffsCommodities = data.partOne.commodities.commodityComplement.map(
       (c) => [
         { kind: 'text', value: c.commodityID },
@@ -94,7 +49,7 @@ export const notificationController = {
           kind: 'text',
           value: 0
         },
-        { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
+        matchStatusElementListItem(data)
       ]
     )
 
@@ -111,7 +66,8 @@ export const notificationController = {
           href: `/notifications?chedType=${chedType}`
         },
         {
-          text: `Notification ${chedId}`
+          text: `Notification ${chedId}`,
+          href: `${config.get('tdmBackendApi')}/notifications/${chedId}`
         }
       ],
       notification: data,

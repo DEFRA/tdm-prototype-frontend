@@ -1,25 +1,25 @@
-import { notificationController } from '~/src/server/notifications/notification.js'
-import { notificationsListController } from '~/src/server/notifications/notifications-list.js'
+import { movementController } from '~/src/server/movements/movement.js'
+import { movementsListController } from '~/src/server/movements/movements-list.js'
 
 /**
  * Sets up the routes used in the /notifications page.
  * These routes are registered in src/server/router.js.
  * @satisfies {ServerRegisterPluginObject<void>}
  */
-export const notifications = {
+export const movements = {
   plugin: {
-    name: 'notifications',
+    name: 'movements',
     register(server) {
       server.route([
         {
           method: 'GET',
-          path: '/notifications',
-          ...notificationsListController
+          path: '/movements',
+          ...movementsListController
         },
         {
           method: 'GET',
-          path: '/notifications/{id}',
-          ...notificationController
+          path: '/movements/{id}',
+          ...movementController
         }
       ])
     }

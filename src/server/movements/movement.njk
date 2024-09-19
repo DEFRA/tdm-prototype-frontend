@@ -19,14 +19,61 @@
     ],
     [
       {
-        text: "Last Updated"
+        text: "Movement ID"
       },
       {
-        text: lastUpdated
+        text: movement.id
       }
     ]
   ]
 }) }}
+
+{{ govukTable({
+  caption: "HMRC Customs Declaration Information",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Customs Declaration Reference"
+      },
+      {
+        text: "TODO"
+      }
+    ],
+    [
+      {
+        text: "Final State"
+      },
+      {
+        text: "TODO"
+      }
+    ],
+     [
+       {
+         text: "Item Number"
+       },
+       {
+         text: "TODO"
+       }
+     ]
+  ]
+}) }}
+{{ appHeading({
+  caption:"Commodity Information"
+}) }}
+{{ appEntityList({
+    headings: [
+      { text: "Type", size: "large" },
+      { text: "Commodity Code", size: "small" },
+      { text: "Commodity Description", size: "small" },
+      { text: "Quantity", size: "small" },
+      { text: "Weight (KG)", size: "small" },
+      { text: "# Items", size: "small" },
+      { text: "Match Status", size: "small" }
+    ],
+    entityRows: [],
+    noResult: "There are no Commodities on the movement"
+  }) }}
 
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",
@@ -106,53 +153,5 @@
       entityRows: ipaffsCommodities,
       noResult: "There are no Commodities on the notification"
     }) }}
-
-
-{{ govukTable({
-  caption: "HMRC Customs Declaration Information",
-  captionClasses: "govuk-table__caption--m",
-  rows: [
-    [
-      {
-        text: "Customs Declaration Reference"
-      },
-      {
-        text: "TODO"
-      }
-    ],
-    [
-      {
-        text: "Final State"
-      },
-      {
-        text: "TODO"
-      }
-    ],
-     [
-       {
-         text: "Item Number"
-       },
-       {
-         text: "TODO"
-       }
-     ]
-  ]
-}) }}
-{{ appHeading({
-  caption:"Commodity Information"
-}) }}
-{{ appEntityList({
-    headings: [
-      { text: "Type", size: "large" },
-      { text: "Commodity Code", size: "small" },
-      { text: "Commodity Description", size: "small" },
-      { text: "Quantity", size: "small" },
-      { text: "Weight (KG)", size: "small" },
-      { text: "# Items", size: "small" },
-      { text: "Match Status", size: "small" }
-    ],
-    entityRows: [],
-    noResult: "There are no Commodities on the movement"
-  }) }}
 
 {% endblock %}

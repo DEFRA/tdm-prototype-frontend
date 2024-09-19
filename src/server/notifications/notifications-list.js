@@ -1,39 +1,20 @@
-import { config } from '~/src/config/index.js'
-// import { map } from 'lodash-es'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 // import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
-import JsonApi from 'devour-client'
 
-const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
-
-// Define Model
-jsonApi.define('ipaffsNotification', {
-  version: '',
-  status: '',
-  notificationType: '',
-  ipaffsType: '',
-  lastUpdated: '',
-  partOne: {
-    commodities: {
-      numberOfPackages: 0
-    }
-  }
-})
+import { jsonApi } from '~/src/server/common/models.js'
 
 export const notificationsListController = {
   async handler(request, h) {
     const logger = createLogger()
     const chedType = request.query?.chedType || 'Cveda'
 
-    logger.info(
-      `Querying JSON API for ipaffsNotifications, chedType=${chedType}`
-    )
+    logger.info(`Querying JSON API for notifications, chedType=${chedType}`)
 
-    const { data } = await jsonApi.findAll('ipaffsNotifications', {
+    const { data } = await jsonApi.findAll('notifications', {
       sort: '-lastUpdated',
       filter: `equals(ipaffsType,'${chedType}')`,
       // 'page[size]':1,
-      'fields[ipaffsNotifications]': 'lastUpdated,status,ipaffsType,partOne'
+      'fields[notifications]': 'lastUpdated,status,ipaffsType,partOne'
     })
 
     const notifications = data.map(
@@ -42,7 +23,7 @@ export const notificationsListController = {
       ) => [
         {
           kind: 'link',
-          url: `/notification/${n.id}?chedType=${chedType}`,
+          url: `/notifications/${n.id}?chedType=${chedType}`,
           value: n.id
         },
         { kind: 'text', value: n.status },
@@ -55,7 +36,7 @@ export const notificationsListController = {
       ]
     )
 
-    return h.view('notifications/list', {
+    return h.view('notifications/notifications-list', {
       pageTitle: 'Notifications',
       heading: 'Notifications',
       tabs: [
