@@ -25,55 +25,62 @@ export const notificationController = {
 
     const { data } = await jsonApi.find('notifications', chedId, {
       'fields[notifications]':
-        'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
+        'movement,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
     })
     logger.info(`Result received, ${data.id}`)
-    logger.info(data.movement)
-    const ipaffsCommodities = data.partOne.commodities.commodityComplement.map(
-      (c) => [
-        { kind: 'text', value: c.commodityID },
-        { kind: 'text', value: c.commodityDescription },
-        {
-          kind: 'text',
-          value: c.complementName
-        },
-        {
-          kind: 'text',
-          value: 0
-        },
-        {
-          kind: 'text',
-          value: 0
-        },
-        {
-          kind: 'text',
-          value: 0
-        },
-        matchStatusElementListItem(data)
-      ]
-    )
+    // logger.info(data)
+    // logger.info(data.movement)
+    // logger.info(data.movement.matched)
 
-    return h.view('notifications/notification', {
-      pageTitle: `Notification ${chedId}`,
-      heading: `Notification ${chedId}`,
-      breadcrumbs: [
-        {
-          text: 'Home',
-          href: '/'
-        },
-        {
-          text: 'Notifications',
-          href: `/notifications?chedType=${chedType}`
-        },
-        {
-          text: `Notification ${chedId}`,
-          href: `${config.get('tdmBackendApi')}/notifications/${chedId}`
-        }
-      ],
-      notification: data,
-      lastUpdated: new Date(data.lastUpdated).toLocaleString(),
-      ipaffsCommodities
-    })
+    try {
+      const ipaffsCommodities =
+        data.partOne.commodities.commodityComplement.map((c) => [
+          { kind: 'text', value: c.commodityID },
+          { kind: 'text', value: c.commodityDescription },
+          {
+            kind: 'text',
+            value: c.complementName
+          },
+          {
+            kind: 'text',
+            value: 0
+          },
+          {
+            kind: 'text',
+            value: 0
+          },
+          {
+            kind: 'text',
+            value: 0
+          },
+          matchStatusElementListItem(data.movement)
+        ])
+
+      return h.view('notifications/notification', {
+        pageTitle: `Notification ${chedId}`,
+        heading: `Notification ${chedId}`,
+        breadcrumbs: [
+          {
+            text: 'Home',
+            href: '/'
+          },
+          {
+            text: 'Notifications',
+            href: `/notifications?chedType=${chedType}`
+          },
+          {
+            text: `Notification ${chedId}`,
+            href: `${config.get('tdmBackendApi')}/notifications/${chedId}`
+          }
+        ],
+        notification: data,
+        lastUpdated: new Date(data.lastUpdated).toLocaleString(),
+        ipaffsCommodities
+      })
+    } catch (e) {
+      logger.error(e)
+      throw e
+    }
   }
 }
 

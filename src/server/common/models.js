@@ -3,6 +3,13 @@ import { config } from '~/src/config/index.js'
 
 const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
 
+const matchModel = {
+  matched: false,
+  reference: '',
+  item: ''
+}
+// { ...matchModel}
+
 // Define Model
 jsonApi.define('movement', {
   version: '',
@@ -19,11 +26,7 @@ jsonApi.define('movement', {
       customsProcedureCode: '',
       taricCommodityCode: '',
       goodsDescription: '',
-      gmr: {
-        matched: false,
-        reference: '',
-        item: ''
-      }
+      gmr: { ...matchModel }
     }
   ]
 })
@@ -37,6 +40,12 @@ jsonApi.define('notification', {
   lastUpdatedBy: {
     displayName: '',
     userId: ''
+  },
+  movement: {
+    matched: false,
+    reference: '',
+    item: 0,
+    additionalInformation: null
   },
   partOne: {
     commodities: {
@@ -67,12 +76,6 @@ jsonApi.define('notification', {
       type: '',
       status: '',
       companyName: ''
-    },
-    movement: {
-      matched: false,
-      reference: '',
-      item: 0,
-      additionalInformation: null
     }
   }
 })
