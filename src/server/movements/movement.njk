@@ -37,7 +37,7 @@
         text: "Customs Declaration Reference"
       },
       {
-        text: "TODO"
+        text: notification.id
       }
     ],
     [
@@ -48,9 +48,25 @@
         text: "TODO"
       }
     ],
+    [
+      {
+        text: "Goods Location Code"
+      },
+      {
+        text: "TODO"
+      }
+    ],
+    [
+      {
+        text: "Entry Reference"
+      },
+      {
+        text: "TODO"
+      }
+    ],
      [
        {
-         text: "Item Number"
+         text: "Arrival Date/Time"
        },
        {
          text: "TODO"
@@ -59,20 +75,19 @@
   ]
 }) }}
 {{ appHeading({
-  caption:"Commodity Information"
+  caption:"Item Information"
 }) }}
 {{ appEntityList({
     headings: [
       { text: "Type", size: "large" },
-      { text: "Commodity Code", size: "small" },
-      { text: "Commodity Description", size: "small" },
-      { text: "Quantity", size: "small" },
+      { text: "Taric Commodity Code", size: "small" },
+      { text: "Goods Description", size: "small" },
+      { text: "Origin Country", size: "small" },
       { text: "Weight (KG)", size: "small" },
-      { text: "# Items", size: "small" },
       { text: "Match Status", size: "small" }
     ],
-    entityRows: [],
-    noResult: "There are no Commodities on the movement"
+    entityRows: items,
+    noResult: "There are no items on the movement"
   }) }}
 
 {{ govukTable({

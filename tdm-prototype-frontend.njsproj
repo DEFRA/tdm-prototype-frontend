@@ -46,9 +46,8 @@
     <Content Include="postcss.config.js" />
     <Content Include="README.md" />
     <Content Include="src\server\common\components\hero\_hero.scss" />
+    <Content Include="src\server\common\helpers\match-status.js" />
     <Content Include="src\server\common\models.js" />
-    <Content Include="src\server\movements\helpers\match-status.js" />
-    <Content Include="src\server\notifications\helpers\match-status.js" />
     <Content Include="stylelint.config.js" />
     <Content Include="webpack.config.js" />
   </ItemGroup>

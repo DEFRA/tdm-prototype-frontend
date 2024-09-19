@@ -7,7 +7,7 @@ import { config } from '~/src/config/index.js'
  */
 // import { proxyFetch } from '~/src/server/common/helpers/proxy-fetch'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
-import { matchStatusElementListItem } from '~/src/server/notifications/helpers/match-status.js'
+import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 
 import { jsonApi } from '~/src/server/common/models.js'
 
