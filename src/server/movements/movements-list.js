@@ -6,14 +6,12 @@ import { jsonApi } from '~/src/server/common/models.js'
 export const movementsListController = {
   async handler(request, h) {
     const logger = createLogger()
-    // const chedType = request.query?.chedType || 'Cveda'
 
     logger.info(`Querying JSON API for movements`)
 
     const { data } = await jsonApi.findAll('movements', {
-      // sort: '-lastUpdated',
-      // filter: `equals(ipaffsType,'${chedType}')`,
-      // 'fields[ipaffsNotifications]': 'lastUpdated,status,ipaffsType,partOne'
+      sort: '-lastUpdated',
+      'fields[movements]': 'lastUpdated,notification'
     })
 
     logger.info(data)
@@ -25,7 +23,7 @@ export const movementsListController = {
         value: m.id
       },
       { kind: 'text', value: '' }, // m.status
-      { kind: 'text', value: '' }, // new Date(m.lastUpdated).toLocaleString()
+      { kind: 'text', value: new Date(m.lastUpdated).toLocaleString() }, // new Date(m.lastUpdated).toLocaleString()
       { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
     ])
 

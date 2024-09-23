@@ -14,4 +14,5 @@
     &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncIpaffsNotificationTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=3da1aea4_002D9035_002D421e_002Da049_002D05985db02817_0023jsonapi_002Dconsumer/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	
+	</wpf:ResourceDictionary>

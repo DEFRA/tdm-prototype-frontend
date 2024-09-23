@@ -13,14 +13,15 @@ const nunjucksEnvironment = nunjucks.configure(
   [
     'node_modules/govuk-frontend/dist/',
 
-    // TODO : CDP PORTAL short term solution to use CDP Portal components
-    'node_modules/cdp-portal-frontend/src/server/common/components',
     // 'node_modules/cdp-portal-frontend/src/client/config',
     // 'node_modules/cdp-portal-frontend/src',
     //     // 'node_modules/cdp-portal-frontend/src/server/common/templates',
 
     path.resolve(dirname, '../../server/common/templates'),
-    path.resolve(dirname, '../../server/common/components')
+    path.resolve(dirname, '../../server/common/components'),
+
+    // TODO : CDP PORTAL short term solution to use CDP Portal components
+    'node_modules/cdp-portal-frontend/src/server/common/components'
   ],
   {
     autoescape: true,

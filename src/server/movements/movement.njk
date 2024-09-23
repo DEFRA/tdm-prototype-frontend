@@ -1,3 +1,5 @@
+{# from "../common/components/audit/macro.njk" import appAudit #}
+
 {% extends "layouts/page.njk" %}
 
 {% block content %}
@@ -89,6 +91,21 @@
     entityRows: items,
     noResult: "There are no items on the movement"
   }) }}
+
+  {{ appHeading({
+    caption:"Audit Log"
+  }) }}
+  {{ appEntityList({
+      headings: [
+        { text: "Version", size: "small" },
+        { text: "Created By", size: "small" },
+        { text: "Created On (Source)", size: "medium" },
+        { text: "Created On (TDM)", size: "small" },
+        { text: "Status", size: "small" }
+      ],
+      entityRows: auditEntries,
+      noResult: "There are no audit entries"
+    }) }}
 
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",

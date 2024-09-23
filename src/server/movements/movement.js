@@ -39,6 +39,14 @@ export const movementController = {
         matchStatusElementListItem(i.notifification)
       ])
 
+      const auditEntries = data.auditEntries.map((i) => [
+        { kind: 'text', value: i.version },
+        { kind: 'text', value: i.lastUpdatedBy },
+        { kind: 'text', value: i.dateTime },
+        { kind: 'text', value: i.dateTime },
+        { kind: 'text', value: i.status }
+      ])
+
       return h.view('movements/movement', {
         pageTitle: `Movement ${movementId}`,
         heading: `Movement ${movementId}`,
@@ -58,7 +66,8 @@ export const movementController = {
         ],
         notification: data,
         lastUpdated: new Date(data.lastUpdated).toLocaleString(),
-        items
+        items,
+        auditEntries
       })
     } catch (e) {
       logger.error(e)

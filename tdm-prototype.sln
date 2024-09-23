@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{BA
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tdm-prototype-frontend", "tdm-prototype-frontend.njsproj", "{3A4E9185-A910-475B-9FEC-475429FED37A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsonapi-consumer", "..\tdm-prototype-dmp-synchroniser\libs\jsonapi-consumer\jsonapi-consumer.csproj", "{3DA1AEA4-9035-421E-A049-05985DB02817}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,10 +64,6 @@ Global
 		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DA1AEA4-9035-421E-A049-05985DB02817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DA1AEA4-9035-421E-A049-05985DB02817}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DA1AEA4-9035-421E-A049-05985DB02817}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DA1AEA4-9035-421E-A049-05985DB02817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
@@ -81,6 +75,5 @@ Global
 		{18DE4B25-FF6B-4E24-BE27-EC9724BE68A8} = {15D14A90-C070-4673-9592-A7BCE025226F}
 		{608DBE7A-761B-4017-8A55-275E40E99CB2} = {15D14A90-C070-4673-9592-A7BCE025226F}
 		{3A4E9185-A910-475B-9FEC-475429FED37A} = {BA33B34A-7E32-4A5D-AFFC-DA8CB176F8F1}
-		{3DA1AEA4-9035-421E-A049-05985DB02817} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
 	EndGlobalSection
 EndGlobal

@@ -8,6 +8,23 @@ const matchModel = {
   reference: '',
   item: ''
 }
+
+const auditEntries = [
+  {
+    id: '',
+    version: '',
+    lastUpdatedBy: '',
+    dateTime: '',
+    status: '',
+    diff: [
+      {
+        path: '',
+        op: '',
+        value: ''
+      }
+    ]
+  }
+]
 // { ...matchModel}
 
 // Define Model
@@ -15,11 +32,7 @@ jsonApi.define('movement', {
   version: '',
   status: '',
   lastUpdated: '',
-  notification: {
-    matched: false,
-    reference: '',
-    item: ''
-  },
+  notification: { ...matchModel },
   items: [
     {
       itemNumber: 0,
@@ -28,7 +41,8 @@ jsonApi.define('movement', {
       goodsDescription: '',
       gmr: { ...matchModel }
     }
-  ]
+  ],
+  auditEntries: { ...auditEntries }
 })
 
 jsonApi.define('notification', {
@@ -41,12 +55,7 @@ jsonApi.define('notification', {
     displayName: '',
     userId: ''
   },
-  movement: {
-    matched: false,
-    reference: '',
-    item: 0,
-    additionalInformation: null
-  },
+  movement: { ...matchModel },
   partOne: {
     commodities: {
       numberOfPackages: 0,
@@ -77,7 +86,8 @@ jsonApi.define('notification', {
       status: '',
       companyName: ''
     }
-  }
+  },
+  auditEntries: { ...auditEntries }
 })
 
 export { jsonApi }
