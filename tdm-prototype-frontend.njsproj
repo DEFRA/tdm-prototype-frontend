@@ -46,6 +46,7 @@
     <Content Include="postcss.config.js" />
     <Content Include="README.md" />
     <Content Include="src\server\common\components\hero\_hero.scss" />
+    <Content Include="src\server\common\helpers\date-time.js" />
     <Content Include="src\server\common\helpers\match-status.js" />
     <Content Include="src\server\common\models.js" />
     <Content Include="stylelint.config.js" />

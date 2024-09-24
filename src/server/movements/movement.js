@@ -1,6 +1,7 @@
 import { config } from '~/src/config/index.js'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
+import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 import { jsonApi } from '~/src/server/common/models.js'
 
@@ -41,9 +42,9 @@ export const movementController = {
 
       const auditEntries = data.auditEntries.map((i) => [
         { kind: 'text', value: i.version },
-        { kind: 'text', value: i.lastUpdatedBy },
-        { kind: 'text', value: i.dateTime },
-        { kind: 'text', value: i.dateTime },
+        { kind: 'text', value: i.createdBy },
+        { kind: 'text', value: mediumDateTime(i.createdSource) },
+        { kind: 'text', value: mediumDateTime(i.createdLocal) },
         { kind: 'text', value: i.status }
       ])
 
@@ -65,7 +66,7 @@ export const movementController = {
           }
         ],
         notification: data,
-        lastUpdated: new Date(data.lastUpdated).toLocaleString(),
+        lastUpdated: mediumDateTime(data.lastUpdated),
         items,
         auditEntries
       })
