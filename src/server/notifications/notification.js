@@ -37,6 +37,10 @@ export const notificationController = {
     try {
       const ipaffsCommodities =
         data.partOne.commodities.commodityComplement.map((c) => [
+          {
+            kind: 'text',
+            value: c.complementID
+          },
           { kind: 'text', value: c.commodityID },
           { kind: 'text', value: c.commodityDescription },
           {
@@ -45,15 +49,11 @@ export const notificationController = {
           },
           {
             kind: 'text',
-            value: c.additionalData.number_animal
+            value: c.additionalData.numberAnimal
           },
           {
             kind: 'text',
-            value: weight(c.additionalData.netweight)
-          },
-          {
-            kind: 'text',
-            value: c.additionalData.number_package
+            value: weight(c.additionalData.netWeight)
           },
           matchStatusElementListItem(data.movement)
         ])
