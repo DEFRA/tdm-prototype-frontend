@@ -11,17 +11,17 @@ export function buildNavigation(request) {
     {
       text: 'Notifications',
       url: '/notifications',
-      isActive: request?.path === '/notifications'
+      isActive: request?.path?.startsWith('/notifications')
     },
     {
       text: 'Movements',
       url: '/movements',
-      isActive: request?.path === '/movements'
+      isActive: request?.path?.startsWith('/movements')
     },
     {
       text: 'About',
       url: '/about',
-      isActive: request?.path === '/about'
+      isActive: request?.path?.startsWith('/about')
     }
   ]
 }

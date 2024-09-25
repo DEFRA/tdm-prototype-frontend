@@ -3,26 +3,29 @@
 {% block content %}
 
 {{ govukTable({
-  caption: "Import Documentation Matching Outcome",
+  caption: "Import Documentation Outcome",
   captionClasses: "govuk-table__caption--m",
   rows: [
     [
       {
-        text: "Outcome"
+        text: "Inspection Required"
       },
       {
         text: appTag({
-          text: "No Match",
+          text: "Yes",
           classes: ['govuk-tag--red']
         })
       }
     ],
     [
       {
-        text: "Last Updated"
+        text: "Matching Outcome"
       },
       {
-        text: lastUpdated
+        text: appTag({
+          text: "No Match",
+          classes: ['govuk-tag--red']
+        })
       }
     ]
   ]
@@ -40,9 +43,17 @@
         text: notification.id
       }
     ],
+   [
+     {
+       text: "Last Updated"
+     },
+     {
+       text: lastUpdated
+     }
+   ],
     [
       {
-        text: "Final State"
+        text: "Status"
       },
       {
         text: notification.status
@@ -99,7 +110,7 @@
         { text: "Commodity Description", size: "small" },
         { text: "Complement Description", size: "small" },
         { text: "Quantity", size: "small" },
-        { text: "Weight (KG)", size: "small" },
+        { text: "Weight", size: "small" },
         { text: "# Items", size: "small" },
         { text: "Match Status", size: "small" }
       ],
@@ -107,6 +118,20 @@
       noResult: "There are no Commodities on the notification"
     }) }}
 
+  {{ appHeading({
+    caption:"Audit Log"
+  }) }}
+  {{ appEntityList({
+      headings: [
+        { text: "Version", size: "small" },
+        { text: "Created By", size: "small" },
+        { text: "Created On (Source)", size: "medium" },
+        { text: "Created On (TDM)", size: "medium" },
+        { text: "Status", size: "small" }
+      ],
+      entityRows: auditEntries,
+      noResult: "There are no audit entries"
+    }) }}
 
 {{ govukTable({
   caption: "HMRC Customs Declaration Information",
@@ -147,7 +172,7 @@
       { text: "Commodity Code", size: "small" },
       { text: "Commodity Description", size: "small" },
       { text: "Quantity", size: "small" },
-      { text: "Weight (KG)", size: "small" },
+      { text: "Weight", size: "small" },
       { text: "# Items", size: "small" },
       { text: "Match Status", size: "small" }
     ],

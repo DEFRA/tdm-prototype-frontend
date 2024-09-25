@@ -32,6 +32,16 @@ jsonApi.define('movement', {
   version: '',
   status: '',
   lastUpdated: '',
+  entryReference: '',
+  masterUCR: '',
+  declarationPartNumber: '',
+  declarationType: '',
+  arrivalDateTime: '',
+  submitterTURN: '',
+  declarantId: '',
+  declarantName: '',
+  dispatchCountryCode: '',
+  goodsLocationCode: '',
   notification: { ...matchModel },
   items: [
     {
@@ -64,7 +74,12 @@ jsonApi.define('notification', {
         {
           commodityID: '',
           commodityDescription: '',
-          complementName: ''
+          complementName: '',
+          additionalData: {
+            numberPackage: '',
+            numberAnimal: '',
+            netWeight: ''
+          }
         }
       ]
     },

@@ -10,6 +10,8 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 
 import { jsonApi } from '~/src/server/common/models.js'
+import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
+import { weight } from '~/src/server/common/helpers/weight.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -25,7 +27,7 @@ export const notificationController = {
 
     const { data } = await jsonApi.find('notifications', chedId, {
       'fields[notifications]':
-        'movement,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
+        'movement,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${data.id}`)
     // logger.info(data)
@@ -43,18 +45,28 @@ export const notificationController = {
           },
           {
             kind: 'text',
-            value: 0
+            value: c.additionalData.number_animal
           },
           {
             kind: 'text',
-            value: 0
+            value: weight(c.additionalData.netweight)
           },
           {
             kind: 'text',
-            value: 0
+            value: c.additionalData.number_package
           },
           matchStatusElementListItem(data.movement)
         ])
+
+      // logger.info(Object.keys(data))
+      // const auditEntries = [];
+      const auditEntries = data.auditEntries.map((i) => [
+        { kind: 'text', value: i.version },
+        { kind: 'text', value: i.createdBy },
+        { kind: 'text', value: mediumDateTime(i.createdSource) },
+        { kind: 'text', value: mediumDateTime(i.createdLocal) },
+        { kind: 'text', value: i.status }
+      ])
 
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
@@ -74,8 +86,9 @@ export const notificationController = {
           }
         ],
         notification: data,
-        lastUpdated: new Date(data.lastUpdated).toLocaleString(),
-        ipaffsCommodities
+        lastUpdated: mediumDateTime(data.lastUpdated),
+        ipaffsCommodities,
+        auditEntries
       })
     } catch (e) {
       logger.error(e)

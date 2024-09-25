@@ -2,6 +2,7 @@ import { config } from '~/src/config/index.js'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
+import { weight } from '~/src/server/common/helpers/weight.js'
 
 import { jsonApi } from '~/src/server/common/models.js'
 
@@ -23,19 +24,19 @@ export const movementController = {
       logger.info(`Result received, ${data.id}`)
 
       const items = data.items.map((i) => [
-        { kind: 'text', value: i.CustomsProcedureCode },
-        { kind: 'text', value: i.TaricCommodityCode },
+        { kind: 'text', value: i.customsProcedureCode },
+        { kind: 'text', value: i.taricCommodityCode },
         {
           kind: 'text',
-          value: i.GoodsDescription
+          value: i.goodsDescription
         },
         {
           kind: 'text',
-          value: i.ItemOriginCountryCode
+          value: i.itemOriginCountryCode
         },
         {
           kind: 'text',
-          value: i.ItemNetMass
+          value: weight(i.itemNetMass)
         },
         matchStatusElementListItem(i.notifification)
       ])
