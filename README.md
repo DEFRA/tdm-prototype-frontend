@@ -137,8 +137,11 @@ A local environment with:
 - Localstack for AWS services (S3, SQS)
 - Redis
 - MongoDB
-- This service.
-- A commented out backend example.
+- The prototype front end.
+- The prototype back end
+- A prototype gateway instance:
+  - Kong sitting in front of the API and handling app authentication (WIP)
+  - Oauth2 Proxy sitting in front of the front end for user login, also passes API traffic to kong (WIP)
 
 ```bash
 docker compose up --build -d

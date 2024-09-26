@@ -22,6 +22,11 @@ export function buildNavigation(request) {
       text: 'About',
       url: '/about',
       isActive: request?.path?.startsWith('/about')
+    },
+    {
+      text: 'Authentication',
+      url: '/auth',
+      isActive: request?.path?.startsWith('/auth')
     }
   ]
 }

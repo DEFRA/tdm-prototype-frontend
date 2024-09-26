@@ -7,6 +7,10 @@ import { about } from '~/src/server/about/index.js'
 import { notifications } from '~/src/server/notifications/index.js'
 import { movements } from '~/src/server/movements/index.js'
 
+import { login } from '~/src/server/login/index.js'
+import { logout } from '~/src/server/logout/index.js'
+import { auth } from '~/src/server/auth/index.js'
+
 /**
  * @satisfies {ServerRegisterPluginObject<void>}
  */
@@ -20,7 +24,15 @@ export const router = {
       await server.register([health])
 
       // Application specific routes, add your own routes here
-      await server.register([movements, notifications, home, about])
+      await server.register([
+        movements,
+        notifications,
+        home,
+        about,
+        auth,
+        login,
+        logout
+      ])
 
       // Static assets
       await server.register([serveStaticFiles])

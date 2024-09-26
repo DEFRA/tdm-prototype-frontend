@@ -31,6 +31,11 @@ describe('#buildNavigation', () => {
         isActive: false,
         text: 'About',
         url: '/about'
+      },
+      {
+        isActive: false,
+        text: 'Authentication',
+        url: '/auth'
       }
     ])
   })
@@ -56,6 +61,11 @@ describe('#buildNavigation', () => {
         isActive: false,
         text: 'About',
         url: '/about'
+      },
+      {
+        isActive: false,
+        text: 'Authentication',
+        url: '/auth'
       }
     ])
   })

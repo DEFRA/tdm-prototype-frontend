@@ -7,6 +7,7 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 const oneHour = 1000 * 60 * 60
 const fourHours = oneHour * 4
 const oneWeekMillis = oneHour * 24 * 7
+// const oneDay = 1000 * 60 * 60 * 24
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -193,7 +194,54 @@ export const config = convict({
       default: !isProduction,
       env: 'USE_SINGLE_INSTANCE_CACHE'
     }
-  })
+  }),
+  appBaseUrl: {
+    doc: 'Application base URL for after we login',
+    format: String,
+    default: 'http://localhost:3000',
+    env: 'APP_BASE_URL'
+  },
+  defraId: {
+    manageAccountUrl: {
+      doc: 'DEFRA ID Manage Account URL',
+      format: String,
+      env: 'DEFRA_ID_MANAGE_ACCOUNT_URL',
+      default:
+        // 'http://cdp-defra-id-stub.localtest.me:3200/cdp-defra-id-stub/login'
+        // 'https://your-account.cpdev.cui.defra.gov.uk/management'
+        'https://cdp-defra-id-stub.dev.cdp-int.defra.cloud/cdp-defra-id-stub/login'
+    },
+    oidcConfiguration: {
+      url: {
+        doc: 'DEFRA ID OIDC Configuration URL',
+        format: String,
+        env: 'DEFRA_ID_OIDC_CONFIGURATION_URL',
+        default:
+          // 'http://localhost:3200/cdp-defra-id-stub/.well-known/openid-configuration'
+          // 'http://cdp-defra-id-stub.localtest.me:3200/cdp-defra-id-stub/.well-known/openid-configuration'
+          'https://cdp-defra-id-stub.dev.cdp-int.defra.cloud/cdp-defra-id-stub/.well-known/openid-configuration'
+      }
+    },
+    serviceId: {
+      doc: 'DEFRA ID Service ID',
+      format: String,
+      env: 'DEFRA_ID_SERVICE_ID',
+      default: 'd7d72b79-9c62-ee11-8df0-000d3adf7047'
+    },
+    clientId: {
+      doc: 'DEFRA ID Client ID',
+      format: String,
+      env: 'DEFRA_ID_CLIENT_ID',
+      default: '2fb0d715-affa-4bf1-836e-44a464e3fbea'
+    },
+    clientSecret: {
+      doc: 'DEFRA ID Client Secret',
+      format: String,
+      sensitive: true,
+      env: 'DEFRA_ID_CLIENT_SECRET',
+      default: 'test_value'
+    }
+  }
 })
 
 config.validate({ allowed: 'strict' })
