@@ -30,25 +30,25 @@
         Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
         <ul>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/notifications">Retrieve all notifications</a>
+                <a target="_blank" href="{{ tdmApiUri }}/notifications">Retrieve all notifications</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/notifications?sort=-lastUpdated">Retrieve all notifications, order by last updated descending</a>
+                <a target="_blank" href="{{ tdmApiUri }}/notifications?sort=-lastUpdated">Retrieve all notifications, order by last updated descending</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/notifications/{{tdmBackendExampleNotification}}">Retrieve a single notifcation</a>
+                <a target="_blank" href="{{ tdmApiUri }}/notifications/{{tdmBackendExampleNotification}}">Retrieve a single notification</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/notifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA notifications</a>
+                <a target="_blank" href="{{ tdmApiUri }}/notifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA notifications</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/notifications/{{tdmBackendExampleNotification}}?fields[notifications]=status,ipaffsType,partOne">Retrieve a single notifcation but only certain fields</a>
+                <a target="_blank" href="{{ tdmApiUri }}/notifications/{{tdmBackendExampleNotification}}?fields[notifications]=status,ipaffsType,partOne">Retrieve a single notification but only certain fields</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/movements">Retrieve Retrieve all movements</a>
+                <a target="_blank" href="{{ tdmApiUri }}/movements">Retrieve Retrieve all movements</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmBackendApi }}/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
+                <a target="_blank" href="{{ tdmApiUri }}/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
               </li>
             </ul>
       </li>
