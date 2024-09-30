@@ -1,5 +1,6 @@
 import { get } from 'https'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
+import { config } from '~/src/config/index.js'
 
 const authenticatedProxyController = {
   handler: async (request) => {
@@ -10,17 +11,20 @@ const authenticatedProxyController = {
     )
 
     const authedUser = await request.getUserSession()
+    const backendApi = new URL(config.get('tdmBackendApi'))
 
     return new Promise((resolve, reject) => {
       const options = {
-        hostname: 'localhost',
-        port: 7094,
+        hostname: backendApi.hostname,
+        port: backendApi.port,
         path: `/${request.params.path}`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authedUser.jwt}` // token
         }
       }
+
+      logger.info(`Authenticated proxy options: ${JSON.stringify(options)}`)
 
       get(options, (res) => {
         const data = []
