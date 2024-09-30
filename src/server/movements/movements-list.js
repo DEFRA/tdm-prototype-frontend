@@ -1,15 +1,15 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 // import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
 
-import { jsonApi } from '~/src/server/common/models.js'
+import { getClient } from '~/src/server/common/models.js'
 
 export const movementsListController = {
   async handler(request, h) {
     const logger = createLogger()
 
     logger.info(`Querying JSON API for movements`)
-
-    const { data } = await jsonApi.findAll('movements', {
+    const client = await getClient(request)
+    const { data } = await client.findAll('movements', {
       sort: '-lastUpdated',
       'fields[movements]': 'lastUpdated,notification'
     })

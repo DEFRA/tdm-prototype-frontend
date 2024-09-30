@@ -14,7 +14,8 @@ export const homeController = {
     return h.view('home/index', {
       pageTitle: 'Home',
       heading: 'Home',
-      tdmBackendApi,
+      tdmApiUri: '/auth/proxy',
+      tdmApiDirectUri: tdmBackendApi,
       tdmBackendExampleNotification
     })
   }

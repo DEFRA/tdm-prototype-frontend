@@ -9,7 +9,7 @@ import { config } from '~/src/config/index.js'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 
-import { jsonApi } from '~/src/server/common/models.js'
+import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
 
@@ -25,7 +25,8 @@ export const notificationController = {
       `Querying JSON API for notification, chedId=${chedId}, chedType=${chedType}`
     )
 
-    const { data } = await jsonApi.find('notifications', chedId, {
+    const client = await getClient(request)
+    const { data } = await client.find('notifications', chedId, {
       'fields[notifications]':
         'movement,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })

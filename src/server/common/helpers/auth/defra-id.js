@@ -73,6 +73,8 @@ const defraId = {
               relationships: payload.relationships,
               roles: payload.roles,
               idToken: params.id_token,
+              jwt: credentials.token,
+              jwt_contents: JSON.stringify(payload),
               // @ts-expect-error erorring due to oidcConf format above
               tokenUrl: oidcConf.token_endpoint,
               // @ts-expect-error erorring due to oidcConf format above
