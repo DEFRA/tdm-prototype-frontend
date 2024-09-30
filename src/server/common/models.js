@@ -1,108 +1,119 @@
 import JsonApi from 'devour-client'
 import { config } from '~/src/config/index.js'
 
-const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi') })
+// const authedUser = await request.getUserSession()
 
-const matchModel = {
-  matched: false,
-  reference: '',
-  item: ''
-}
+const getClient = async function (request) {
+  const authedUser = await request.getUserSession()
+  const jsonApi = new JsonApi({
+    apiUrl: config.get('tdmBackendApi'),
+    bearer: authedUser.jwt
+  })
 
-const auditEntries = [
-  {
-    id: '',
-    version: '',
-    lastUpdatedBy: '',
-    dateTime: '',
-    status: '',
-    diff: [
-      {
-        path: '',
-        op: '',
-        value: ''
-      }
-    ]
+  // const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi'), bearer: authedUser.jwt })
+
+  const matchModel = {
+    matched: false,
+    reference: '',
+    item: ''
   }
-]
-// { ...matchModel}
 
-// Define Model
-jsonApi.define('movement', {
-  version: '',
-  status: '',
-  lastUpdated: '',
-  entryReference: '',
-  masterUCR: '',
-  declarationPartNumber: '',
-  declarationType: '',
-  arrivalDateTime: '',
-  submitterTURN: '',
-  declarantId: '',
-  declarantName: '',
-  dispatchCountryCode: '',
-  goodsLocationCode: '',
-  notification: { ...matchModel },
-  items: [
+  const auditEntries = [
     {
-      itemNumber: 0,
-      customsProcedureCode: '',
-      taricCommodityCode: '',
-      goodsDescription: '',
-      gmr: { ...matchModel }
-    }
-  ],
-  auditEntries: { ...auditEntries }
-})
-
-jsonApi.define('notification', {
-  version: '',
-  status: '',
-  notificationType: '',
-  ipaffsType: '',
-  lastUpdated: '',
-  lastUpdatedBy: {
-    displayName: '',
-    userId: ''
-  },
-  movement: { ...matchModel },
-  partOne: {
-    commodities: {
-      numberOfPackages: 0,
-      countryOfOrigin: '',
-      commodityComplement: [
+      id: '',
+      version: '',
+      lastUpdatedBy: '',
+      dateTime: '',
+      status: '',
+      diff: [
         {
-          commodityID: '',
-          commodityDescription: '',
-          complementName: '',
-          additionalData: {
-            numberPackage: '',
-            numberAnimal: '',
-            netWeight: ''
-          }
+          path: '',
+          op: '',
+          value: ''
         }
       ]
-    },
-    consignor: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
-    },
-    personResponsible: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
-    },
-    importer: {
-      id: '',
-      type: '',
-      status: '',
-      companyName: ''
     }
-  },
-  auditEntries: { ...auditEntries }
-})
+  ]
+  // { ...matchModel}
 
-export { jsonApi }
+  // Define Model
+  jsonApi.define('movement', {
+    version: '',
+    status: '',
+    lastUpdated: '',
+    entryReference: '',
+    masterUCR: '',
+    declarationPartNumber: '',
+    declarationType: '',
+    arrivalDateTime: '',
+    submitterTURN: '',
+    declarantId: '',
+    declarantName: '',
+    dispatchCountryCode: '',
+    goodsLocationCode: '',
+    notification: { ...matchModel },
+    items: [
+      {
+        itemNumber: 0,
+        customsProcedureCode: '',
+        taricCommodityCode: '',
+        goodsDescription: '',
+        gmr: { ...matchModel }
+      }
+    ],
+    auditEntries: { ...auditEntries }
+  })
+
+  jsonApi.define('notification', {
+    version: '',
+    status: '',
+    notificationType: '',
+    ipaffsType: '',
+    lastUpdated: '',
+    lastUpdatedBy: {
+      displayName: '',
+      userId: ''
+    },
+    movement: { ...matchModel },
+    partOne: {
+      commodities: {
+        numberOfPackages: 0,
+        countryOfOrigin: '',
+        commodityComplement: [
+          {
+            commodityID: '',
+            commodityDescription: '',
+            complementName: '',
+            additionalData: {
+              numberPackage: '',
+              numberAnimal: '',
+              netWeight: ''
+            }
+          }
+        ]
+      },
+      consignor: {
+        id: '',
+        type: '',
+        status: '',
+        companyName: ''
+      },
+      personResponsible: {
+        id: '',
+        type: '',
+        status: '',
+        companyName: ''
+      },
+      importer: {
+        id: '',
+        type: '',
+        status: '',
+        companyName: ''
+      }
+    },
+    auditEntries: { ...auditEntries }
+  })
+
+  return jsonApi
+}
+export { getClient }

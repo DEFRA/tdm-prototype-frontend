@@ -1,7 +1,7 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 // import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
 
-import { jsonApi } from '~/src/server/common/models.js'
+import { getClient } from '~/src/server/common/models.js'
 
 export const notificationsListController = {
   async handler(request, h) {
@@ -9,8 +9,8 @@ export const notificationsListController = {
     const chedType = request.query?.chedType || 'Cveda'
 
     logger.info(`Querying JSON API for notifications, chedType=${chedType}`)
-
-    const { data } = await jsonApi.findAll('notifications', {
+    const client = await getClient(request)
+    const { data } = await client.findAll('notifications', {
       sort: '-lastUpdated',
       filter: `equals(ipaffsType,'${chedType}')`,
       // 'page[size]':1,

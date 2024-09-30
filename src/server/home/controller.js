@@ -15,6 +15,7 @@ export const homeController = {
       pageTitle: 'Home',
       heading: 'Home',
       tdmApiUri: '/auth/proxy',
+      tdmApiDirectUri: tdmBackendApi,
       tdmBackendExampleNotification
     })
   }

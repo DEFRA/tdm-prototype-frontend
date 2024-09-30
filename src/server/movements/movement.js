@@ -4,7 +4,7 @@ import { matchStatusElementListItem } from '~/src/server/common/helpers/match-st
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
 
-import { jsonApi } from '~/src/server/common/models.js'
+import { getClient } from '~/src/server/common/models.js'
 
 export const movementController = {
   async handler(request, h) {
@@ -16,8 +16,8 @@ export const movementController = {
 
     try {
       logger.info(`Querying JSON API for movement, movementId=${movementId}`)
-
-      const { data } = await jsonApi.find('movements', movementId, {
+      const client = await getClient(request)
+      const { data } = await client.find('movements', movementId, {
         // 'fields[ipaffsNotifications]':
         //   'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
       })

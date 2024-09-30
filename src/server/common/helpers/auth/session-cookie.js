@@ -1,5 +1,6 @@
 import authCookie from '@hapi/cookie'
 import { isPast, parseISO, subMinutes } from 'date-fns'
+import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 
 import { config } from '~/src/config/index.js'
 import { refreshAccessToken } from '~/src/server/common/helpers/auth/refresh-token.js'
@@ -7,6 +8,8 @@ import {
   removeUserSession,
   updateUserSession
 } from '~/src/server/common/helpers/auth/user-session.js'
+
+const logger = createLogger()
 
 const sessionCookie = {
   plugin: {
@@ -33,6 +36,10 @@ const sessionCookie = {
           if (tokenHasExpired) {
             const response = await refreshAccessToken(request)
             const refreshAccessTokenJson = await response.json()
+
+            logger.info(
+              `Refresh response ${JSON.stringify(refreshAccessTokenJson)}`
+            )
 
             if (!response.ok) {
               removeUserSession(request)

@@ -30,27 +30,32 @@
         Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
         <ul>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/notifications">Retrieve all notifications</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications">Retrieve all notifications</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/notifications?sort=-lastUpdated">Retrieve all notifications, order by last updated descending</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications?sort=-lastUpdated">Retrieve all notifications, order by last updated descending</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/notifications/{{tdmBackendExampleNotification}}">Retrieve a single notification</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications/{{tdmBackendExampleNotification}}">Retrieve a single notification</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/notifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA notifications</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA notifications</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/notifications/{{tdmBackendExampleNotification}}?fields[notifications]=status,ipaffsType,partOne">Retrieve a single notification but only certain fields</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications/{{tdmBackendExampleNotification}}?fields[notifications]=status,ipaffsType,partOne">Retrieve a single notification but only certain fields</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/movements">Retrieve Retrieve all movements</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/movements">Retrieve Retrieve all movements</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
               </li>
             </ul>
+      </li>
+      <li>
+        Authentication / Authorisation POC. This uses the CDP Defra ID Stub, and is demonstrated by comparing an un-authenticated request direct to the
+        API <a target="_blank" href="{{ tdmApiDirectUri }}/api/notifications">here</a>, which will return a 401 for unauthenticated
+        access to those above that go via a proxied authentication which adds the JWT token.
       </li>
     </ul>
 
@@ -65,9 +70,6 @@
       </li>
       <li>
         Record level UI
-      </li>
-      <li>
-        Authentication / Authorisation POC
       </li>
     </ul>
 
