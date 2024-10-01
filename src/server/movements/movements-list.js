@@ -11,7 +11,7 @@ export const movementsListController = {
     const client = await getClient(request)
     const { data } = await client.findAll('movements', {
       sort: '-lastUpdated',
-      'fields[movements]': 'lastUpdated,notification'
+      'fields[movements]': 'lastUpdated,notification,items,goodsLocationCode'
     })
 
     logger.info(data)
@@ -22,7 +22,8 @@ export const movementsListController = {
         url: `/movements/${m.id}`,
         value: m.id
       },
-      { kind: 'text', value: '' }, // m.status
+      { kind: 'text', value: m.goodsLocationCode }, // m.status
+      { kind: 'text', value: m.items.length }, // m.status
       { kind: 'text', value: new Date(m.lastUpdated).toLocaleString() }, // new Date(m.lastUpdated).toLocaleString()
       { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
     ])

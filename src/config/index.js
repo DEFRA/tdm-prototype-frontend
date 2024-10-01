@@ -45,7 +45,7 @@ export const config = convict({
   serviceName: {
     doc: 'Applications Service Name',
     format: String,
-    default: 'Trade Data Matching Platform ALVS V2 POC'
+    default: 'Trade Data Matching ALVS V2 POC'
   },
   root: {
     doc: 'Project root',

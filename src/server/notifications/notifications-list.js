@@ -19,7 +19,7 @@ export const notificationsListController = {
 
     const notifications = data.map(
       (
-        /** @type {{ id: any; status: any; lastUpdated: string | number | Date; partOne: { commodities: { numberOfPackages: any; }; }; }} */ n
+        /** @type {{ id: any; status: any; lastUpdated: string | number | Date; partOne: { commodities: { numberOfPackages: any; }; arrivalDate: any, arrivalTime: any, pointOfEntry:any }; }} */ n
       ) => [
         {
           kind: 'link',
@@ -27,6 +27,13 @@ export const notificationsListController = {
           value: n.id
         },
         { kind: 'text', value: n.status },
+        {
+          kind: 'text',
+          value: new Date(
+            `${n.partOne.arrivalDate}T${n.partOne.arrivalTime}`
+          ).toLocaleString()
+        },
+        { kind: 'text', value: n.partOne.pointOfEntry },
         { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
         {
           kind: 'text',

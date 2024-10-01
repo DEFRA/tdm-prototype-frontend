@@ -11,6 +11,7 @@
 {% from "tabs/macro.njk" import appTabs %}
 {% from "entity-list/macro.njk" import appEntityList %}
 {% from "tag/macro.njk" import appTag %}
+{% from "service-header/service-header.njk" import defraLoginServiceHeader %}
 
 {% set mainClasses = "app-main-wrapper" %}
 
@@ -19,15 +20,31 @@
 {% endblock %}
 
 {% block header %}
-  {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    classes: "app-header",
-    containerClasses: "govuk-width-container",
+  {{ defraLoginServiceHeader({
     serviceName: serviceName,
-    serviceUrl: serviceUrl,
-    useTudorCrown: true
+    authedUser: authedUser,
+    navigationItems: [{
+     href: "/",
+     text: 'Home',
+     id: 'homeLink'
+   },{
+     href: "/notifications",
+     text: 'Notifications',
+     id: 'notificationsLink'
+   },{
+     href: "/movements",
+     text: 'Movements',
+     id: 'movementsLink'
+   },{
+     href: "/admin",
+     text: 'Admin',
+     id: 'adminLink'
+   }],
+   activeLinkId: 'homeLink',
+   loginLink: '/auth',
+   signOutLink: '/logout'
   }) }}
-  {% include "partials/navigation.njk" %}
+
 {% endblock %}
 
 {% block pageTitle %}

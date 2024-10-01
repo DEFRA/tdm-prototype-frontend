@@ -1,4 +1,3 @@
-import { config } from '~/src/config/index.js'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
@@ -41,13 +40,15 @@ export const movementController = {
         matchStatusElementListItem(i.notifification)
       ])
 
-      const auditEntries = data.auditEntries.map((i) => [
-        { kind: 'text', value: i.version },
-        { kind: 'text', value: i.createdBy },
-        { kind: 'text', value: mediumDateTime(i.createdSource) },
-        { kind: 'text', value: mediumDateTime(i.createdLocal) },
-        { kind: 'text', value: i.status }
-      ])
+      const auditEntries = data.auditEntries
+        ? data.auditEntries.map((i) => [
+            { kind: 'text', value: i.version },
+            { kind: 'text', value: i.createdBy },
+            { kind: 'text', value: mediumDateTime(i.createdSource) },
+            { kind: 'text', value: mediumDateTime(i.createdLocal) },
+            { kind: 'text', value: i.status }
+          ])
+        : []
 
       return h.view('movements/movement', {
         pageTitle: `Movement ${movementId}`,
@@ -63,7 +64,7 @@ export const movementController = {
           },
           {
             text: `Movement ${movementId}`,
-            href: `${config.get('tdmBackendApi')}/movements/${movementId}`
+            href: `/auth/proxy/api/movements/${movementId}`
           }
         ],
         notification: data,

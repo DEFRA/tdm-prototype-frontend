@@ -92,6 +92,15 @@ const getClient = async function (request) {
           }
         ]
       },
+      pointOfEntry: '',
+      pointOfEntryControlPoint: '',
+      arrivalDate: '',
+      arrivalTime: '',
+      meansOfTransport: {
+        type: '',
+        document: '',
+        id: ''
+      },
       consignor: {
         id: '',
         type: '',

@@ -12,12 +12,13 @@ const authenticatedProxyController = {
 
     const authedUser = await request.getUserSession()
     const backendApi = new URL(config.get('tdmBackendApi'))
-
+    const qs = new URLSearchParams(request.query)
     return new Promise((resolve, reject) => {
       const options = {
         hostname: backendApi.hostname,
         port: backendApi.port,
-        path: `/${request.params.path}`,
+        path: `/${request.params.path}?${qs.toString()}`,
+        query: request.query,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authedUser.jwt}` // token

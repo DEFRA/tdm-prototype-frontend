@@ -1,11 +1,8 @@
-import { config } from '~/src/config/index.js'
-// import { map } from 'lodash-es'
 /**
  * A GDS styled example notifications page controller.
  * Provided as an example, remove or modify as required.
  * @satisfies {Partial<ServerRoute>}
  */
-// import { proxyFetch } from '~/src/server/common/helpers/proxy-fetch'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 
@@ -61,13 +58,15 @@ export const notificationController = {
 
       // logger.info(Object.keys(data))
       // const auditEntries = [];
-      const auditEntries = data.auditEntries.map((i) => [
-        { kind: 'text', value: i.version },
-        { kind: 'text', value: i.createdBy },
-        { kind: 'text', value: mediumDateTime(i.createdSource) },
-        { kind: 'text', value: mediumDateTime(i.createdLocal) },
-        { kind: 'text', value: i.status }
-      ])
+      const auditEntries = data.auditEntries
+        ? data.auditEntries.map((i) => [
+            { kind: 'text', value: i.version },
+            { kind: 'text', value: i.createdBy },
+            { kind: 'text', value: mediumDateTime(i.createdSource) },
+            { kind: 'text', value: mediumDateTime(i.createdLocal) },
+            { kind: 'text', value: i.status }
+          ])
+        : []
 
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
@@ -83,7 +82,7 @@ export const notificationController = {
           },
           {
             text: `Notification ${chedId}`,
-            href: `${config.get('tdmBackendApi')}/notifications/${chedId}`
+            href: `/auth/proxy/api/notifications/${chedId}`
           }
         ],
         notification: data,

@@ -29,7 +29,7 @@ export async function context(request) {
 
   // @ts-expect-error getUserSession method is added by server.decorate
   const authedUser = await request.getUserSession()
-
+  logger.debug(`Rendering page ${JSON.stringify(authedUser)}`)
   return {
     authedUser,
     assetPath: `${assetPath}/assets`,

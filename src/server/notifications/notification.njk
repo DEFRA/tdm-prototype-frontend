@@ -117,7 +117,7 @@
       entityRows: ipaffsCommodities,
       noResult: "There are no Commodities on the notification"
     }) }}
-
+  {% if auditEntries|length %}
   {{ appHeading({
     caption:"Audit Log"
   }) }}
@@ -132,7 +132,7 @@
       entityRows: auditEntries,
       noResult: "There are no audit entries"
     }) }}
-
+  {% endif %}
 {{ govukTable({
   caption: "HMRC Customs Declaration Information",
   captionClasses: "govuk-table__caption--m",

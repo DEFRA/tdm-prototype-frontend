@@ -83,7 +83,7 @@
     entityRows: items,
     noResult: "There are no items on the movement"
   }) }}
-
+  {% if auditEntries|length %}
   {{ appHeading({
     caption:"Audit Log"
   }) }}
@@ -98,7 +98,7 @@
       entityRows: auditEntries,
       noResult: "There are no audit entries"
     }) }}
-
+  {% endif %}
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",
   captionClasses: "govuk-table__caption--m",
