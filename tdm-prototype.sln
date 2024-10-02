@@ -1,20 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeBackend.Api", "../tdm-prototype-backend\TdmPrototypeBackend.Api\TdmPrototypeBackend.Api.csproj", "{C3A6F1D8-ECA1-4A90-B3A5-662E259D0251}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Api", "..\tdm-prototype-backend\TdmPrototypeBackend.Api\TdmPrototypeBackend.Api.csproj", "{C3A6F1D8-ECA1-4A90-B3A5-662E259D0251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeBackend.Test", "../tdm-prototype-backend\TdmPrototypeBackend.Test\TdmPrototypeBackend.Test.csproj", "{FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Test", "..\tdm-prototype-backend\TdmPrototypeBackend.Test\TdmPrototypeBackend.Test.csproj", "{FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeBackend.Types", "../tdm-prototype-backend\TdmPrototypeBackend.Types\TdmPrototypeBackend.Types.csproj", "{18DE4B25-FF6B-4E24-BE27-EC9724BE68A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Types", "..\tdm-prototype-backend\TdmPrototypeBackend.Types\TdmPrototypeBackend.Types.csproj", "{18DE4B25-FF6B-4E24-BE27-EC9724BE68A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsonapi-consumer", "../tdm-prototype-backend\libs\jsonapi-consumer\jsonapi-consumer.csproj", "{608DBE7A-761B-4017-8A55-275E40E99CB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jsonapi-consumer", "..\tdm-prototype-backend\libs\jsonapi-consumer\jsonapi-consumer.csproj", "{608DBE7A-761B-4017-8A55-275E40E99CB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeDmpSynchroniser.Api", "..\tdm-prototype-backend\TdmPrototypeDmpSynchroniser.Api\TdmPrototypeDmpSynchroniser.Api.csproj", "{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeDmpSynchroniser.Api", "..\tdm-prototype-backend\TdmPrototypeDmpSynchroniser.Api\TdmPrototypeDmpSynchroniser.Api.csproj", "{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeDmpSynchroniser.Test", "..\tdm-prototype-backend\TdmPrototypeDmpSynchroniser.Test\TdmPrototypeDmpSynchroniser.Test.csproj", "{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeCdsSimulator", "..\tdm-prototype-cds-simulator\TdmPrototypeCdsSimulator\TdmPrototypeCdsSimulator.csproj", "{53DAC342-05BA-47F4-A485-07E7AB5A47D0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeCdsSimulator.Test", "..\tdm-prototype-cds-simulator\TdmPrototypeCdsSimulator.Test\TdmPrototypeCdsSimulator.Test.csproj", "{A81A95B7-4801-424B-873F-0432BCF7E6E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeDmpSynchroniser.Test", "..\tdm-prototype-backend\TdmPrototypeDmpSynchroniser.Test\TdmPrototypeDmpSynchroniser.Test.csproj", "{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{15D14A90-C070-4673-9592-A7BCE025226F}"
 EndProject
@@ -25,6 +24,28 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{BA33B34A-7E32-4A5D-AFFC-DA8CB176F8F1}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tdm-prototype-frontend", "tdm-prototype-frontend.njsproj", "{3A4E9185-A910-475B-9FEC-475429FED37A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeCdsSimulator", "..\tdm-prototype-backend\TdmPrototypeCdsSimulator\TdmPrototypeCdsSimulator.csproj", "{A571C983-A2F3-4927-A0FC-2A292E4835E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9828C164-5BF5-4DC5-BBE1-8AB88E4BFF79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{12288B4E-27B2-456D-9792-69CF001C06F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{A8F17233-AE7A-405B-A340-E9E2B301F08F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{D685BBD6-308A-4B10-AEDD-71BD054C1F11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Matching", "..\tdm-prototype-backend\TdmPrototypeBackend.Matching\TdmPrototypeBackend.Matching.csproj", "{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Storage", "..\tdm-prototype-backend\TdmPrototypeBackend.Storage\TdmPrototypeBackend.Storage.csproj", "{134B1D90-461E-41D3-AAA9-C7068B268B9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Storage.Mongo", "..\tdm-prototype-backend\TdmPrototypeBackend.Storage.Mongo\TdmPrototypeBackend.Storage.Mongo.csproj", "{ACB9A35C-162C-4DE3-A63C-736A894B8000}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bus", "Bus", "{B539C8D0-934F-4FCB-8D77-9AEC79322977}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.ASB", "..\tdm-prototype-backend\TdmPrototypeBackend.ASB\TdmPrototypeBackend.ASB.csproj", "{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Azure", "..\tdm-prototype-backend\TdmPrototypeBackend.Azure\TdmPrototypeBackend.Azure.csproj", "{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,24 +77,53 @@ Global
 		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53DAC342-05BA-47F4-A485-07E7AB5A47D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A81A95B7-4801-424B-873F-0432BCF7E6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A571C983-A2F3-4927-A0FC-2A292E4835E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A571C983-A2F3-4927-A0FC-2A292E4835E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A571C983-A2F3-4927-A0FC-2A292E4835E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A571C983-A2F3-4927-A0FC-2A292E4835E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{134B1D90-461E-41D3-AAA9-C7068B268B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{134B1D90-461E-41D3-AAA9-C7068B268B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{134B1D90-461E-41D3-AAA9-C7068B268B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{134B1D90-461E-41D3-AAA9-C7068B268B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB9A35C-162C-4DE3-A63C-736A894B8000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB9A35C-162C-4DE3-A63C-736A894B8000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB9A35C-162C-4DE3-A63C-736A894B8000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB9A35C-162C-4DE3-A63C-736A894B8000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
-		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
-		{53DAC342-05BA-47F4-A485-07E7AB5A47D0} = {F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}
-		{A81A95B7-4801-424B-873F-0432BCF7E6E0} = {F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}
 		{C3A6F1D8-ECA1-4A90-B3A5-662E259D0251} = {15D14A90-C070-4673-9592-A7BCE025226F}
 		{FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A} = {15D14A90-C070-4673-9592-A7BCE025226F}
 		{18DE4B25-FF6B-4E24-BE27-EC9724BE68A8} = {15D14A90-C070-4673-9592-A7BCE025226F}
 		{608DBE7A-761B-4017-8A55-275E40E99CB2} = {15D14A90-C070-4673-9592-A7BCE025226F}
+		{A1AA5D73-8E3A-47EF-A21A-56A6E74ABB72} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
+		{45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B} = {1A4A63AE-EFC4-43EA-A482-E6DA3C47C2C1}
 		{3A4E9185-A910-475B-9FEC-475429FED37A} = {BA33B34A-7E32-4A5D-AFFC-DA8CB176F8F1}
+		{A571C983-A2F3-4927-A0FC-2A292E4835E2} = {F601F5D8-F69A-4ECC-AD2B-349BDB4620C7}
+		{A8F17233-AE7A-405B-A340-E9E2B301F08F} = {12288B4E-27B2-456D-9792-69CF001C06F0}
+		{D685BBD6-308A-4B10-AEDD-71BD054C1F11} = {12288B4E-27B2-456D-9792-69CF001C06F0}
+		{0C9D52C4-50C0-4C35-9DBE-72D1F860D13D} = {12288B4E-27B2-456D-9792-69CF001C06F0}
+		{134B1D90-461E-41D3-AAA9-C7068B268B9C} = {D685BBD6-308A-4B10-AEDD-71BD054C1F11}
+		{ACB9A35C-162C-4DE3-A63C-736A894B8000} = {D685BBD6-308A-4B10-AEDD-71BD054C1F11}
+		{B539C8D0-934F-4FCB-8D77-9AEC79322977} = {A8F17233-AE7A-405B-A340-E9E2B301F08F}
+		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E} = {B539C8D0-934F-4FCB-8D77-9AEC79322977}
+		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD} = {A8F17233-AE7A-405B-A340-E9E2B301F08F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {143C4A3C-A8D7-409A-8933-91352348ED08}
 	EndGlobalSection
 EndGlobal
