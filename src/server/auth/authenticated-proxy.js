@@ -1,4 +1,5 @@
-import { get } from 'https'
+import { get as httpsGet } from 'https'
+import { get as httpGet } from 'http'
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { config } from '~/src/config/index.js'
 
@@ -25,7 +26,11 @@ const authenticatedProxyController = {
         }
       }
 
-      logger.info(`Authenticated proxy options: ${JSON.stringify(options)}`)
+      const get = backendApi.protocol === 'https' ? httpsGet : httpGet
+
+      logger.info(
+        `Authenticated proxy protocol=${backendApi.protocol} options: ${JSON.stringify(options)}`
+      )
 
       get(options, (res) => {
         const data = []

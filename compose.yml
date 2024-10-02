@@ -2,6 +2,7 @@ services:
 
   localstack:
     image: localstack/localstack:3.0.2
+    profiles: ["all"]
     ports:
       - '4566:4566' # LocalStack Gateway
       - '4510-4559:4510-4559' # external services port range
@@ -44,86 +45,51 @@ services:
 ################################################################################
 
   tdm-prototype-frontend:
-    build: ./
+    build:
+      context: "./"
+      args:
+        PORT: 7001
     ports:
-      - '3000:3000'
+      - '7001:7001'
     links:
       - 'localstack:localstack'
       - 'redis:redis'
     depends_on:
       localstack:
         condition: service_healthy
+      tdm-prototype-backend:
+        condition: service_healthy
       redis:
         condition: service_started
+      cdp-defra-id-stub:
+        condition: service_healthy
     env_file:
       - 'compose/aws.env'
     environment:
-      PORT: 3000
+      PORT: 7001
       NODE_ENV: development
       REDIS_HOST: redis
       LOCALSTACK_ENDPOINT: http://localstack:4566
       USE_SINGLE_INSTANCE_CACHE: true
+      TDM_API_BACKEND: http://tdm-prototype-backend.localtest.me:7080/api
+      APP_BASE_URL: http://tdm-prototype-frontend.localtest.me:7001
+      DEFRA_ID_OIDC_CONFIGURATION_URL: http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/.well-known/openid-configuration
+      DEFRA_ID_CLIENT_SECRET: test_value
+      DEFRA_ID_MANAGE_ACCOUNT_URL: http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/login
+      SESSION_CACHE_ENGINE: redis
 
     networks:
       cdp-tenant:
         aliases:
           - tdm-prototype-frontend.localtest.me
-      # - oauth2-proxy
-
-  cdp-defra-id-stub:
-    build: https://github.com/DEFRA/cdp-defra-id-stub.git
-    ports:
-      - '3200:3200'
-    links:
-      - 'redis:redis'
-    depends_on:
-      localstack:
-        condition: service_healthy
-      redis:
-        condition: service_started
-    healthcheck:
-      test: ['CMD', 'curl', 'localhost:3200']
-      interval: 5s
-      start_period: 5s
-      retries: 3
-
-    environment:
-      PORT: 3200
-      NODE_ENV: development
-      REDIS_HOST: redis
-      USE_SINGLE_INSTANCE_CACHE: true
-      APP_BASE_URL: http://cdp-defra-id-stub.localtest.me:3200
-    networks:
-      - cdp-tenant
-
-  cdp-defra-id-demo:
-    build:
-      context: https://github.com/DEFRA/cdp-defra-id-demo.git
-      target: development
-    ports:
-      - '3100:3100'
-
-    environment:
-      PORT: 3100
-      REDIS_HOST: redis
-      DEFRA_ID_CLIENT_SECRET: test_value
-      DEFRA_ID_OIDC_CONFIGURATION_URL: http://cdp-defra-id-stub:3200/cdp-defra-id-stub/.well-known/openid-configuration
-    links:
-      - 'redis:redis'
-    depends_on:
-      cdp-defra-id-stub:
-        condition: service_healthy
-      # localstack:
-      #   condition: service_healthy
-      redis:
-        condition: service_started
-    networks:
-      - cdp-tenant
 
   tdm-prototype-backend:
-    build: ../tdm-prototype-backend
+    build:
+      context: "../tdm-prototype-backend"
+      args:
+        PORT: 7080
     ports:
-      - '3080:8080'
+      - '7080:7080'
     links:
       - 'localstack:localstack'
       - 'mongodb:mongodb'
@@ -133,17 +99,80 @@ services:
       mongodb:
         condition: service_started
     environment:
+#      PORT: 7080
       ASPNETCORE_ENVIRONMENT: Development
       LOCALSTACK_ENDPOINT: http://localstack:4566
       Mongo__DatabaseUri: mongodb://mongodb:27017
       # AZURE_CLIENT_ID: "c1d14b98-8baf-486b-99c0-f30ac3ee5464"
       AZURE_TENANT_ID: "c9d74090-b4e6-4b04-981d-e6757a160812"
+      DISABLE_AUTHORISATION: true
+      ENABLE_MONGO_MANAGEMENT:	true
+
     env_file:
       - '../tdm-prototype-backend/TdmPrototypeBackend.Api/Properties/local.env'
+    healthcheck:
+      test: ['CMD', 'curl', 'localhost:7080']
+      interval: 5s
+      start_period: 5s
+      retries: 3
     networks:
       cdp-tenant:
         aliases:
           - tdm-prototype-backend.localtest.me
+
+  cdp-defra-id-stub:
+    build: https://github.com/DEFRA/cdp-defra-id-stub.git
+    ports:
+      - '7200:7200'
+    links:
+      - 'redis:redis'
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ['CMD', 'curl', 'localhost:7200']
+      interval: 5s
+      start_period: 5s
+      retries: 3
+
+    environment:
+      PORT: 7200
+      NODE_ENV: development
+      REDIS_HOST: redis
+      # USE_SINGLE_INSTANCE_CACHE: true
+      APP_BASE_URL: http://cdp-defra-id-stub.localtest.me:7200
+      REDIS_ENABLED: true
+    networks:
+      cdp-tenant:
+        aliases:
+          - cdp-defra-id-stub.localtest.me
+
+#  cdp-defra-id-demo:
+#    build:
+#      context: https://github.com/DEFRA/cdp-defra-id-demo.git
+#      target: development
+#    ports:
+#      - '7100:7100'
+#
+#    environment:
+#      PORT: 7100
+#      REDIS_HOST: redis
+#      DEFRA_ID_CLIENT_SECRET: test_value
+#      DEFRA_ID_OIDC_CONFIGURATION_URL: http://cdp-defra-id-stub:3200/cdp-defra-id-stub/.well-known/openid-configuration
+#    links:
+#      - 'redis:redis'
+#    depends_on:
+#      cdp-defra-id-stub:
+#        condition: service_healthy
+#      # localstack:
+#      #   condition: service_healthy
+#      redis:
+#        condition: service_started
+#    networks:
+#      - cdp-tenant
+
 
 ################################################################################
 

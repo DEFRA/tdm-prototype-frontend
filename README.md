@@ -1,6 +1,53 @@
 # tdm-prototype-frontend
 
-Core delivery platform Node.js Frontend Template.
+This is the ALVS Replacement project prototype frontend application.
+
+## Docker Compose
+
+Docker compose is the easiest way to get started with the project. Docker compose will bring up a local environment with:
+
+- Localstack for AWS services (S3, SQS)
+- Redis
+- MongoDB
+- The prototype front end.
+- The prototype back end
+- A CDP OAuth Stub
+
+It assumes the backend project repo has been cloned to a sibling the frontend project to this one:
+
+- \<root\>
+  - tdm-prototype-backend
+  - tdm-prototype-frontend
+
+The TDM prototype needs to be paired with a DMP environment (we connect to the data lake and Azure Service Bus). The best DMP environment to connect to is currently SND.
+
+To do this the backend project requires a .env file with secrets, you can get this from one of the devs on
+the team and store it in the backend project:
+
+`tdm-prototype-backend/TdmPrototypeBackend.Api/Properties/local.env`
+
+```bash
+docker compose up --build -d
+```
+
+The services should then be accessible:
+
+- [Frontend](http://tdm-prototype-frontend.localtest.me:7001/)
+- [Backend](http://tdm-prototype-backend.localtest.me:7080/)
+- [Oauth stub](http://cdp-defra-id-stub.localtest.me:7200/)
+
+The key features of the project are then described on the homepage of the frontend
+
+You then need to:
+
+- Create a user in the Oauth Stub, this will allow you to use the authenticated parts of the UI/API
+- Sync data from DMP into the local mongo database
+  - [Clearance Requests](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/clearance-requests/lastmonth)
+  - [Notifications](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/notification/lastmonth)
+
+## Core Delivery Platform
+
+This project is based on the Core Delivery Platform Node.js Frontend Template.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
@@ -128,23 +175,6 @@ Run:
 
 ```bash
 docker run -p 3000:3000 tdm-prototype-frontend
-```
-
-### Docker Compose
-
-A local environment with:
-
-- Localstack for AWS services (S3, SQS)
-- Redis
-- MongoDB
-- The prototype front end.
-- The prototype back end
-- A prototype gateway instance:
-  - Kong sitting in front of the API and handling app authentication (WIP)
-  - Oauth2 Proxy sitting in front of the front end for user login, also passes API traffic to kong (WIP)
-
-```bash
-docker compose up --build -d
 ```
 
 ## Licence
