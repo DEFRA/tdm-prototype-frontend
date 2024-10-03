@@ -13,12 +13,13 @@ const authenticatedProxyController = {
 
     const authedUser = await request.getUserSession()
     const backendApi = new URL(config.get('tdmBackendApi'))
-    const qs = new URLSearchParams(request.query)
+    const searchParams = new URLSearchParams(request.query)
+    const qs = searchParams ? `?${searchParams.toString()}` : ''
     return new Promise((resolve, reject) => {
       const options = {
         hostname: backendApi.hostname,
         port: backendApi.port,
-        path: `/${request.params.path}?${qs.toString()}`,
+        path: `/${request.params.path}${qs}`,
         query: request.query,
         method: 'GET',
         headers: {
@@ -26,7 +27,7 @@ const authenticatedProxyController = {
         }
       }
 
-      const get = backendApi.protocol === 'https' ? httpsGet : httpGet
+      const get = backendApi.protocol === 'https:' ? httpsGet : httpGet
 
       logger.info(
         `Authenticated proxy protocol=${backendApi.protocol} options: ${JSON.stringify(options)}`
@@ -43,7 +44,14 @@ const authenticatedProxyController = {
 
           res.on('end', () => {
             logger.info('Response ended: ')
-            const res = JSON.parse(Buffer.concat(data).toString())
+
+            const body = Buffer.concat(data).toString()
+            let res = JSON.parse(body)
+
+            if (typeof res !== 'object') {
+              res = { responseBody: res }
+            }
+
             res.originalQuery = requested
             resolve(res)
           })
@@ -56,7 +64,7 @@ const authenticatedProxyController = {
           // reject(`Non 200 status received : ${res.statusCode}`)
         }
       }).on('error', (err) => {
-        logger.error('Error: ', err.message)
+        logger.error('Authenticated Proxy Error: ', err.message)
         reject(err)
       })
     })

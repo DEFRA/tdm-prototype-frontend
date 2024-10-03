@@ -45,6 +45,40 @@ You then need to:
   - [Clearance Requests](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/clearance-requests/lastmonth)
   - [Notifications](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/notification/lastmonth)
 
+## Local Development
+
+Once the compose stack is working, you may prefer to run service(s) locally whilst working on them.
+
+The docker compose stack moves all services to the 7xxx port range to avoid conflicts with locally
+running services, so it's straightforward to run the front end or backend services on their own
+and connect them to the dependencies setup in compose.
+
+Out of the box, the front end will run locally at http://tdm-prototype-frontend.localtest.me:3000 and will
+expect to connect to the backend locally at http://tdm-prototype-backend.localtest.me:3080
+
+This can be controlled through environment variables - see src/config/index.js for options. For example to
+use the compose stack API from the local frontend set:
+
+`TDM_API_BACKEND=https://tdm-prototype-backend.localtest.me:7080/api`
+
+### Authentication / Defra ID
+
+The local dev environment is currently setup to use cdp-defra-id-stub, which is running in the docker compose stack.
+
+Using `DEFRA_ID_MANAGE_ACCOUNT_URL` and `DEFRA_ID_OIDC_CONFIGURATION_URL` env vars, other options might be:
+
+Run the stub locally:
+
+`http://cdp-defra-id-stub.localtest.me:3200/cdp-defra-id-stub/.well-known/openid-configuration`
+
+Potentially real defra ID:
+
+`https://your-account.cpdev.cui.defra.gov.uk/.well-known/openid-configuration`
+
+Use the dev one (this doesn't currently work :( ):
+
+`https://cdp-defra-id-stub.dev.cdp-int.defra.cloud/cdp-defra-id-stub/.well-known/openid-configuration`
+
 ## Core Delivery Platform
 
 This project is based on the Core Delivery Platform Node.js Frontend Template.

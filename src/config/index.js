@@ -27,7 +27,7 @@ export const config = convict({
   tdmBackendApi: {
     doc: 'The Trade Data Matching json:api backend.',
     format: String,
-    default: 'https://localhost:7094/api',
+    default: 'https://tdm-prototype-backend.localtest.me:3080/api',
     env: 'TDM_API_BACKEND'
   },
   tdmBackendExampleNotification: {
@@ -124,7 +124,7 @@ export const config = convict({
       engine: {
         doc: 'backend cache is written to',
         format: ['redis', 'memory'],
-        default: isProduction ? 'redis' : 'memory',
+        default: 'redis',
         env: 'SESSION_CACHE_ENGINE'
       },
       name: {
@@ -198,28 +198,24 @@ export const config = convict({
   appBaseUrl: {
     doc: 'Application base URL for after we login',
     format: String,
-    default: 'http://localhost:3000',
+    default: 'http://tdm-prototype-frontend.localtest.me:3000',
     env: 'APP_BASE_URL'
   },
   defraId: {
     manageAccountUrl: {
-      doc: 'DEFRA ID Manage Account URL',
+      doc: 'DEFRA ID Manage Account URL, defaults to docker compose defra ID stub',
       format: String,
       env: 'DEFRA_ID_MANAGE_ACCOUNT_URL',
       default:
-        // 'http://cdp-defra-id-stub.localtest.me:3200/cdp-defra-id-stub/login'
-        // 'https://your-account.cpdev.cui.defra.gov.uk/management'
-        'https://cdp-defra-id-stub.dev.cdp-int.defra.cloud/cdp-defra-id-stub/login'
+        'http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/login'
     },
     oidcConfiguration: {
       url: {
-        doc: 'DEFRA ID OIDC Configuration URL',
+        doc: 'DEFRA ID OIDC Configuration URL, defaults to docker compose defra ID stub',
         format: String,
         env: 'DEFRA_ID_OIDC_CONFIGURATION_URL',
         default:
-          // 'http://localhost:3200/cdp-defra-id-stub/.well-known/openid-configuration'
-          // 'http://cdp-defra-id-stub.localtest.me:3200/cdp-defra-id-stub/.well-known/openid-configuration'
-          'https://cdp-defra-id-stub.dev.cdp-int.defra.cloud/cdp-defra-id-stub/.well-known/openid-configuration'
+          'http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/.well-known/openid-configuration'
       }
     },
     serviceId: {

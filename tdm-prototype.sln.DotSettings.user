@@ -3,20 +3,10 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/craig/.nuget/packages/azure.storage.blobs/12.22.0-beta.1/lib/net6.0/Azure.Storage.Blobs.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=10cf94b0_002De60f_002D4c09_002Db0f4_002Dcefc6a28fa32/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BookValidateIsbn" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A::net8.0::TdmPrototypeBackend.Test.CreateResourceIntegrationTests.CreateMovementMatchedIpaffsNotification&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::FEB9B9A3-A9C1-4200-A574-AE7C577E5A3A::net8.0::TdmPrototypeBackend.Test.CreateResourceIntegrationTests.CreateMovement&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Test.SyncClearanceRequestTests.BookValidateIsbn&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Test.SyncClearanceRequestTests.ClearanceRequest_ShouldDeserialise&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncClearanceRequestTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncIpaffsNotificationTests.ShouldDeserialise&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::45CFC4D7-9E9F-4367-9E1B-FA1ADB6CE46B::net8.0::TdmPrototypeDmpSynchroniser.Api.Models.Test.SyncIpaffsNotificationTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;Project Location="/Users/craig/src/defra/tdm-prototype/tdm-prototype-backend/TdmPrototypeDmpSynchroniser.Test" Presentation="&amp;lt;DmpSynchroniser&amp;gt;\&amp;lt;TdmPrototypeDmpSynchroniser.Test&amp;gt;" /&gt;
-  &lt;/Or&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbf1d7c0_002Da662_002D4a14_002Da7a9_002D83a97e23f432/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
+	
 	
 	
 	</wpf:ResourceDictionary>
