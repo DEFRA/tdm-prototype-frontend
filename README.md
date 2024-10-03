@@ -56,10 +56,18 @@ and connect them to the dependencies setup in compose.
 Out of the box, the front end will run locally at http://tdm-prototype-frontend.localtest.me:3000 and will
 expect to connect to the backend locally at http://tdm-prototype-backend.localtest.me:3080
 
-This can be controlled through environment variables - see src/config/index.js for options. For example to
-use the compose stack API from the local frontend set:
+This can be controlled through environment variables - see src/config/index.js for options.
+
+For example to use the compose stack API from the local frontend set the following var in your local front end environment:
 
 `TDM_API_BACKEND=https://tdm-prototype-backend.localtest.me:7080/api`
+
+Or to use the compose stack frontend, but the local backend, set the following var in your compose front end environment (./compose/local.env):
+
+```
+TDM_API_BACKEND=https://host.docker.internal:3080/api
+NODE_TLS_REJECT_UNAUTHORIZED=0
+```
 
 ### Authentication / Defra ID
 

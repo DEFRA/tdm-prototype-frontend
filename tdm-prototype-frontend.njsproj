@@ -37,6 +37,8 @@
     <Content Include="babel.config.cjs" />
     <Content Include="compose.yml" />
     <Content Include="compose\aws.env" />
+    <Content Include="compose\frontend.env" />
+    <Content Include="compose\local.env" />
     <Content Include="compose\start-localstack.sh" />
     <Content Include="Dockerfile" />
     <Content Include="jest.config.js" />

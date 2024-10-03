@@ -64,17 +64,15 @@ services:
         condition: service_healthy
     env_file:
       - 'compose/aws.env'
+      - 'compose/frontend.env'
+      - 'compose/local.env'
     environment:
       PORT: 7001
       NODE_ENV: development
       REDIS_HOST: redis
       LOCALSTACK_ENDPOINT: http://localstack:4566
       USE_SINGLE_INSTANCE_CACHE: true
-      TDM_API_BACKEND: http://tdm-prototype-backend.localtest.me:7080/api
-      APP_BASE_URL: http://tdm-prototype-frontend.localtest.me:7001
-      DEFRA_ID_OIDC_CONFIGURATION_URL: http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/.well-known/openid-configuration
       DEFRA_ID_CLIENT_SECRET: test_value
-      DEFRA_ID_MANAGE_ACCOUNT_URL: http://cdp-defra-id-stub.localtest.me:7200/cdp-defra-id-stub/login
       SESSION_CACHE_ENGINE: redis
 
     networks:
@@ -110,7 +108,7 @@ services:
     env_file:
       - '../tdm-prototype-backend/TdmPrototypeBackend.Api/Properties/local.env'
     healthcheck:
-      test: ['CMD', 'curl', 'localhost:7080']
+      test: ['CMD', 'curl', 'localhost:7080/health']
       interval: 5s
       start_period: 5s
       retries: 3
