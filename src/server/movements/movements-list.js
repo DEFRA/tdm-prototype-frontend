@@ -11,7 +11,7 @@ export const movementsListController = {
     const client = await getClient(request)
     const { data } = await client.findAll('movements', {
       sort: '-lastUpdated',
-      'fields[movements]': 'lastUpdated,notification,items,goodsLocationCode'
+      'fields[movements]': 'lastUpdated,items,goodsLocationCode'
     })
 
     logger.info(data)

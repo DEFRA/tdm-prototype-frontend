@@ -25,7 +25,7 @@ export const notificationController = {
     const client = await getClient(request)
     const { data } = await client.find('notifications', chedId, {
       'fields[notifications]':
-        'movement,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+        'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${data.id}`)
     // logger.info(data)

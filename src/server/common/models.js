@@ -51,7 +51,7 @@ const getClient = async function (request) {
     declarantName: '',
     dispatchCountryCode: '',
     goodsLocationCode: '',
-    notification: { ...matchModel },
+    // notification: { ...matchModel },
     items: [
       {
         itemNumber: 0,
@@ -74,7 +74,7 @@ const getClient = async function (request) {
       displayName: '',
       userId: ''
     },
-    movement: { ...matchModel },
+    // movement: { ...matchModel },
     partOne: {
       commodities: {
         numberOfPackages: 0,
