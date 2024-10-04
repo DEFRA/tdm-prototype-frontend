@@ -1,5 +1,6 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 // import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
+import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 import { getClient } from '~/src/server/common/models.js'
 
@@ -24,7 +25,7 @@ export const movementsListController = {
       },
       { kind: 'text', value: m.goodsLocationCode }, // m.status
       { kind: 'text', value: m.items.length }, // m.status
-      { kind: 'text', value: new Date(m.lastUpdated).toLocaleString() }, // new Date(m.lastUpdated).toLocaleString()
+      { kind: 'text', value: mediumDateTime(m.lastUpdated) }, // new Date(m.lastUpdated).toLocaleString()
       { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
     ])
 

@@ -96,11 +96,9 @@ services:
       mongodb:
         condition: service_started
     environment:
-#      PORT: 7080
       ASPNETCORE_ENVIRONMENT: Development
       LOCALSTACK_ENDPOINT: http://localstack:4566
       Mongo__DatabaseUri: mongodb://mongodb:27017
-      # AZURE_CLIENT_ID: "c1d14b98-8baf-486b-99c0-f30ac3ee5464"
       AZURE_TENANT_ID: "c9d74090-b4e6-4b04-981d-e6757a160812"
       DISABLE_AUTHORISATION: true
       ENABLE_MONGO_MANAGEMENT:	true

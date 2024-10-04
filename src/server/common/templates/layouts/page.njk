@@ -6,11 +6,15 @@
 
 {%- from "govuk/components/table/macro.njk" import govukTable -%}
 
+{%- from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner -%}
+
+
 {# TODO : CDP PORTAL #}
 {% from "hero/macro.njk" import appHero %}
 {% from "tabs/macro.njk" import appTabs %}
 {% from "entity-list/macro.njk" import appEntityList %}
 {% from "tag/macro.njk" import appTag %}
+
 {% from "service-header/service-header.njk" import defraLoginServiceHeader %}
 
 {% set mainClasses = "app-main-wrapper" %}
@@ -52,6 +56,14 @@
 {% endblock %}
 
 {% block beforeContent %}
+
+
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Alpha"
+    },
+    html: 'This is a new service. Help us improve it and <a class="govuk-link" href="#">give your feedback by email</a>.'
+  }) }}
   {% if breadcrumbs.length > 1 %}
     {{ appBreadcrumbs({
       items: breadcrumbs

@@ -2,6 +2,7 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 // import { appTag } from 'cdp-portal-frontend/src/server/common/components/tag'
 
 import { getClient } from '~/src/server/common/models.js'
+import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 export const notificationsListController = {
   async handler(request, h) {
@@ -29,16 +30,12 @@ export const notificationsListController = {
         { kind: 'text', value: n.status },
         {
           kind: 'text',
-          value: new Date(
+          value: mediumDateTime(
             `${n.partOne.arrivalDate}T${n.partOne.arrivalTime}`
-          ).toLocaleString()
+          )
         },
         { kind: 'text', value: n.partOne.pointOfEntry },
-        { kind: 'text', value: new Date(n.lastUpdated).toLocaleString() },
-        {
-          kind: 'text',
-          value: n.partOne.commodities.numberOfPackages
-        },
+        { kind: 'text', value: mediumDateTime(n.lastUpdated) },
         { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
       ]
     )

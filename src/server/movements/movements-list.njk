@@ -11,11 +11,37 @@
       { text: "ID", size: "large" },
       { text: "Goods Location", size: "small" },
       { text: "# Items", size: "small" },
-      { text: "Updated", size: "small" },
+      { text: "Updated", size: "medium" },
       { text: "Match Outcome", size: "small" }
     ],
     entityRows: movements,
     noResult: "There are no movements available at the moment"
+  }) }}
+
+  {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+  {{ govukPagination({
+    previous: {
+      href: "#"
+    },
+    next: {
+      href: "#"
+    },
+    items: [
+      {
+        number: 1,
+        href: "#"
+      },
+      {
+        number: 2,
+        current: true,
+        href: "#"
+      },
+      {
+        number: 3,
+        href: "#"
+      }
+    ]
   }) }}
 
 {% endblock %}
