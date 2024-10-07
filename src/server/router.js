@@ -10,6 +10,7 @@ import { movements } from '~/src/server/movements/index.js'
 import { login } from '~/src/server/login/index.js'
 import { logout } from '~/src/server/logout/index.js'
 import { auth } from '~/src/server/auth/index.js'
+import { cdsSimulator } from '~/src/server/cds-simulator/index.js'
 
 /**
  * @satisfies {ServerRegisterPluginObject<void>}
@@ -31,7 +32,8 @@ export const router = {
         about,
         auth,
         login,
-        logout
+        logout,
+        cdsSimulator
       ])
 
       // Static assets

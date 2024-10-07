@@ -6,7 +6,7 @@ import { config } from '~/src/config/index.js'
 const getClient = async function (request) {
   const authedUser = await request.getUserSession()
   const jsonApi = new JsonApi({
-    apiUrl: config.get('tdmBackendApi'),
+    apiUrl: `${config.get('tdmBackendApi')}/api`,
     bearer: authedUser.jwt
   })
 

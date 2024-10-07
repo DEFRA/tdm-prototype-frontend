@@ -14,8 +14,8 @@
       },
       {
         text: appTag({
-          text: "No Match",
-          classes: ['govuk-tag--red']
+          text: matchOutcome.value,
+          classes: matchOutcome.classes
         })
       }
     ],
@@ -36,7 +36,7 @@
   rows: [
     [
       {
-        text: "Customs Declaration Reference"
+        text: "MRN"
       },
       {
         text: notification.id
@@ -68,26 +68,43 @@
      ]
   ]
 }) }}
-{{ appHeading({
-  caption:"Item Information"
-}) }}
-{{ appEntityList({
-    headings: [
-      { text: "Type", size: "large" },
-      { text: "Taric Commodity Code", size: "small" },
-      { text: "Goods Description", size: "small" },
-      { text: "Origin Country", size: "small" },
-      { text: "Weight", size: "small" },
-      { text: "Match Status", size: "small" }
-    ],
-    entityRows: items,
-    noResult: "There are no items on the movement"
-  }) }}
-  {% if auditEntries|length %}
-  {{ appHeading({
-    caption:"Audit Log"
-  }) }}
+
+
+{% call govukFieldset({
+  legend: {
+    text: "Item Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
   {{ appEntityList({
+      headings: [
+        { text: "Item ID", size: "small" },
+        { text: "Taric Commodity Code", size: "small" },
+        { text: "Goods Description", size: "small" },
+        { text: "Origin Country", size: "small" },
+        { text: "Weight", size: "small" },
+        { text: "Qty", size: "small" },
+        { text: "Match Status", size: "small" }
+      ],
+      entityRows: items,
+      noResult: "There are no items on the movement"
+    }) }}
+
+{% endcall %}
+  {% if auditEntries|length %}
+
+    {% call govukFieldset({
+      legend: {
+        text: "Audit Log",
+        classes: "govuk-fieldset__legend--l",
+        isPageHeading: false
+      }
+    }) %}
+
+
+    {{ appEntityList({
       headings: [
         { text: "Version", size: "small" },
         { text: "Created By", size: "small" },
@@ -98,6 +115,10 @@
       entityRows: auditEntries,
       noResult: "There are no audit entries"
     }) }}
+
+
+    {% endcall %}
+
   {% endif %}
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",

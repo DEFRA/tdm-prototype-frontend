@@ -4,7 +4,10 @@
  * @satisfies {Partial<ServerRoute>}
  */
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
-import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
+import {
+  matchStatusElementListItem,
+  matchStatusNotification
+} from '~/src/server/common/helpers/match-status.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
@@ -25,7 +28,7 @@ export const notificationController = {
     const client = await getClient(request)
     const { data } = await client.find('notifications', chedId, {
       'fields[notifications]':
-        'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+        'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${data.id}`)
     // logger.info(data)
@@ -53,7 +56,7 @@ export const notificationController = {
             kind: 'text',
             value: weight(c.additionalData.netWeight)
           },
-          matchStatusElementListItem(data.movement)
+          matchStatusElementListItem(data.movements)
         ])
 
       // logger.info(Object.keys(data))
@@ -88,7 +91,11 @@ export const notificationController = {
         notification: data,
         lastUpdated: mediumDateTime(data.lastUpdated),
         ipaffsCommodities,
-        auditEntries
+        auditEntries,
+        matchOutcome: matchStatusNotification(
+          data.movements,
+          data.partOne.commodities.commodityComplement
+        )
       })
     } catch (e) {
       logger.error(e)

@@ -36,14 +36,16 @@ The services should then be accessible:
 - [Backend](http://tdm-prototype-backend.localtest.me:7080/)
 - [Oauth stub](http://cdp-defra-id-stub.localtest.me:7200/)
 
-The key features of the project are then described on the homepage of the frontend
+The key features of the project are then described on the frontend homepage, including what's currently WIP, key issues etc
 
 You then need to:
 
-- Create a user in the Oauth Stub, this will allow you to use the authenticated parts of the UI/API
+- Create a user in the Oauth Stub, this will allow you to use the authenticated parts of the UI/API, and login
 - Sync data from DMP into the local mongo database
   - [Clearance Requests](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/clearance-requests/lastmonth)
   - [Notifications](http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/sync/notification/lastmonth)
+- You can then navigate notifications & movements via the UI and API. Note, the API requires a JWT token, and
+  hitting `http://tdm-prototype-frontend.localtest.me:3000/auth/proxy/[api-request]` when logged in, proxies to the API with a JWT
 
 ## Local Development
 

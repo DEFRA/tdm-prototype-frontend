@@ -23,13 +23,31 @@
       },
       {
         text: appTag({
-          text: "No Match",
-          classes: ['govuk-tag--red']
+          text: matchOutcome.value,
+          classes: matchOutcome.classes
         })
       }
     ]
   ]
 }) }}
+
+{% call govukFieldset({
+  legend: {
+    text: "Actions",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+  <form method="post" action="/cds-simulator/create-clearance-request/{{notification.id}}" autocomplete="off" novalidate>
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Create Test CR",
+      classes: "govuk-button--secondary",
+      preventDoubleClick: true
+    }) }}
+  </div>
+  </form>
+{% endcall %}
 
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",
@@ -101,9 +119,16 @@
      ]
   ]
 }) }}
-  {{ appHeading({
-    caption:"Commodity Information"
-  }) }}
+
+
+{% call govukFieldset({
+  legend: {
+    text: "Commodity Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
   {{ appEntityList({
       headings: [
         { text: "Item #", size: "small" },
@@ -117,22 +142,35 @@
       entityRows: ipaffsCommodities,
       noResult: "There are no Commodities on the notification"
     }) }}
-  {% if auditEntries|length %}
-  {{ appHeading({
-    caption:"Audit Log"
-  }) }}
-  {{ appEntityList({
-      headings: [
-        { text: "Version", size: "small" },
-        { text: "Created By", size: "small" },
-        { text: "Created On (Source)", size: "medium" },
-        { text: "Created On (TDM)", size: "medium" },
-        { text: "Status", size: "small" }
-      ],
-      entityRows: auditEntries,
-      noResult: "There are no audit entries"
-    }) }}
-  {% endif %}
+
+{% endcall %}
+
+{% if auditEntries|length %}
+
+  {% call govukFieldset({
+    legend: {
+      text: "Audit Log",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: false
+    }
+  }) %}
+
+    {{ appEntityList({
+        headings: [
+          { text: "Version", size: "small" },
+          { text: "Created By", size: "small" },
+          { text: "Created On (Source)", size: "medium" },
+          { text: "Created On (TDM)", size: "medium" },
+          { text: "Status", size: "small" }
+        ],
+        entityRows: auditEntries,
+        noResult: "There are no audit entries"
+      }) }}
+
+  {% endcall %}
+
+{% endif %}
+
 {{ govukTable({
   caption: "HMRC Customs Declaration Information",
   captionClasses: "govuk-table__caption--m",
@@ -168,7 +206,7 @@
 }) }}
 {{ appEntityList({
     headings: [
-      { text: "Type", size: "large" },
+      { text: "Item Number", size: "small" },
       { text: "Commodity Code", size: "small" },
       { text: "Commodity Description", size: "small" },
       { text: "Quantity", size: "small" },

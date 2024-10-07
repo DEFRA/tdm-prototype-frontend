@@ -1,5 +1,9 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
-import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
+import {
+  matchStatusElementListItem,
+  matchStatusMovement
+  // matchStatusNotification
+} from '~/src/server/common/helpers/match-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
 
@@ -23,7 +27,7 @@ export const movementController = {
       logger.info(`Result received, ${data.id}`)
 
       const items = data.items.map((i) => [
-        { kind: 'text', value: i.customsProcedureCode },
+        { kind: 'text', value: i.itemNumber },
         { kind: 'text', value: i.taricCommodityCode },
         {
           kind: 'text',
@@ -37,7 +41,11 @@ export const movementController = {
           kind: 'text',
           value: weight(i.itemNetMass)
         },
-        matchStatusElementListItem(i.notifification)
+        {
+          kind: 'text',
+          value: i.itemSupplementaryUnits
+        },
+        matchStatusElementListItem(data.notifications)
       ])
 
       const auditEntries = data.auditEntries
@@ -70,7 +78,8 @@ export const movementController = {
         notification: data,
         lastUpdated: mediumDateTime(data.lastUpdated),
         items,
-        auditEntries
+        auditEntries,
+        matchOutcome: matchStatusMovement(data.notifications, data.items)
       })
     } catch (e) {
       logger.error(e)

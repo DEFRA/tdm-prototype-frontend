@@ -3,6 +3,7 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 import { getClient } from '~/src/server/common/models.js'
+import { matchStatusMovement } from '~/src/server/common/helpers/match-status.js'
 
 export const movementsListController = {
   async handler(request, h) {
@@ -12,7 +13,7 @@ export const movementsListController = {
     const client = await getClient(request)
     const { data } = await client.findAll('movements', {
       sort: '-lastUpdated',
-      'fields[movements]': 'lastUpdated,items,goodsLocationCode'
+      'fields[movements]': 'notifications,lastUpdated,items,goodsLocationCode'
     })
 
     logger.info(data)
@@ -26,7 +27,7 @@ export const movementsListController = {
       { kind: 'text', value: m.goodsLocationCode }, // m.status
       { kind: 'text', value: m.items.length }, // m.status
       { kind: 'text', value: mediumDateTime(m.lastUpdated) }, // new Date(m.lastUpdated).toLocaleString()
-      { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
+      matchStatusMovement(m.notifications)
     ])
 
     return h.view('movements/movements-list', {

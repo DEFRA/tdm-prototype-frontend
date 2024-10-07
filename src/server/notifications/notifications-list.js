@@ -3,6 +3,7 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
+import { matchStatusNotification } from '~/src/server/common/helpers/match-status.js'
 
 export const notificationsListController = {
   async handler(request, h) {
@@ -15,12 +16,12 @@ export const notificationsListController = {
       sort: '-lastUpdated',
       filter: `equals(ipaffsType,'${chedType}')`,
       // 'page[size]':1,
-      'fields[notifications]': 'lastUpdated,status,ipaffsType,partOne'
+      'fields[notifications]': 'movements,lastUpdated,status,ipaffsType,partOne'
     })
 
     const notifications = data.map(
       (
-        /** @type {{ id: any; status: any; lastUpdated: string | number | Date; partOne: { commodities: { numberOfPackages: any; }; arrivalDate: any, arrivalTime: any, pointOfEntry:any }; }} */ n
+        /** @type {{ id: any; movements: any, status: any; lastUpdated: string | number | Date; partOne: { commodities: { numberOfPackages: any; }; arrivalDate: any, arrivalTime: any, pointOfEntry:any }; }} */ n
       ) => [
         {
           kind: 'link',
@@ -36,7 +37,7 @@ export const notificationsListController = {
         },
         { kind: 'text', value: n.partOne.pointOfEntry },
         { kind: 'text', value: mediumDateTime(n.lastUpdated) },
-        { kind: 'tag', value: 'No Match', classes: 'govuk-tag--red' }
+        matchStatusNotification(n.movements)
       ]
     )
 

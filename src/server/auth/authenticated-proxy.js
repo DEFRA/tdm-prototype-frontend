@@ -14,7 +14,7 @@ const authenticatedProxyController = {
     const authedUser = await request.getUserSession()
     const backendApi = new URL(config.get('tdmBackendApi'))
     const searchParams = new URLSearchParams(request.query)
-    const qs = searchParams ? `?${searchParams.toString()}` : ''
+    const qs = searchParams.size ? `?${searchParams.toString()}` : ''
     return new Promise((resolve, reject) => {
       const options = {
         hostname: backendApi.hostname,
