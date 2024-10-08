@@ -146,54 +146,52 @@
 {% endcall %}
 
 {% macro getPanelHtml(item) %}
- <h2 class="govuk-heading-l">Past day</h2>
+ <h2 class="govuk-heading-l">Item #1 (HMRC Info TODO)</h2>
    {{ govukTable({
-     head: [
-       {
-         text: "Case manager"
-       },
-       {
-         text: "Cases opened"
-       },
-       {
-         text: "Cases closed"
-       }
-     ],
+     caption: "HMRC Customs Declaration Information",
+     captionClasses: "govuk-table__caption--m",
      rows: [
        [
          {
-           text: "David Francis"
+           text: "Customs Declaration Reference"
          },
          {
-           text: "4"
-         },
-         {
-           text: "0"
+           text: "TODO"
          }
        ],
        [
          {
-           text: "Paul Farmer"
+           text: "Final State"
          },
          {
-           text: "1"
-         },
-         {
-           text: "0"
+           text: "TODO"
          }
        ],
-       [
-         {
-           text: "Rita Patel"
-         },
-         {
-           text: "2"
-         },
-         {
-           text: "0"
-         }
-       ]
+        [
+          {
+            text: "Item Number"
+          },
+          {
+            text: "TODO"
+          }
+        ]
      ]
+   }) }}
+   {{ appHeading({
+     caption:"Commodity Information"
+   }) }}
+   {{ appEntityList({
+     headings: [
+       { text: "Item Number", size: "small" },
+       { text: "Commodity Code", size: "small" },
+       { text: "Commodity Description", size: "small" },
+       { text: "Quantity", size: "small" },
+       { text: "Weight", size: "small" },
+       { text: "# Items", size: "small" },
+       { text: "Match Status", size: "small" }
+     ],
+     entityRows: [],
+     noResult: "There are no Commodities on the movement"
    }) }}
 {% endmacro%}
 
@@ -201,61 +199,14 @@
 
   items: [
     {
-      label: "Past day",
-      id: "past-day",
+      label: "Item #1",
+      id: "item1",
       panel: {
         html: getPanelHtml()
       }
     }
   ]
 
-}) }}
-
-{{ govukTable({
-  caption: "HMRC Customs Declaration Information",
-  captionClasses: "govuk-table__caption--m",
-  rows: [
-    [
-      {
-        text: "Customs Declaration Reference"
-      },
-      {
-        text: "TODO"
-      }
-    ],
-    [
-      {
-        text: "Final State"
-      },
-      {
-        text: "TODO"
-      }
-    ],
-     [
-       {
-         text: "Item Number"
-       },
-       {
-         text: "TODO"
-       }
-     ]
-  ]
-}) }}
-{{ appHeading({
-  caption:"Commodity Information"
-}) }}
-{{ appEntityList({
-  headings: [
-    { text: "Item Number", size: "small" },
-    { text: "Commodity Code", size: "small" },
-    { text: "Commodity Description", size: "small" },
-    { text: "Quantity", size: "small" },
-    { text: "Weight", size: "small" },
-    { text: "# Items", size: "small" },
-    { text: "Match Status", size: "small" }
-  ],
-  entityRows: [],
-  noResult: "There are no Commodities on the movement"
 }) }}
 
 
