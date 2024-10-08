@@ -145,31 +145,71 @@
 
 {% endcall %}
 
-{% if auditEntries|length %}
+{% macro getPanelHtml(item) %}
+ <h2 class="govuk-heading-l">Past day</h2>
+   {{ govukTable({
+     head: [
+       {
+         text: "Case manager"
+       },
+       {
+         text: "Cases opened"
+       },
+       {
+         text: "Cases closed"
+       }
+     ],
+     rows: [
+       [
+         {
+           text: "David Francis"
+         },
+         {
+           text: "4"
+         },
+         {
+           text: "0"
+         }
+       ],
+       [
+         {
+           text: "Paul Farmer"
+         },
+         {
+           text: "1"
+         },
+         {
+           text: "0"
+         }
+       ],
+       [
+         {
+           text: "Rita Patel"
+         },
+         {
+           text: "2"
+         },
+         {
+           text: "0"
+         }
+       ]
+     ]
+   }) }}
+{% endmacro%}
 
-  {% call govukFieldset({
-    legend: {
-      text: "Audit Log",
-      classes: "govuk-fieldset__legend--l",
-      isPageHeading: false
+{{ govukTabs({
+
+  items: [
+    {
+      label: "Past day",
+      id: "past-day",
+      panel: {
+        html: getPanelHtml()
+      }
     }
-  }) %}
+  ]
 
-    {{ appEntityList({
-        headings: [
-          { text: "Version", size: "small" },
-          { text: "Created By", size: "small" },
-          { text: "Created On (Source)", size: "medium" },
-          { text: "Created On (TDM)", size: "medium" },
-          { text: "Status", size: "small" }
-        ],
-        entityRows: auditEntries,
-        noResult: "There are no audit entries"
-      }) }}
-
-  {% endcall %}
-
-{% endif %}
+}) }}
 
 {{ govukTable({
   caption: "HMRC Customs Declaration Information",
@@ -205,17 +245,45 @@
   caption:"Commodity Information"
 }) }}
 {{ appEntityList({
-    headings: [
-      { text: "Item Number", size: "small" },
-      { text: "Commodity Code", size: "small" },
-      { text: "Commodity Description", size: "small" },
-      { text: "Quantity", size: "small" },
-      { text: "Weight", size: "small" },
-      { text: "# Items", size: "small" },
-      { text: "Match Status", size: "small" }
-    ],
-    entityRows: [],
-    noResult: "There are no Commodities on the movement"
-  }) }}
+  headings: [
+    { text: "Item Number", size: "small" },
+    { text: "Commodity Code", size: "small" },
+    { text: "Commodity Description", size: "small" },
+    { text: "Quantity", size: "small" },
+    { text: "Weight", size: "small" },
+    { text: "# Items", size: "small" },
+    { text: "Match Status", size: "small" }
+  ],
+  entityRows: [],
+  noResult: "There are no Commodities on the movement"
+}) }}
+
+
+{% if auditEntries|length %}
+
+  {% call govukFieldset({
+    legend: {
+      text: "Audit Log",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: false
+    }
+  }) %}
+
+    {{ appEntityList({
+        headings: [
+          { text: "Version", size: "small" },
+          { text: "Created By", size: "small" },
+          { text: "Created On (Source)", size: "medium" },
+          { text: "Created On (TDM)", size: "medium" },
+          { text: "Status", size: "small" }
+        ],
+        entityRows: auditEntries,
+        noResult: "There are no audit entries"
+      }) }}
+
+  {% endcall %}
+
+{% endif %}
 
 {% endblock %}
+

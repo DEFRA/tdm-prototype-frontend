@@ -93,33 +93,7 @@
     }) }}
 
 {% endcall %}
-  {% if auditEntries|length %}
 
-    {% call govukFieldset({
-      legend: {
-        text: "Audit Log",
-        classes: "govuk-fieldset__legend--l",
-        isPageHeading: false
-      }
-    }) %}
-
-
-    {{ appEntityList({
-      headings: [
-        { text: "Version", size: "small" },
-        { text: "Created By", size: "small" },
-        { text: "Created On (Source)", size: "medium" },
-        { text: "Created On (TDM)", size: "medium" },
-        { text: "Status", size: "small" }
-      ],
-      entityRows: auditEntries,
-      noResult: "There are no audit entries"
-    }) }}
-
-
-    {% endcall %}
-
-  {% endif %}
 {{ govukTable({
   caption: "IPAFFS Notification (CHED) Information",
   captionClasses: "govuk-table__caption--m",
@@ -200,3 +174,30 @@
     }) }}
 
 {% endblock %}
+{% if auditEntries|length %}
+
+  {% call govukFieldset({
+    legend: {
+      text: "Audit Log",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: false
+    }
+  }) %}
+
+
+  {{ appEntityList({
+    headings: [
+      { text: "Version", size: "small" },
+      { text: "Created By", size: "small" },
+      { text: "Created On (Source)", size: "medium" },
+      { text: "Created On (TDM)", size: "medium" },
+      { text: "Status", size: "small" }
+    ],
+    entityRows: auditEntries,
+    noResult: "There are no audit entries"
+  }) }}
+
+
+  {% endcall %}
+
+{% endif %}

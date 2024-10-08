@@ -71,6 +71,22 @@ export const notificationController = {
           ])
         : []
 
+      const commodityTabItems =
+        data.partOne.commodities.commodityComplement.reduce(
+          (memo, c) => {
+            // memo.fragments[c.commodityID] = c
+            memo.tabItems.push({
+              label: `${c.complementID}: ${c.commodityID}`,
+              id: `${c.complementID}-${c.commodityID}`,
+              panel: {
+                html: `<h2 class="govuk-heading-l">${c.complementID}: ${c.commodityID}</h2><div>TODO : Commodity match movement information</div>`
+              }
+            })
+            return memo
+          },
+          { fragments: [], tabItems: [] }
+        )
+
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
         heading: `Notification ${chedId}`,
@@ -91,6 +107,7 @@ export const notificationController = {
         notification: data,
         lastUpdated: mediumDateTime(data.lastUpdated),
         ipaffsCommodities,
+        commodityTabItems,
         auditEntries,
         matchOutcome: matchStatusNotification(
           data.movements,

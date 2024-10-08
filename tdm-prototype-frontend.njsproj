@@ -47,6 +47,8 @@
     <Content Include="package-lock.json" />
     <Content Include="postcss.config.js" />
     <Content Include="README.md" />
+    <Content Include="src\server\admin\adminenticated-proxy.js" />
+    <Content Include="src\server\admin\controller.js" />
     <Content Include="src\server\auth\authenticated-proxy.js" />
     <Content Include="src\server\auth\controller.js" />
     <Content Include="src\server\common\components\hero\_hero.scss" />
