@@ -6,6 +6,7 @@ import { about } from '~/src/server/about/index.js'
 import { serveStaticFiles } from '~/src/server/common/helpers/serve-static-files.js'
 import { notifications } from '~/src/server/notifications/index.js'
 import { movements } from '~/src/server/movements/index.js'
+import { gmrs } from '~/src/server/gmrs/index.js'
 
 import { login } from '~/src/server/login/index.js'
 import { logout } from '~/src/server/logout/index.js'
@@ -29,6 +30,7 @@ export const router = {
       await server.register([
         movements,
         notifications,
+        gmrs,
         home,
         about,
         auth,

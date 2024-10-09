@@ -12,6 +12,7 @@ import {
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
+import { inspectionStatusElementListItem } from '~/src/server/common/helpers/inspection-status.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -56,6 +57,7 @@ export const notificationController = {
             kind: 'text',
             value: weight(c.additionalData.netWeight)
           },
+          inspectionStatusElementListItem(c),
           matchStatusElementListItem(data.movements)
         ])
 

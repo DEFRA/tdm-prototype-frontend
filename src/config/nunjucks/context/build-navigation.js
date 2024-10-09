@@ -19,6 +19,11 @@ export function buildNavigation(request) {
       id: 'movementsLink'
     },
     {
+      href: '/gmrs',
+      text: 'GMRs',
+      id: 'gmrsLink'
+    },
+    {
       href: '/admin',
       text: 'Admin',
       id: 'adminLink'

@@ -30,6 +30,11 @@ describe('#buildNavigation', () => {
           id: 'movementsLink'
         },
         {
+          href: '/gmrs',
+          text: 'GMRs',
+          id: 'gmrsLink'
+        },
+        {
           href: '/admin',
           text: 'Admin',
           id: 'adminLink'
@@ -61,6 +66,11 @@ describe('#buildNavigation', () => {
           href: '/movements',
           text: 'Movements',
           id: 'movementsLink'
+        },
+        {
+          href: '/gmrs',
+          text: 'GMRs',
+          id: 'gmrsLink'
         },
         {
           href: '/admin',
@@ -96,6 +106,11 @@ describe('#buildNavigation', () => {
           href: '/movements',
           text: 'Movements',
           id: 'movementsLink'
+        },
+        {
+          href: '/gmrs',
+          text: 'GMRs',
+          id: 'gmrsLink'
         },
         {
           href: '/admin',

@@ -1,0 +1,48 @@
+{% extends "layouts/tabbed-page.njk" %}
+
+{% block beforeTabContent %}
+  {{ appHeading({
+    text: heading,
+    caption: "GMRs"
+  }) }}
+
+  {{ appEntityList({
+    headings: [
+      { text: "ID", size: "medium" },
+      { text: "State", size: "small" },
+      { text: "Route", size: "small" },
+      { text: "Expected Departure", size: "medium" },
+      { text: "Expected Arrival", size: "medium" },
+      { text: "Updated", size: "medium" }
+    ],
+    entityRows: gmrs,
+    noResult: "There are no GMRs available at the moment"
+  }) }}
+
+  {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+  {{ govukPagination({
+    previous: {
+      href: "#"
+    },
+    next: {
+      href: "#"
+    },
+    items: [
+      {
+        number: 1,
+        href: "#"
+      },
+      {
+        number: 2,
+        current: true,
+        href: "#"
+      },
+      {
+        number: 3,
+        href: "#"
+      }
+    ]
+  }) }}
+
+{% endblock %}

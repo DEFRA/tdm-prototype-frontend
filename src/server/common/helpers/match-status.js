@@ -1,7 +1,7 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 const logger = createLogger()
 function matchStatusElementListItem(matches) {
-  logger.info(
+  logger.debug(
     `matchStatusElementListItem : ${matches ? matches[0].matched + ' / ' + matches[0].reference : 'No match object'}`
   )
   return {
@@ -12,7 +12,7 @@ function matchStatusElementListItem(matches) {
 }
 
 function matchStatusNotification(matches, items) {
-  logger.info(
+  logger.debug(
     `matchStatusNotification : ${matches ? matches[0].matched + ' / ' + matches[0].reference : `No match object, items ${items}`}`
   )
   return {
@@ -23,7 +23,7 @@ function matchStatusNotification(matches, items) {
 }
 
 function matchStatusMovement(matches, items) {
-  logger.info(
+  logger.debug(
     `matchStatusMovement : ${matches ? matches[0].matched + ' / ' + matches[0].reference : `No match object, items ${items}`}`
   )
   return {
