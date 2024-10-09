@@ -123,6 +123,42 @@ const getClient = async function (request) {
     auditEntries: { ...auditEntries }
   })
 
+  // Define Model
+  jsonApi.define('gmr', {
+    version: '',
+    state: '',
+    lastUpdated: '',
+    declarationId: '',
+    inspectionRequired: '',
+    reportToLocations: '',
+    direction: '',
+    haulierType: '',
+    haulierEORI: '',
+    isUnaccompanied: '',
+    vehicleRegNum: '',
+    plannedCrossing: {
+      routeId: '',
+      localDateTimeOfDeparture: ''
+    },
+    checkedInCrossing: {
+      routeId: '',
+      localDateTimeOfArrival: ''
+    },
+    actualCrossing: {
+      routeId: '',
+      localDateTimeOfArrival: ''
+    },
+    declarations: {
+      transits: [],
+      customs: [
+        {
+          id: ''
+        }
+      ]
+    },
+    auditEntries: { ...auditEntries }
+  })
+
   return jsonApi
 }
 export { getClient }

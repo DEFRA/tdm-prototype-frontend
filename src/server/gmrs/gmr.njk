@@ -1,0 +1,182 @@
+{% extends "layouts/page.njk" %}
+
+{% block content %}
+
+{{ govukTable({
+  caption: "GMR",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+     [
+       {
+         text: "State"
+       },
+       {
+         text: appTag({
+           text: status.value,
+           classes: status.classes
+         })
+       }
+     ],
+    [
+      {
+        text: "Inspection Required"
+      },
+      {
+        text: appTag({
+          text: "Yes",
+          classes: ['govuk-tag--red']
+        })
+      }
+    ],
+    [
+      {
+        text: "Matching Outcome"
+      },
+      {
+        text: appTag({
+          text: "No Match",
+          classes: ['govuk-tag--red']
+        })
+      }
+    ],
+     [
+       {
+         text: "Last Updated"
+       },
+       {
+         text: lastUpdated
+       }
+     ],
+     [
+       {
+         text: "Direction"
+       },
+       {
+         text: gmr.direction
+       }
+     ],
+     [
+       {
+         text: "Haulier EORI"
+       },
+       {
+         text: gmr.haulierEORI
+       }
+     ],
+     [
+       {
+         text: "Vehicle Registration"
+       },
+       {
+         text: gmr.vehicleRegNum
+       }
+     ]
+  ]
+}) }}
+
+{{ govukTable({
+  caption: "Crossing",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Planned Route ID"
+      },
+     {
+       text: gmr.plannedCrossing.routeId
+     }
+    ],
+
+    [
+      {
+        text: "Planned Date & Time Of Departure (Local)"
+      },
+     {
+       text: gmr.plannedCrossing.localDateTimeOfDeparture
+     }
+    ],
+    [
+      {
+        text: "Checked In  Route ID"
+      },
+     {
+       text: gmr.checkedInCrossing.routeId
+     }
+    ],
+
+    [
+      {
+        text: "Checked In Date & Time Of Arrival (Local)"
+      },
+     {
+       text: gmr.checkedInCrossing.localDateTimeOfArrival
+     }
+    ],
+    [
+      {
+        text: "Actual Route ID"
+      },
+     {
+       text: gmr.actualCrossing.routeId
+     }
+    ],
+
+    [
+      {
+        text: "Actual Date & Time Of Arrival (Local)"
+      },
+     {
+       text: gmr.actualCrossing.localDateTimeOfArrival
+     }
+    ]
+  ]
+}) }}
+
+{% call govukFieldset({
+  legend: {
+    text: "Declarations",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
+  {{ appEntityList({
+      headings: [
+        { text: "Declaration ID", size: "large" },
+        { text: "", size: "large" },
+        { text: "Status", size: "medium" }
+      ],
+      entityRows: customsDeclarations,
+      noResult: "There are no items on the movement"
+    }) }}
+
+{% endcall %}
+
+{% if auditEntries|length %}
+
+  {% call govukFieldset({
+    legend: {
+      text: "Audit Log",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: false
+    }
+  }) %}
+
+    {{ appEntityList({
+        headings: [
+          { text: "Version", size: "small" },
+          { text: "Created By", size: "small" },
+          { text: "Created On (Source)", size: "medium" },
+          { text: "Created On (TDM)", size: "medium" },
+          { text: "Status", size: "small" }
+        ],
+        entityRows: auditEntries,
+        noResult: "There are no audit entries"
+      }) }}
+
+  {% endcall %}
+
+{% endif %}
+
+{% endblock %}
+
