@@ -34,24 +34,8 @@
   {{ defraLoginServiceHeader({
     serviceName: serviceName,
     authedUser: authedUser,
-    navigationItems: [{
-     href: "/",
-     text: 'Home',
-     id: 'homeLink'
-   },{
-     href: "/notifications",
-     text: 'Notifications',
-     id: 'notificationsLink'
-   },{
-     href: "/movements",
-     text: 'Movements',
-     id: 'movementsLink'
-   },{
-     href: "/admin",
-     text: 'Admin',
-     id: 'adminLink'
-   }],
-   activeLinkId: 'homeLink',
+    navigationItems: navigation.items,
+   activeLinkId: navigation.activeLinkId,
    loginLink: '/auth',
    signOutLink: '/logout'
   }) }}

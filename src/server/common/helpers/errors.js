@@ -2,13 +2,15 @@
  * @param {number} statusCode
  */
 function statusCodeMessage(statusCode) {
+  // Returns string for standard messages, array including
+  // custom error filename if wanted.
   switch (true) {
     case statusCode === 404:
       return 'Page not found'
     case statusCode === 403:
       return 'Forbidden'
     case statusCode === 401:
-      return 'Unauthorized'
+      return ['Unauthorized', 'error/unauthorised']
     case statusCode === 400:
       return 'Bad Request'
     default:
@@ -30,10 +32,12 @@ export function catchAll(request, h) {
   request.logger.error(response?.stack)
 
   const statusCode = response.output.statusCode
-  const errorMessage = statusCodeMessage(statusCode)
+  const error = statusCodeMessage(statusCode)
+  const errorMessage = error.constructor === Array ? error[0] : error
+  const errorView = error.constructor === Array ? error[1] : 'error/index'
 
   return h
-    .view('error/index', {
+    .view(errorView, {
       pageTitle: errorMessage,
       heading: statusCode,
       message: errorMessage

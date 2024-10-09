@@ -11,63 +11,104 @@ describe('#buildNavigation', () => {
   test('Should provide expected navigation details', () => {
     expect(
       buildNavigation(mockRequest({ path: '/non-existent-path' }))
-    ).toEqual([
-      {
-        isActive: false,
-        text: 'Home',
-        url: '/'
-      },
-      {
-        isActive: false,
-        text: 'Notifications',
-        url: '/notifications'
-      },
-      {
-        isActive: false,
-        text: 'Movements',
-        url: '/movements'
-      },
-      {
-        isActive: false,
-        text: 'About',
-        url: '/about'
-      },
-      {
-        isActive: false,
-        text: 'Authentication',
-        url: '/auth'
-      }
-    ])
+    ).toEqual({
+      activeLinkId: `non-existent-pathLink`,
+      items: [
+        {
+          href: '/',
+          text: 'Home',
+          id: 'homeLink'
+        },
+        {
+          href: '/notifications',
+          text: 'Notifications',
+          id: 'notificationsLink'
+        },
+        {
+          href: '/movements',
+          text: 'Movements',
+          id: 'movementsLink'
+        },
+        {
+          href: '/admin',
+          text: 'Admin',
+          id: 'adminLink'
+        },
+        {
+          href: '/about',
+          text: 'About',
+          id: 'aboutLink'
+        }
+      ]
+    })
   })
 
   test('Should provide expected highlighted navigation details', () => {
-    expect(buildNavigation(mockRequest({ path: '/' }))).toEqual([
-      {
-        isActive: true,
-        text: 'Home',
-        url: '/'
-      },
-      {
-        isActive: false,
-        text: 'Notifications',
-        url: '/notifications'
-      },
-      {
-        isActive: false,
-        text: 'Movements',
-        url: '/movements'
-      },
-      {
-        isActive: false,
-        text: 'About',
-        url: '/about'
-      },
-      {
-        isActive: false,
-        text: 'Authentication',
-        url: '/auth'
-      }
-    ])
+    expect(buildNavigation(mockRequest({ path: '/' }))).toEqual({
+      activeLinkId: `homeLink`,
+      items: [
+        {
+          href: '/',
+          text: 'Home',
+          id: 'homeLink'
+        },
+        {
+          href: '/notifications',
+          text: 'Notifications',
+          id: 'notificationsLink'
+        },
+        {
+          href: '/movements',
+          text: 'Movements',
+          id: 'movementsLink'
+        },
+        {
+          href: '/admin',
+          text: 'Admin',
+          id: 'adminLink'
+        },
+        {
+          href: '/about',
+          text: 'About',
+          id: 'aboutLink'
+        }
+      ]
+    })
+  })
+
+  test('Should provide expected highlighted navigation details deep', () => {
+    expect(
+      buildNavigation(mockRequest({ path: '/notifications/test/123' }))
+    ).toEqual({
+      activeLinkId: `notificationsLink`,
+      items: [
+        {
+          href: '/',
+          text: 'Home',
+          id: 'homeLink'
+        },
+        {
+          href: '/notifications',
+          text: 'Notifications',
+          id: 'notificationsLink'
+        },
+        {
+          href: '/movements',
+          text: 'Movements',
+          id: 'movementsLink'
+        },
+        {
+          href: '/admin',
+          text: 'Admin',
+          id: 'adminLink'
+        },
+        {
+          href: '/about',
+          text: 'About',
+          id: 'aboutLink'
+        }
+      ]
+    })
   })
 })
 

@@ -1,0 +1,14 @@
+{% extends 'layouts/page.njk' %}
+
+{% block content %}
+  {{ appHeading({
+    text: "Login Required"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p>You need to be logged in to view this page. Login <a href="/login">here</a></p>
+
+    </div>
+  </div>
+{% endblock %}

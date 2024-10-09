@@ -3,7 +3,182 @@
 {% block content %}
   {{ appHeading({
     text: heading,
-    caption: "Core delivery platform Node.js Frontend Template."
+    caption: "Trade Data Matching ALVS V2 POC Hosted on Core Delivery Platform."
   }) }}
+
+  {% call appPageBody() %}
+    <p>
+      Welcome to the Trade Data Matching ALVS v2 Prototype 🚀
+    </p>
+     Currently implemented:
+    </p>
+
+    <ul>
+      <li>
+        Connectivity & testing for Azure Blob Storage & Azure Service Bus, connecting over the public internet.
+      </li>
+      <li>
+        Full schema of IPAFFS notification, initial POC schema for movements & GMRs
+      </li>
+      <li>
+        Full schema for movements (CDS)
+      </li>
+      <li>
+        Synchronisation of IPAFFS Notifications and ALVS Clearance Requests from the DMP Azure Data Lake into a CDP Mongo DB Database.
+      </li>
+      <li>
+        Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
+        <ul>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications">Retrieve all notifications</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications?sort=-lastUpdated">Retrieve all notifications, order by last updated descending</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications/{{tdmBackendExampleNotification}}">Retrieve a single notification</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications?filter=equals(ipaffsType,%27Cveda%27)">Retrieve only CHEDA notifications</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/notifications/{{tdmBackendExampleNotification}}?fields[notifications]=status,ipaffsType,partOne">Retrieve a single notification but only certain fields</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/movements">Retrieve Retrieve all movements</a>
+              </li>
+              <li>
+                <a target="_blank" href="{{ tdmApiUri }}/api/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
+              </li>
+            </ul>
+      </li>
+      <li>
+        Authentication / Authorisation POC. This uses the CDP Defra ID Stub, and is demonstrated by comparing an un-authenticated request direct to the
+        API <a target="_blank" href="{{ tdmApiDirectUri }}/api/notifications">here</a>, which will return a 401 for unauthenticated
+        access to those above that go via a proxied authentication which adds the JWT token.
+      </li>
+      <li>
+        Record level history/auditing
+      </li>
+      <li>
+        Simple level 1 matching, including ability to create matching clearance requests from a notification
+      </li>
+      <li>
+        Basic record level UI
+      </li>
+    </ul>
+
+
+    <p>
+       Currently in progress
+    </p>
+
+    <ul>
+      <li>
+        Full schema for GMRs
+      </li>
+    </ul>
+
+
+    <p>
+     What is in scope for the initial POC but not yet implemented:
+    </p>
+
+    <ul>
+      <li>
+
+      </li>
+      <li>
+        Paging, sorting & filtering in the UI
+      </li>
+      <li>
+        Aggregate / reporting UI
+      </li>
+      <li>
+        Real time updates via Azure Service Bus
+      </li>
+      <li>
+        Connectivity to Azure blob storage and bus via MPLS
+      </li>
+      <li>Proxy of SOAP traffic between CDS & ALVS and between ALVS & IPAFFS</li>
+    </ul>
+
+    </p>
+     What is not in scope for the Initial POC:
+    </p>
+
+    <ul>
+      <li>
+        Level 2 & 3 matching
+      </li>
+      <li>
+        Cutover process
+      </li>
+    </ul>
+
+    </p>
+     Key areas of concern:
+    </p>
+
+    <ul>
+      <li>
+        Enabling private connectivity to the Azure environment
+      </li>
+      <li>
+        Governance process to get to production running
+      </li>
+      <li>
+        Visibility of real life data - we're working with data in dev & tst that we have
+        low confidence in and are identifying many issues with.
+      </li>
+    </ul>
+    <p>
+      This service is based on <a href="https://github.com/DEFRA/design-standards">DEFRA</a> and <a
+              href="https://design-system.service.gov.uk/">GOV.UK</a> best practices:
+    </p>
+
+    <ul>
+
+      <li>
+        <a href="https://jsonapi.org/">json:api a specification for building APIs in JSON</a>
+      </li>
+
+      <li>
+        <a href="https://frontend.design-system.service.gov.uk/">GOV.UK Frontend</a>
+      </li>
+      <li>
+        <a href="https://hapi.dev">Hapi</a>
+      </li>
+      <li>
+        <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a>
+      </li>
+      <li>
+        <a href="https://github.com/mozilla/node-convict">Node Convict</a>
+      </li>
+      <li>
+        <a href="https://jestjs.io/">Jest testing</a>
+      </li>
+      <li>
+        <a href="https://webdriver.io">WebdriverIO</a> User Journey testing
+      </li>
+      <li>GitHub Actions Pull Request and Publish jobs</li>
+      <li>
+        <a href="https://github.com/pinojs/pino">PinoJs logging</a>
+      </li>
+      <li>
+        <a href="https://standardjs.com">Standard JS</a>
+      </li>
+      <li>
+        <a href="https://eslint.org">ESLint</a>
+      </li>
+      <li>
+        <a href="https://stylelint.io">StyleLint</a>
+      </li>
+      <li>
+        <a href="https://prettier.io">Prettier</a>
+      </li>
+      <li>and lots more... 😎</li>
+    </ul>
+  {% endcall %}
 
 {% endblock %}
