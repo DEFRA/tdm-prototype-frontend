@@ -8,12 +8,12 @@
   rows: [
     [
       {
-        text: "Inspection Required"
+        text: "Inspection Status"
       },
       {
         text: appTag({
-          text: "Yes",
-          classes: ['govuk-tag--red']
+          text: inspectionStatus.text,
+          classes: inspectionStatus.classes
         })
       }
     ],
@@ -30,6 +30,40 @@
     ]
   ]
 }) }}
+
+
+{% if partTwoStatus.display %}
+
+{{ govukTable({
+  caption: "Inspection Outcome",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Consignment Acceptable"
+      },
+      {
+        text: appTag({
+          text: partTwoStatus.acceptable.text,
+          classes: partTwoStatus.acceptable.classes
+        })
+      }
+    ],
+    [
+      {
+        text: "Decision"
+      },
+      {
+        text: appTag({
+          text: partTwoStatus.decision.text,
+          classes: partTwoStatus.decision.classes
+        })
+      }
+    ]
+  ]
+}) }}
+
+{% endif %}
 
 {% call govukFieldset({
   legend: {
@@ -137,7 +171,7 @@
         { text: "Complement Description", size: "small" },
         { text: "Quantity", size: "small" },
         { text: "Weight", size: "small" },
-       { text: "Inspection Status", size: "small" },
+        { text: "Inspection Status", size: "small" },
         { text: "Match Status", size: "small" }
       ],
       entityRows: ipaffsCommodities,

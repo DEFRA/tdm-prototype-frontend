@@ -4,11 +4,13 @@
  * @satisfies {Partial<ServerRoute>}
  */
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
-import { matchStatusElementListItem } from '~/src/server/common/helpers/match-status.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
-import { gmrState } from '~/src/server/common/helpers/gmr-status.js'
+import {
+  gmrState,
+  gmrDeclarationStatus
+} from '~/src/server/common/helpers/gmr-status.js'
 
 export const gmrController = {
   async handler(request, h) {
@@ -38,7 +40,7 @@ export const gmrController = {
       const customsDeclarations = data.declarations.customs.map((i) => [
         { kind: 'text', value: i.id },
         { kind: 'text', value: '' },
-        matchStatusElementListItem([{ matched: false }])
+        gmrDeclarationStatus({ matched: false, state: 'No Match' })
       ])
 
       data.plannedCrossing.localDateTimeOfDeparture = mediumDateTime(

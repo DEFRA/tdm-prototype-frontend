@@ -51,7 +51,22 @@ const getClient = async function (request) {
     declarantName: '',
     dispatchCountryCode: '',
     goodsLocationCode: '',
-    notifications: [{ ...matchModel }],
+    relationships: {
+      notifications: {
+        matched: false,
+        data: [
+          {
+            matched: false,
+            id: '',
+            sourceItem: 0,
+            destinationItem: 0,
+            additionalInformation: {
+              matchingLevel: ''
+            }
+          }
+        ]
+      }
+    },
     items: [
       {
         itemNumber: 0,
@@ -74,7 +89,23 @@ const getClient = async function (request) {
       displayName: '',
       userId: ''
     },
-    movements: [{ ...matchModel }],
+    relationships: {
+      movements: {
+        matched: false,
+        data: [
+          {
+            matched: false,
+            id: '',
+            sourceItem: 0,
+            destinationItem: 0,
+            additionalInformation: {
+              matchingLevel: ''
+            }
+          }
+        ]
+      }
+    },
+    // movements: [{ ...matchModel }],
     partOne: {
       commodities: {
         numberOfPackages: 0,
@@ -84,6 +115,7 @@ const getClient = async function (request) {
             commodityID: '',
             commodityDescription: '',
             complementName: '',
+            complementID: 0,
             additionalData: {
               numberPackage: '',
               numberAnimal: '',
@@ -118,6 +150,12 @@ const getClient = async function (request) {
         type: '',
         status: '',
         companyName: ''
+      }
+    },
+    partTwo: {
+      decision: {
+        consignmentAcceptable: false,
+        decision: ''
       }
     },
     auditEntries: { ...auditEntries }
