@@ -3,8 +3,7 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { getClient } from '~/src/server/common/models.js'
 import {
   gmrStateItemList,
-  gmrExpectedArrival,
-  gmrExpectedDeparture
+  gmrExpectedArrival
 } from '~/src/server/common/helpers/gmr-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
@@ -29,7 +28,7 @@ export const gmrsListController = {
       gmrStateItemList(g),
       { kind: 'text', value: 19 },
       // gmrInspectionRequiredItemList(g),
-      { kind: 'text', value: gmrExpectedDeparture(g) },
+      // { kind: 'text', value: gmrExpectedDeparture(g) },
       { kind: 'text', value: gmrExpectedArrival(g) },
       { kind: 'text', value: mediumDateTime(g.lastUpdated) }
       // gmrMatchItemList(g)

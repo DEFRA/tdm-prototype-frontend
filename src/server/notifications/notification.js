@@ -5,14 +5,18 @@
  */
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import {
-  matchStatusElementListItem,
-  matchStatusNotification
-} from '~/src/server/common/helpers/match-status.js'
+  notificationCommodityMatchStatus,
+  notificationMatchStatus,
+  notificationPartTwoStatus
+} from '~/src/server/common/helpers/notification-status.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
-import { inspectionStatusElementListItem } from '~/src/server/common/helpers/inspection-status.js'
+import {
+  inspectionStatusElementListItem,
+  inspectionStatusNotification
+} from '~/src/server/common/helpers/inspection-status.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -28,13 +32,10 @@ export const notificationController = {
 
     const client = await getClient(request)
     const { data } = await client.find('notifications', chedId, {
-      'fields[notifications]':
-        'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+      // 'fields[notifications]':
+      //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${data.id}`)
-    // logger.info(data)
-    // logger.info(data.movement)
-    // logger.info(data.movement.matched)
 
     try {
       const ipaffsCommodities =
@@ -58,7 +59,7 @@ export const notificationController = {
             value: weight(c.additionalData.netWeight)
           },
           inspectionStatusElementListItem(c),
-          matchStatusElementListItem(data.movements)
+          notificationCommodityMatchStatus(data.relationships, c)
         ])
 
       // logger.info(Object.keys(data))
@@ -89,6 +90,9 @@ export const notificationController = {
           { fragments: [], tabItems: [] }
         )
 
+      const inspectionStatus = inspectionStatusNotification(data)
+      const partTwoStatus = notificationPartTwoStatus(data)
+
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
         heading: `Notification ${chedId}`,
@@ -111,10 +115,9 @@ export const notificationController = {
         ipaffsCommodities,
         commodityTabItems,
         auditEntries,
-        matchOutcome: matchStatusNotification(
-          data.movements,
-          data.partOne.commodities.commodityComplement
-        )
+        inspectionStatus,
+        partTwoStatus,
+        matchOutcome: notificationMatchStatus(data.relationships)
       })
     } catch (e) {
       logger.error(e)

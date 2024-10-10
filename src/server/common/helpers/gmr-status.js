@@ -1,16 +1,11 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
+import { cleanPascalCase } from '~/src/server/common/helpers/string-cleaner.js'
 const logger = createLogger()
 
-const stateMap = {
-  NotFinalisable: 'Not Finalisable',
-  CheckedIn: 'Checked In'
-}
 function gmrStateItemList(gmr) {
   logger.debug(`gmrStateItemList : ${JSON.stringify(gmr)}`)
-  const state = Object.keys(stateMap).includes(gmr.state)
-    ? stateMap[gmr.state]
-    : gmr.state
+  const state = cleanPascalCase(gmr.state)
   return {
     kind: 'tag',
     value: state,
@@ -18,11 +13,20 @@ function gmrStateItemList(gmr) {
   }
 }
 
+function gmrDeclarationStatus(declaration) {
+  logger.debug(`gmrDeclarationStatus : ${JSON.stringify(declaration)}`)
+  const state = cleanPascalCase(declaration.state)
+  return {
+    kind: 'tag',
+    value: state,
+    classes:
+      declaration.state === 'Matched' ? 'govuk-tag--green' : 'govuk-tag--red'
+  }
+}
+
 function gmrState(gmr) {
   logger.debug(`gmrState : ${JSON.stringify(gmr)}`)
-  const state = Object.keys(stateMap).includes(gmr.state)
-    ? stateMap[gmr.state]
-    : gmr.state
+  const state = cleanPascalCase(gmr.state)
   return {
     kind: 'tag',
     value: state,
@@ -43,6 +47,8 @@ function gmrExpectedArrival(gmr) {
     return mediumDateTime(gmr.actualCrossing.localDateTimeOfArrival) + ' (A)'
   } else if (gmr.checkedInCrossing) {
     return mediumDateTime(gmr.checkedInCrossing.localDateTimeOfArrival)
+  } else if (gmr.plannedCrossing.localDateTimeOfDeparture) {
+    return `${mediumDateTime(gmr.plannedCrossing.localDateTimeOfDeparture)} (D)`
   } else {
     return 'TBC'
   }
@@ -75,5 +81,6 @@ export {
   gmrInspectionRequiredItemList,
   gmrMatchItemList,
   gmrExpectedDeparture,
-  gmrExpectedArrival
+  gmrExpectedArrival,
+  gmrDeclarationStatus
 }
