@@ -69,6 +69,27 @@
   ]
 }) }}
 
+{% call govukFieldset({
+  legend: {
+    text: "Check Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
+  {{ appEntityList({
+      headings: [
+        { text: "Item ID", size: "small" },
+        { text: "Check Code", size: "small" },
+        { text: "Decision Code", size: "small" },
+        { text: "Department", size: "small" },
+        { text: "Decision", size: "large" }
+      ],
+      entityRows: checks,
+      noResult: "There are no items on the movement"
+    }) }}
+
+{% endcall %}
 
 {% call govukFieldset({
   legend: {
@@ -86,7 +107,8 @@
         { text: "Origin Country", size: "small" },
         { text: "Weight", size: "small" },
         { text: "Qty", size: "small" },
-        { text: "Match Status", size: "small" }
+        { text: "Match Status", size: "small" },
+        { text: "Decision", size: "large" }
       ],
       entityRows: items,
       noResult: "There are no items on the movement"

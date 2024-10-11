@@ -18,13 +18,10 @@
         Connectivity & testing for Azure Blob Storage & Azure Service Bus, connecting over the public internet.
       </li>
       <li>
-        Full schema of IPAFFS notification, initial POC schema for movements & GMRs
+        Full schema of IPAFFS notification, movements (CDS) & GMRs (GVMS)
       </li>
       <li>
-        Full schema for movements (CDS)
-      </li>
-      <li>
-        Synchronisation of IPAFFS Notifications and ALVS Clearance Requests from the DMP Azure Data Lake into a CDP Mongo DB Database.
+        Synchronisation of resources from the DMP Azure Data Lake into a CDP Mongo DB Database.
       </li>
       <li>
         Internal API capability to interrogate this data & shape it for different clientside use cases. For example:
@@ -48,7 +45,7 @@
                 <a target="_blank" href="{{ tdmApiUri }}/api/movements">Retrieve Retrieve all movements</a>
               </li>
               <li>
-                <a target="_blank" href="{{ tdmApiUri }}/api/gmrs">Retrieve Retrieve all GMRs (TODO)</a>
+                <a target="_blank" href="{{ tdmApiUri }}/api/gmrs">Retrieve Retrieve all GMRs</a>
               </li>
             </ul>
       </li>
@@ -75,7 +72,10 @@
 
     <ul>
       <li>
-        Full schema for GMRs
+        Ignoring sensitive data from the data lake
+      </li>
+      <li>
+        Full schema for Decision Notifications
       </li>
     </ul>
 
