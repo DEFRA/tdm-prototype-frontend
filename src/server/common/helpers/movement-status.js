@@ -57,7 +57,7 @@ function movementItemCheckDecisionStatus(check) {
     firstChar = '_'
   }
 
-  [decisionMessage, displayClass] = statusMap[firstChar]
+  ;[decisionMessage, displayClass] = statusMap[firstChar]
 
   return {
     kind: 'tag',

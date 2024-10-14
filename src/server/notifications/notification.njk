@@ -256,15 +256,16 @@
   }) %}
 
     {{ appEntityList({
-        headings: [
-          { text: "Version", size: "small" },
-          { text: "Created By", size: "small" },
-          { text: "Created On (Source)", size: "medium" },
-          { text: "Created On (TDM)", size: "medium" },
-          { text: "Status", size: "small" }
-        ],
-        entityRows: auditEntries,
-        noResult: "There are no audit entries"
+      classes: "audit-log",
+      headings: [
+        { text: "Version", size: "tiny" },
+        { text: "Created By", size: "medium" },
+        { text: "Created On (Source)", size: "medium" },
+        { text: "Created On (TDM)", size: "medium" },
+        { text: "Status", size: "small" }
+      ],
+      entityRows: auditEntries,
+      noResult: "There are no audit entries"
       }) }}
 
   {% endcall %}

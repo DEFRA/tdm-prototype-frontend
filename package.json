@@ -48,7 +48,6 @@
     "@hapi/yar": "11.0.2",
     "aws-embedded-metrics": "4.1.1",
     "babel-plugin-module-resolver": "5.0.2",
-    "cdp-portal-frontend": "file:libs/cdp-portal-frontend.tar.gz",
     "convict": "6.2.4",
     "cssnano": "7.0.4",
     "cssnano-preset-default": "7.0.4",

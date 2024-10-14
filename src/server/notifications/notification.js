@@ -17,7 +17,6 @@ import {
   inspectionStatusElementListItem,
   inspectionStatusNotification
 } from '~/src/server/common/helpers/inspection-status.js'
-import {movementItemCheckDecisionStatus} from "~/src/server/common/helpers/movement-status.js";
 
 export const notificationController = {
   async handler(request, h) {
@@ -68,7 +67,11 @@ export const notificationController = {
       const auditEntries = notification.auditEntries
         ? notification.auditEntries.map((i) => [
             { kind: 'text', value: i.version },
-            { kind: 'text', value: i.createdBy },
+            {
+              kind: 'text',
+              value: i.createdBy,
+              classes: ['tdm-text-truncate']
+            },
             { kind: 'text', value: mediumDateTime(i.createdSource) },
             { kind: 'text', value: mediumDateTime(i.createdLocal) },
             { kind: 'text', value: i.status }
@@ -122,7 +125,7 @@ export const notificationController = {
             href: `/auth/proxy/api/notifications/${chedId}`
           }
         ],
-        notification: notification,
+        notification,
         lastUpdated: mediumDateTime(notification.lastUpdated),
         ipaffsCommodities,
         commodityTabItems,
