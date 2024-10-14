@@ -2,6 +2,64 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { cleanPascalCase } from '~/src/server/common/helpers/string-cleaner.js'
 const logger = createLogger()
 
+function notificationStatus(notification) {
+  logger.debug(`notificationStatusNotification : ${notification.status}`)
+  const statusMap = {
+    _: 'govuk-tag--red',
+    Validated: 'govuk-tag--green',
+    Amend: 'govuk-tag--yellow',
+    InProgress: 'govuk-tag--orange',
+    Rejected: 'govuk-tag--red',
+    Submitted: 'govuk-tag--blue',
+    Draft: 'ovuk-tag--grey',
+    Cancelled: 'ovuk-tag--black'
+  }
+  const statusKey = notification.status in statusMap ? notification.status : '_'
+
+  const colour = statusMap[statusKey]
+
+  return {
+    text: cleanPascalCase(notification.status),
+    classes: colour
+  }
+}
+function notificationStatusTag(notification) {
+  const status = notificationStatus(notification)
+
+  return {
+    kind: 'tag',
+    value: status.text,
+    classes: status.classes
+  }
+}
+
+function notificationCheckStatus(check) {
+  const statusMap = {
+    _: 'govuk-tag--red',
+    AutoCleared: 'govuk-tag--green',
+    Compliant: 'govuk-tag--green',
+    NonCompliant: 'govuk-tag--red',
+    ToDo: 'govuk-tag--orange'
+  }
+  const statusKey = check.status in statusMap ? check.status : '_'
+
+  const colour = statusMap[statusKey]
+
+  return {
+    kind: 'tag',
+    value: cleanPascalCase(check.status),
+    classes: colour
+  }
+}
+
+function booleanTag(status) {
+  return {
+    kind: 'tag',
+    value: status === null ? 'Unknown' : status ? 'Yes' : 'No',
+    classes: status ? 'govuk-tag--green' : 'govuk-tag--red'
+  }
+}
+
 function notificationCommodityMatchStatus(relationships, item) {
   const match = relationships.movements.data.find(
     (m) => m.sourceItem === item.complementID
@@ -19,11 +77,25 @@ function notificationCommodityMatchStatus(relationships, item) {
   }
 }
 
-function notificationMatchStatus(relationships) {
+function notificationMatchStatus(notification) {
   logger.debug(
-    `notificationMatchStatus : ${relationships ? relationships.movements : 'No Match'}`
+    `notificationMatchStatus : ${notification.relationships ? notification.relationships.movements : 'No Match'}`
   )
-  const matched = relationships?.movements?.matched
+
+  const commoditiesWithMatches =
+    notification.partOne.commodities.commodityComplement.map((c) => {
+      let match = false
+      if (notification.relationships.movements?.data) {
+        match = notification.relationships.movements?.data.find(
+          (m) => m.sourceItem === c.complementID
+        )
+      }
+      c.match = match
+      return c
+    })
+
+  const matched = commoditiesWithMatches.every((c) => c.match)
+
   return {
     kind: 'tag',
     value: matched ? 'Matched' : 'No Match',
@@ -47,9 +119,8 @@ function notificationPartTwoStatus(notification) {
     decision: {
       text: cleanPascalCase(decisionText),
       classes:
-        decision && decisionText.startsWith('Acceptable')
-          ? 'govuk-tag--green'
-          : 'govuk-tag--red'
+        // decision && decisionText.startsWith('Acceptable')
+        acceptable ? 'govuk-tag--green' : 'govuk-tag--red'
     },
     acceptable: {
       text: acceptable ? 'Yes' : 'No',
@@ -59,7 +130,11 @@ function notificationPartTwoStatus(notification) {
 }
 
 export {
+  booleanTag,
+  notificationStatus,
+  notificationStatusTag,
   notificationPartTwoStatus,
   notificationCommodityMatchStatus,
-  notificationMatchStatus
+  notificationMatchStatus,
+  notificationCheckStatus
 }

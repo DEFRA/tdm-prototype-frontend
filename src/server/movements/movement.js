@@ -4,13 +4,15 @@ import {
   movementMatchStatus,
   movementItemMatchStatus,
   movementItemDecisionStatus,
-  movementItemCheckAddStatus
+  // movementItemCheckAddStatus,
   // matchStatusNotification
+  movementGetChecks,
+  movementDecisionStatusFromChecks,
 } from '~/src/server/common/helpers/movement-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
-import { weight } from '~/src/server/common/helpers/weight.js'
 
 import { getClient } from '~/src/server/common/models.js'
+import { movementViewModelItems } from '~/src/server/common/helpers/movement-view-models.js'
 
 export const movementController = {
   async handler(request, h) {
@@ -36,28 +38,7 @@ export const movementController = {
         logger.error(`Error from api call, ${e}`)
       }
 
-      const items = data?.items.map((i) => [
-        { kind: 'text', value: i.itemNumber },
-        { kind: 'text', value: i.taricCommodityCode },
-        {
-          kind: 'text',
-          value: i.goodsDescription
-        },
-        {
-          kind: 'text',
-          value: i.itemOriginCountryCode
-        },
-        {
-          kind: 'text',
-          value: weight(i.itemNetMass)
-        },
-        {
-          kind: 'text',
-          value: i.itemSupplementaryUnits > 0 ? i.itemSupplementaryUnits : ''
-        },
-        movementItemMatchStatus(data.relationships, i),
-        movementItemDecisionStatus(i)
-      ])
+      const items = movementViewModelItems(data)
 
       const auditEntries = data?.auditEntries
         ? data?.auditEntries.map((i) => [
@@ -69,10 +50,7 @@ export const movementController = {
           ])
         : []
 
-      const checkStatus = data?.items
-        .map((i) => i.checks.map((c) => [i, c]))
-        .flat()
-        .map((i) => movementItemCheckAddStatus(i[0], i[1]))
+      const checkStatus = movementGetChecks(data)
 
       const checks = checkStatus.map(([i, c]) => [
         { kind: 'text', value: i.itemNumber },
@@ -99,13 +77,15 @@ export const movementController = {
             href: `/auth/proxy/api/movements/${movementId}`
           }
         ],
-        notification: data,
+        movement: data,
+        notification: null,
         lastUpdated: mediumDateTime(data?.lastUpdated),
         items,
         auditEntries,
         checks,
         matchOutcome: movementMatchStatus(data?.relationships),
-        decision: movementDecisionStatus(checkStatus)
+        // decision: movementDecisionStatus(checkStatus)
+        decision: movementDecisionStatusFromChecks(checkStatus)
       })
     } catch (e) {
       logger.error(e)

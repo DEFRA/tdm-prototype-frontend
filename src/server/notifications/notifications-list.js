@@ -4,7 +4,10 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 // import { matchStatusNotification } from '~/src/server/common/helpers/match-status.js'
-import { notificationMatchStatus } from '~/src/server/common/helpers/notification-status.js'
+import {
+  notificationMatchStatus,
+  notificationStatusTag
+} from '~/src/server/common/helpers/notification-status.js'
 
 export const notificationsListController = {
   async handler(request, h) {
@@ -32,7 +35,7 @@ export const notificationsListController = {
             url: `/notifications/${n.id}?chedType=${chedType}`,
             value: n.id
           },
-          { kind: 'text', value: n.status },
+          // { kind: 'text', value: n.status },
           {
             kind: 'text',
             value: mediumDateTime(
@@ -41,7 +44,8 @@ export const notificationsListController = {
           },
           { kind: 'text', value: n.partOne.pointOfEntry },
           { kind: 'text', value: mediumDateTime(n.lastUpdated) },
-          notificationMatchStatus(n.relationships)
+          notificationStatusTag(n),
+          notificationMatchStatus(n)
         ]
       )
 
