@@ -245,6 +245,28 @@
 }) }}
 
 
+{% call govukFieldset({
+  legend: {
+    text: "Check Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
+  {{ appEntityList({
+      headings: [
+        { text: "Item ID", size: "tiny" },
+        { text: "Check Code", size: "small" },
+        { text: "Decision Code", size: "small" },
+        { text: "Department", size: "small" },
+        { text: "Decision", size: "large" }
+      ],
+      entityRows: checks,
+      noResult: "There are no items on the movement"
+    }) }}
+
+{% endcall %}
+
 {% if auditEntries|length %}
 
   {% call govukFieldset({

@@ -10,6 +10,8 @@ import {
   notificationPartTwoStatus
 } from '~/src/server/common/helpers/notification-status.js'
 
+import { movementItemCheckDecisionStatus } from '~/src/server/common/helpers/movement-status.js'
+
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
@@ -36,6 +38,47 @@ export const notificationController = {
       //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${notification.id}`)
+
+    let checks = []
+
+    if (notification.relationships.movements.matched) {
+      logger.info(
+        `Notification matched, ${notification.relationships.movements}`
+      )
+      const movementIds = new Set(
+        notification.relationships.movements.data.map((m) => m.id)
+      )
+
+      // Get movement(s)
+      const movements = await Promise.all(
+        Array.from(movementIds).map(async (id) => {
+          const { data: m } = await client.find('movements', id, {
+            // 'fields[notifications]':
+            //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+          })
+
+          return m
+        })
+      )
+      // [m.id, i.itemNumber, i.checks]
+      checks = movements
+        .map((m) =>
+          m.items.map((i) =>
+            i.checks.map((c) => {
+              return { ...c, movement: m.id, item: i.itemNumber }
+            })
+          )
+        )
+        .flat(2)
+    }
+
+    checks = checks.map((c) => [
+      { kind: 'text', value: c.item },
+      { kind: 'text', value: c.checkCode },
+      { kind: 'text', value: c.documentCode },
+      { kind: 'text', value: c.departmentCode },
+      movementItemCheckDecisionStatus(c)
+    ])
 
     try {
       const ipaffsCommodities =
@@ -70,24 +113,13 @@ export const notificationController = {
             {
               kind: 'text',
               value: i.createdBy,
-              classes: ['tdm-text-truncate']
+              itemClasses: ['tdm-text-truncate']
             },
             { kind: 'text', value: mediumDateTime(i.createdSource) },
             { kind: 'text', value: mediumDateTime(i.createdLocal) },
             { kind: 'text', value: i.status }
           ])
         : []
-
-      // const checks = notification?.partOne.commodities.commodityComplement
-      //   .map((c) => i.checks.map((c) => [i, c]))
-      //   .flat()
-      //   .map(([i, c]) => [
-      //     { kind: 'text', value: i.itemNumber },
-      //     { kind: 'text', value: c.checkCode },
-      //     { kind: 'text', value: c.decisionCode },
-      //     { kind: 'text', value: c.departmentCode },
-      //     movementItemCheckDecisionStatus(c)
-      //   ])
 
       const commodityTabItems =
         notification.partOne.commodities.commodityComplement.reduce(
@@ -132,6 +164,7 @@ export const notificationController = {
         auditEntries,
         inspectionStatus,
         partTwoStatus,
+        checks,
         matchOutcome: notificationMatchStatus(notification.relationships)
       })
     } catch (e) {
