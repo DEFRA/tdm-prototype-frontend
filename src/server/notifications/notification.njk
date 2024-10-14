@@ -245,6 +245,28 @@
 }) }}
 
 
+{% call govukFieldset({
+  legend: {
+    text: "Check Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
+  {{ appEntityList({
+      headings: [
+        { text: "Item ID", size: "tiny" },
+        { text: "Check Code", size: "small" },
+        { text: "Decision Code", size: "small" },
+        { text: "Department", size: "small" },
+        { text: "Decision", size: "large" }
+      ],
+      entityRows: checks,
+      noResult: "There are no items on the movement"
+    }) }}
+
+{% endcall %}
+
 {% if auditEntries|length %}
 
   {% call govukFieldset({
@@ -256,15 +278,16 @@
   }) %}
 
     {{ appEntityList({
-        headings: [
-          { text: "Version", size: "small" },
-          { text: "Created By", size: "small" },
-          { text: "Created On (Source)", size: "medium" },
-          { text: "Created On (TDM)", size: "medium" },
-          { text: "Status", size: "small" }
-        ],
-        entityRows: auditEntries,
-        noResult: "There are no audit entries"
+      classes: "audit-log",
+      headings: [
+        { text: "Version", size: "tiny" },
+        { text: "Created By", size: "medium" },
+        { text: "Created On (Source)", size: "medium" },
+        { text: "Created On (TDM)", size: "medium" },
+        { text: "Status", size: "small" }
+      ],
+      entityRows: auditEntries,
+      noResult: "There are no audit entries"
       }) }}
 
   {% endcall %}

@@ -10,6 +10,8 @@ import {
   notificationPartTwoStatus
 } from '~/src/server/common/helpers/notification-status.js'
 
+import { movementItemCheckDecisionStatus } from '~/src/server/common/helpers/movement-status.js'
+
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 import { weight } from '~/src/server/common/helpers/weight.js'
@@ -31,15 +33,56 @@ export const notificationController = {
     )
 
     const client = await getClient(request)
-    const { data } = await client.find('notifications', chedId, {
+    const { data: notification } = await client.find('notifications', chedId, {
       // 'fields[notifications]':
       //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
-    logger.info(`Result received, ${data.id}`)
+    logger.info(`Result received, ${notification.id}`)
+
+    let checks = []
+
+    if (notification.relationships.movements.matched) {
+      logger.info(
+        `Notification matched, ${notification.relationships.movements}`
+      )
+      const movementIds = new Set(
+        notification.relationships.movements.data.map((m) => m.id)
+      )
+
+      // Get movement(s)
+      const movements = await Promise.all(
+        Array.from(movementIds).map(async (id) => {
+          const { data: m } = await client.find('movements', id, {
+            // 'fields[notifications]':
+            //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+          })
+
+          return m
+        })
+      )
+      // [m.id, i.itemNumber, i.checks]
+      checks = movements
+        .map((m) =>
+          m.items.map((i) =>
+            i.checks.map((c) => {
+              return { ...c, movement: m.id, item: i.itemNumber }
+            })
+          )
+        )
+        .flat(2)
+    }
+
+    checks = checks.map((c) => [
+      { kind: 'text', value: c.item },
+      { kind: 'text', value: c.checkCode },
+      { kind: 'text', value: c.documentCode },
+      { kind: 'text', value: c.departmentCode },
+      movementItemCheckDecisionStatus(c)
+    ])
 
     try {
       const ipaffsCommodities =
-        data.partOne.commodities.commodityComplement.map((c) => [
+        notification.partOne.commodities.commodityComplement.map((c) => [
           {
             kind: 'text',
             value: c.complementID
@@ -59,15 +102,19 @@ export const notificationController = {
             value: weight(c.additionalData.netWeight)
           },
           inspectionStatusElementListItem(c),
-          notificationCommodityMatchStatus(data.relationships, c)
+          notificationCommodityMatchStatus(notification.relationships, c)
         ])
 
       // logger.info(Object.keys(data))
       // const auditEntries = [];
-      const auditEntries = data.auditEntries
-        ? data.auditEntries.map((i) => [
+      const auditEntries = notification.auditEntries
+        ? notification.auditEntries.map((i) => [
             { kind: 'text', value: i.version },
-            { kind: 'text', value: i.createdBy },
+            {
+              kind: 'text',
+              value: i.createdBy,
+              itemClasses: ['tdm-text-truncate']
+            },
             { kind: 'text', value: mediumDateTime(i.createdSource) },
             { kind: 'text', value: mediumDateTime(i.createdLocal) },
             { kind: 'text', value: i.status }
@@ -75,7 +122,7 @@ export const notificationController = {
         : []
 
       const commodityTabItems =
-        data.partOne.commodities.commodityComplement.reduce(
+        notification.partOne.commodities.commodityComplement.reduce(
           (memo, c) => {
             // memo.fragments[c.commodityID] = c
             memo.tabItems.push({
@@ -90,8 +137,8 @@ export const notificationController = {
           { fragments: [], tabItems: [] }
         )
 
-      const inspectionStatus = inspectionStatusNotification(data)
-      const partTwoStatus = notificationPartTwoStatus(data)
+      const inspectionStatus = inspectionStatusNotification(notification)
+      const partTwoStatus = notificationPartTwoStatus(notification)
 
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
@@ -110,14 +157,15 @@ export const notificationController = {
             href: `/auth/proxy/api/notifications/${chedId}`
           }
         ],
-        notification: data,
-        lastUpdated: mediumDateTime(data.lastUpdated),
+        notification,
+        lastUpdated: mediumDateTime(notification.lastUpdated),
         ipaffsCommodities,
         commodityTabItems,
         auditEntries,
         inspectionStatus,
         partTwoStatus,
-        matchOutcome: notificationMatchStatus(data.relationships)
+        checks,
+        matchOutcome: notificationMatchStatus(notification.relationships)
       })
     } catch (e) {
       logger.error(e)

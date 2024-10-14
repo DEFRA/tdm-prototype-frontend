@@ -3,6 +3,9 @@
  */
 module.exports = {
   ignorePatterns: ['.server', '.public', 'src/__fixtures__', 'coverage'],
+  globals: {
+    location: true
+  },
   overrides: [
     {
       extends: [

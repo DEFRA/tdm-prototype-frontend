@@ -1,9 +1,10 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import {
+  movementDecisionStatus,
   movementMatchStatus,
   movementItemMatchStatus,
   movementItemDecisionStatus,
-  movementItemCheckDecisionStatus
+  movementItemCheckAddStatus
   // matchStatusNotification
 } from '~/src/server/common/helpers/movement-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
@@ -52,7 +53,7 @@ export const movementController = {
         },
         {
           kind: 'text',
-          value: i.itemSupplementaryUnits
+          value: i.itemSupplementaryUnits > 0 ? i.itemSupplementaryUnits : ''
         },
         movementItemMatchStatus(data.relationships, i),
         movementItemDecisionStatus(i)
@@ -68,16 +69,18 @@ export const movementController = {
           ])
         : []
 
-      const checks = data?.items
+      const checkStatus = data?.items
         .map((i) => i.checks.map((c) => [i, c]))
         .flat()
-        .map(([i, c]) => [
-          { kind: 'text', value: i.itemNumber },
-          { kind: 'text', value: c.checkCode },
-          { kind: 'text', value: c.decisionCode },
-          { kind: 'text', value: c.departmentCode },
-          movementItemCheckDecisionStatus(c)
-        ])
+        .map((i) => movementItemCheckAddStatus(i[0], i[1]))
+
+      const checks = checkStatus.map(([i, c]) => [
+        { kind: 'text', value: i.itemNumber },
+        { kind: 'text', value: c.checkCode },
+        { kind: 'text', value: c.decisionCode },
+        { kind: 'text', value: c.departmentCode },
+        { kind: 'tag', value: c.decisionMessage, classes: c.displayClass }
+      ])
 
       return h.view('movements/movement', {
         pageTitle: `Movement ${movementId}`,
@@ -101,7 +104,8 @@ export const movementController = {
         items,
         auditEntries,
         checks,
-        matchOutcome: movementMatchStatus(data?.relationships)
+        matchOutcome: movementMatchStatus(data?.relationships),
+        decision: movementDecisionStatus(checkStatus)
       })
     } catch (e) {
       logger.error(e)

@@ -2,10 +2,11 @@
 @import "heading/heading";
 @import "service-header/service-header";
 
-@import "~cdp-portal-frontend/src/client/assets/stylesheets/variables/all";
-@import "~cdp-portal-frontend/src/client/assets/stylesheets/helpers/link";
-@import "~cdp-portal-frontend/src/client/assets/stylesheets/core/link";
-@import "~cdp-portal-frontend/src/server/common/components/hero/hero";
-@import "~cdp-portal-frontend/src/server/common/components/tabs/tabs";
-@import "~cdp-portal-frontend/src/server/common/components/entity-list/entity-list";
+@import "cdp-portal-frontend/assets/variables/all";
+@import "cdp-portal-frontend/assets/helpers/link";
+@import "cdp-portal-frontend/assets/core/link";
+
+@import "hero/hero";
+@import "tabs/tabs";
+@import "entity-list/entity-list";
 

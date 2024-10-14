@@ -29,46 +29,80 @@ function movementMatchStatus(relationships) {
   }
 }
 
+function movementDecisionStatus(checks) {
+  logger.debug(`movementDecisionStatus : ${checks}`)
+
+  // We want the 'worst' decision from all the items on the document
+  const lowest = Math.min(...checks.map((c) => c[1].decisionIndex))
+  const statusItem = Object.values(statusMap)[lowest]
+
+  return {
+    kind: 'tag',
+    value: statusItem[0],
+    classes: statusItem[1]
+  }
+}
+
 function movementItemDecisionStatus(item) {
+  // TODO : at the moment we only expect one check per item
+  // may not be correct
   logger.debug(`movementItemDecisionStatus : ${item}`)
   return movementItemCheckDecisionStatus(item?.checks[0])
+}
+
+const statusMap = {
+  _: ['TBC', 'govuk-tag--red'], // if we don't have a match, use this,
+  W: ['Waiting', 'govuk-tag--red'],
+  N: ['Refusal', 'govuk-tag--red'],
+  H: ['Hold', 'govuk-tag--yellow'],
+  X: ['No Match', 'govuk-tag--yellow'],
+  E: ['Data Error', 'govuk-tag--yellow'],
+  C: ['Release', 'govuk-tag--green']
+}
+
+function _movementItemCheckAddStatus(check) {
+  let decisionMessage = null
+
+  let firstChar = check.decisionCode?.substring(0, 1)
+
+  if (!firstChar) {
+    firstChar = 'W'
+  } else if (!(firstChar in statusMap)) {
+    firstChar = '_'
+  }
+
+  ;[decisionMessage, check.displayClass] = statusMap[firstChar]
+
+  check.decisionMessage = decisionMessage
+  check.decisionChar = firstChar
+  check.decisionIndex = Object.keys(statusMap).indexOf(firstChar)
+
+  return check
+}
+
+function movementItemCheckAddStatus(item, check) {
+  check = _movementItemCheckAddStatus(check)
+
+  return [item, check]
 }
 
 function movementItemCheckDecisionStatus(check) {
   logger.debug(`movementItemCheckDecisionStatus : ${check}`)
 
-  const statusMap = {
-    _: ['TBC', 'govuk-tag--red'], // if we don't have a match, use this
-    N: ['Refusal', 'govuk-tag--red'],
-    H: ['Hold', 'govuk-tag--yellow'],
-    X: ['No Match', 'govuk-tag--yellow'],
-    E: ['Data Error', 'govuk-tag--yellow'],
-    C: ['Release', 'govuk-tag--green']
-  }
-  let decisionMessage = null
-  let displayClass = null
-
-  let firstChar = check.decisionCode?.substring(0, 1)
-
-  if (!firstChar) {
-    decisionMessage = 'Waiting'
-    firstChar = '_'
-  } else if (!(firstChar in statusMap)) {
-    firstChar = '_'
-  }
-
-  [decisionMessage, displayClass] = statusMap[firstChar]
+  check = _movementItemCheckAddStatus(check)
 
   return {
     kind: 'tag',
-    value: decisionMessage,
-    classes: displayClass
+    value: check.decisionMessage,
+    classes: check.displayClass
   }
 }
 
 export {
+  movementDecisionStatus,
   movementItemMatchStatus,
   movementMatchStatus,
   movementItemDecisionStatus,
-  movementItemCheckDecisionStatus
+  movementItemCheckDecisionStatus,
+  movementItemCheckAddStatus
 }
