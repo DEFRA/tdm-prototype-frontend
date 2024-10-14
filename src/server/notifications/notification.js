@@ -17,6 +17,7 @@ import {
   inspectionStatusElementListItem,
   inspectionStatusNotification
 } from '~/src/server/common/helpers/inspection-status.js'
+import {movementItemCheckDecisionStatus} from "~/src/server/common/helpers/movement-status.js";
 
 export const notificationController = {
   async handler(request, h) {
@@ -31,15 +32,15 @@ export const notificationController = {
     )
 
     const client = await getClient(request)
-    const { data } = await client.find('notifications', chedId, {
+    const { data: notification } = await client.find('notifications', chedId, {
       // 'fields[notifications]':
       //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
-    logger.info(`Result received, ${data.id}`)
+    logger.info(`Result received, ${notification.id}`)
 
     try {
       const ipaffsCommodities =
-        data.partOne.commodities.commodityComplement.map((c) => [
+        notification.partOne.commodities.commodityComplement.map((c) => [
           {
             kind: 'text',
             value: c.complementID
@@ -59,13 +60,13 @@ export const notificationController = {
             value: weight(c.additionalData.netWeight)
           },
           inspectionStatusElementListItem(c),
-          notificationCommodityMatchStatus(data.relationships, c)
+          notificationCommodityMatchStatus(notification.relationships, c)
         ])
 
       // logger.info(Object.keys(data))
       // const auditEntries = [];
-      const auditEntries = data.auditEntries
-        ? data.auditEntries.map((i) => [
+      const auditEntries = notification.auditEntries
+        ? notification.auditEntries.map((i) => [
             { kind: 'text', value: i.version },
             { kind: 'text', value: i.createdBy },
             { kind: 'text', value: mediumDateTime(i.createdSource) },
@@ -74,8 +75,19 @@ export const notificationController = {
           ])
         : []
 
+      // const checks = notification?.partOne.commodities.commodityComplement
+      //   .map((c) => i.checks.map((c) => [i, c]))
+      //   .flat()
+      //   .map(([i, c]) => [
+      //     { kind: 'text', value: i.itemNumber },
+      //     { kind: 'text', value: c.checkCode },
+      //     { kind: 'text', value: c.decisionCode },
+      //     { kind: 'text', value: c.departmentCode },
+      //     movementItemCheckDecisionStatus(c)
+      //   ])
+
       const commodityTabItems =
-        data.partOne.commodities.commodityComplement.reduce(
+        notification.partOne.commodities.commodityComplement.reduce(
           (memo, c) => {
             // memo.fragments[c.commodityID] = c
             memo.tabItems.push({
@@ -90,8 +102,8 @@ export const notificationController = {
           { fragments: [], tabItems: [] }
         )
 
-      const inspectionStatus = inspectionStatusNotification(data)
-      const partTwoStatus = notificationPartTwoStatus(data)
+      const inspectionStatus = inspectionStatusNotification(notification)
+      const partTwoStatus = notificationPartTwoStatus(notification)
 
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
@@ -110,14 +122,14 @@ export const notificationController = {
             href: `/auth/proxy/api/notifications/${chedId}`
           }
         ],
-        notification: data,
-        lastUpdated: mediumDateTime(data.lastUpdated),
+        notification: notification,
+        lastUpdated: mediumDateTime(notification.lastUpdated),
         ipaffsCommodities,
         commodityTabItems,
         auditEntries,
         inspectionStatus,
         partTwoStatus,
-        matchOutcome: notificationMatchStatus(data.relationships)
+        matchOutcome: notificationMatchStatus(notification.relationships)
       })
     } catch (e) {
       logger.error(e)
