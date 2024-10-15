@@ -62,6 +62,7 @@
     <Content Include="src\server\common\helpers\gmr-status.js" />
     <Content Include="src\server\common\helpers\inspection-status.js" />
     <Content Include="src\server\common\helpers\movement-status.js" />
+    <Content Include="src\server\common\helpers\movement-view-models.js" />
     <Content Include="src\server\common\helpers\notification-status.js" />
     <Content Include="src\server\common\helpers\string-cleaner.js" />
     <Content Include="src\server\common\helpers\weight.js" />

@@ -8,12 +8,12 @@
   rows: [
     [
       {
-        text: "Inspection Status"
+        text: "IPAFFS Status"
       },
       {
         text: appTag({
-          text: inspectionStatus.text,
-          classes: inspectionStatus.classes
+          text: notificationStatus.text,
+          classes: notificationStatus.classes
         })
       }
     ],
@@ -154,6 +154,28 @@
   ]
 }) }}
 
+{% call govukFieldset({
+  legend: {
+    text: "IPAFFS Check Information",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: false
+  }
+}) %}
+
+  {{ appEntityList({
+      headings: [
+        { text: "Item ID", size: "tiny" },
+        { text: "Type", size: "small" },
+        { text: "Reason", size: "large" },
+        { text: "Selected", size: "small" },
+        { text: "Complete", size: "small" },
+        { text: "Status", size: "small" }
+      ],
+      entityRows: ipaffsChecks,
+      noResult: "There are no IPAFFS checks for this notification at this time"
+    }) }}
+
+{% endcall %}
 
 {% call govukFieldset({
   legend: {
@@ -181,33 +203,36 @@
 {% endcall %}
 
 {% macro getPanelHtml(item) %}
- <h2 class="govuk-heading-l">Item #1 (HMRC Info TODO)</h2>
+ <h2 class="govuk-heading-l">Item #1</h2>
    {{ govukTable({
      caption: "HMRC Customs Declaration Information",
      captionClasses: "govuk-table__caption--m",
      rows: [
        [
          {
-           text: "Customs Declaration Reference"
+           text: "Decision"
          },
          {
-           text: "TODO"
+           text: appTag({
+             text: movement1Decision.value,
+             classes: movement1Decision.classes
+           })
          }
        ],
        [
-         {
-           text: "Final State"
-         },
-         {
-           text: "TODO"
-         }
+          {
+            text: "MRN"
+          },
+          {
+            text: movement1.id
+          }
        ],
-        [
+       [
           {
             text: "Item Number"
           },
           {
-            text: "TODO"
+            text: movement1Item1.itemNumber
           }
         ]
      ]
@@ -220,15 +245,18 @@
        { text: "Item Number", size: "small" },
        { text: "Commodity Code", size: "small" },
        { text: "Commodity Description", size: "small" },
-       { text: "Quantity", size: "small" },
+       { text: "Origin Country", size: "small" },
        { text: "Weight", size: "small" },
-       { text: "# Items", size: "small" },
-       { text: "Match Status", size: "small" }
+       { text: "Quantity", size: "small" },
+       { text: "Match Status", size: "small" },
+       { text: "Decision", size: "small" }
      ],
-     entityRows: [],
+     entityRows: movement1Commodities,
      noResult: "There are no Commodities on the movement"
    }) }}
 {% endmacro%}
+
+{% if movement1 %}
 
 {{ govukTabs({
 
@@ -244,10 +272,12 @@
 
 }) }}
 
+{% endif %}
+
 
 {% call govukFieldset({
   legend: {
-    text: "Check Information",
+    text: "HMRC Check Information",
     classes: "govuk-fieldset__legend--l",
     isPageHeading: false
   }
@@ -261,8 +291,8 @@
         { text: "Department", size: "small" },
         { text: "Decision", size: "large" }
       ],
-      entityRows: checks,
-      noResult: "There are no items on the movement"
+      entityRows: hmrcChecks,
+      noResult: "There are no hmrc checks for this notification at this time"
     }) }}
 
 {% endcall %}

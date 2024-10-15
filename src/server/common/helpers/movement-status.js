@@ -29,7 +29,12 @@ function movementMatchStatus(relationships) {
   }
 }
 
-function movementDecisionStatus(checks) {
+function movementDecisionStatus(movement) {
+  const checks = movementGetChecks(movement)
+  return movementDecisionStatusFromChecks(checks)
+}
+
+function movementDecisionStatusFromChecks(checks) {
   logger.debug(`movementDecisionStatus : ${checks}`)
 
   // We want the 'worst' decision from all the items on the document
@@ -48,6 +53,13 @@ function movementItemDecisionStatus(item) {
   // may not be correct
   logger.debug(`movementItemDecisionStatus : ${item}`)
   return movementItemCheckDecisionStatus(item?.checks[0])
+}
+
+function movementGetChecks(movement) {
+  return movement?.items
+    .map((i) => i.checks.map((c) => [i, c]))
+    .flat()
+    .map((i) => movementItemCheckAddStatus(i[0], i[1]))
 }
 
 const statusMap = {
@@ -100,9 +112,10 @@ function movementItemCheckDecisionStatus(check) {
 
 export {
   movementDecisionStatus,
+  movementDecisionStatusFromChecks,
   movementItemMatchStatus,
   movementMatchStatus,
   movementItemDecisionStatus,
   movementItemCheckDecisionStatus,
-  movementItemCheckAddStatus
+  movementGetChecks
 }

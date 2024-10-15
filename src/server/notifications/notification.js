@@ -7,10 +7,16 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import {
   notificationCommodityMatchStatus,
   notificationMatchStatus,
-  notificationPartTwoStatus
+  notificationStatus,
+  notificationPartTwoStatus,
+  notificationCheckStatus,
+  booleanTag
 } from '~/src/server/common/helpers/notification-status.js'
 
-import { movementItemCheckDecisionStatus } from '~/src/server/common/helpers/movement-status.js'
+import {
+  movementDecisionStatus,
+  movementItemCheckDecisionStatus
+} from '~/src/server/common/helpers/movement-status.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
@@ -19,6 +25,8 @@ import {
   inspectionStatusElementListItem,
   inspectionStatusNotification
 } from '~/src/server/common/helpers/inspection-status.js'
+import { movementViewModelItems } from '~/src/server/common/helpers/movement-view-models.js'
+import { cleanPascalCase } from '~/src/server/common/helpers/string-cleaner.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -39,7 +47,13 @@ export const notificationController = {
     })
     logger.info(`Result received, ${notification.id}`)
 
-    let checks = []
+
+    let hmrcChecks = []
+    let movements = []
+    let movement1 = null
+    let movement1Commodities = []
+    let movement1Decision = null
+    let movement1Item1 = null
 
     if (notification.relationships.movements.matched) {
       logger.info(
@@ -50,7 +64,7 @@ export const notificationController = {
       )
 
       // Get movement(s)
-      const movements = await Promise.all(
+      movements = await Promise.all(
         Array.from(movementIds).map(async (id) => {
           const { data: m } = await client.find('movements', id, {
             // 'fields[notifications]':
@@ -61,7 +75,7 @@ export const notificationController = {
         })
       )
       // [m.id, i.itemNumber, i.checks]
-      checks = movements
+      hmrcChecks = movements
         .map((m) =>
           m.items.map((i) =>
             i.checks.map((c) => {
@@ -70,15 +84,37 @@ export const notificationController = {
           )
         )
         .flat(2)
+
+      movement1 = movements ? movements[0] : null
+      movement1Commodities = movementViewModelItems(movement1)
+      movement1Decision = movementDecisionStatus(movement1)
+      movement1Item1 = movement1?.items.length ? movement1.items[0] : null
     }
 
-    checks = checks.map((c) => [
+    hmrcChecks = hmrcChecks.map((c) => [
       { kind: 'text', value: c.item },
       { kind: 'text', value: c.checkCode },
       { kind: 'text', value: c.documentCode },
       { kind: 'text', value: c.departmentCode },
       movementItemCheckDecisionStatus(c)
     ])
+
+    const ipaffsChecks = notification.partTwo?.commodityChecks
+      ? notification.partTwo.commodityChecks[0].checks.map((c) => [
+          {
+            kind: 'text',
+            value: 1
+          },
+          {
+            kind: 'text',
+            value: cleanPascalCase(c.type)
+          },
+          { kind: 'text', value: c.reason },
+          booleanTag(c.isSelectedForChecks),
+          booleanTag(c.hasChecksComplete),
+          notificationCheckStatus(c)
+        ])
+      : null
 
     try {
       const ipaffsCommodities =
@@ -163,9 +199,17 @@ export const notificationController = {
         commodityTabItems,
         auditEntries,
         inspectionStatus,
+        notificationStatus: notificationStatus(notification),
         partTwoStatus,
-        checks,
-        matchOutcome: notificationMatchStatus(notification.relationships)
+        ipaffsChecks,
+        hmrcChecks,
+        // matchOutcome: notificationMatchStatus(notification.relationships)
+        matchOutcome: notificationMatchStatus(notification),
+        // TODO : display the first match info for now
+        movement1,
+        movement1Item1,
+        movement1Decision,
+        movement1Commodities
       })
     } catch (e) {
       logger.error(e)
