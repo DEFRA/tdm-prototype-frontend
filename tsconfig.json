@@ -4,6 +4,7 @@
     "checkJs": true,
     "module": "NodeNext",
     "noEmit": true,
+    "sourceMap": true,
     "paths": {
       "~/*": ["./*"]
     },
