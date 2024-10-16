@@ -1,18 +1,15 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import {
-  movementDecisionStatus,
   movementMatchStatus,
-  movementItemMatchStatus,
-  movementItemDecisionStatus,
-  // movementItemCheckAddStatus,
-  // matchStatusNotification
   movementGetChecks,
-  movementDecisionStatusFromChecks,
+  movementDecisionStatusFromChecks
 } from '~/src/server/common/helpers/movement-status.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { movementViewModelItems } from '~/src/server/common/helpers/movement-view-models.js'
+import { notificationStatus } from '~/src/server/common/helpers/notification-status.js'
+import { notificationViewModelItems } from '~/src/server/common/helpers/notification-view-model.js'
 
 export const movementController = {
   async handler(request, h) {
@@ -28,14 +25,34 @@ export const movementController = {
       let data = null
 
       try {
-        ;({ data } = await client.find('movements', movementId, {
-          // 'fields[ipaffsNotifications]':
-          //   'lastUpdated,lastUpdatedBy,status,ipaffsType,partOne'
-        }))
+        ;({ data } = await client.find('movements', movementId, {}))
         logger.info(`Result received, ${data.id}`)
         // data = response
       } catch (e) {
         logger.error(`Error from api call, ${e}`)
+      }
+
+      let notifications = []
+      let notification1 = null
+      let notification1Commodities = []
+
+      if (data.relationships.notifications.matched) {
+        logger.info(`Movement matched, ${data.relationships.notifications}`)
+        const notificationIds = new Set(
+          data.relationships.notifications.data.map((n) => n.id)
+        )
+
+        // Get notification(s)
+        notifications = await Promise.all(
+          Array.from(notificationIds).map(async (id) => {
+            const { data: m } = await client.find('notifications', id, {})
+
+            return m
+          })
+        )
+
+        notification1 = notifications ? notifications[0] : null
+        notification1Commodities = notificationViewModelItems(notification1)
       }
 
       const items = movementViewModelItems(data)
@@ -84,8 +101,11 @@ export const movementController = {
         auditEntries,
         checks,
         matchOutcome: movementMatchStatus(data?.relationships),
-        // decision: movementDecisionStatus(checkStatus)
-        decision: movementDecisionStatusFromChecks(checkStatus)
+        decision: movementDecisionStatusFromChecks(checkStatus),
+        // TODO : display the first match info for now
+        notification1,
+        notification1Status: notificationStatus(notification1),
+        notification1Commodities
       })
     } catch (e) {
       logger.error(e)

@@ -128,7 +128,7 @@
 {% endcall %}
 
 {% macro getPanelHtml(item) %}
- <h2 class="govuk-heading-l">Item #1 (IPAFFS Info TODO)</h2>
+ <h2 class="govuk-heading-l">Item #1</h2>
    {{ govukTable({
      caption: "IPAFFS Notification (CHED) Information",
      captionClasses: "govuk-table__caption--m",
@@ -138,15 +138,26 @@
            text: "Common Health Entry Document (CHED) Reference"
          },
          {
-           text: notification.id
+          html: '<a href="/notifications/' + notification1.id +'" class="govuk-link" rel="noreferrer noopener" target="_blank">' + notification1.id +'</a>'
          }
        ],
+        [
+          {
+            text: "Last Updated"
+          },
+          {
+            text: notification1.lastUpdated
+          }
+        ],
        [
          {
-           text: "Final State"
+           text: "Status"
          },
          {
-           text: notification.status
+           text: appTag({
+             text: notification1Status.text,
+             classes: notification1Status.classes
+           })
          }
        ],
        [
@@ -154,7 +165,7 @@
            text: "Country Of Origin"
          },
          {
-           text: notification.partOne.commodities.countryOfOrigin
+           text: notification1.partOne.commodities.countryOfOrigin
          }
        ],
         [
@@ -170,7 +181,7 @@
             text: "Last Updated By"
           },
           {
-            text: notification.lastUpdatedBy.displayName
+            text: notification1.lastUpdatedBy.displayName
           }
         ],
         [
@@ -178,7 +189,7 @@
             text: "Importer"
           },
           {
-            text: notification.partOne.importer.companyName
+            text: notification1.partOne.importer.companyName
           }
         ],
         [
@@ -186,7 +197,7 @@
             text: "Consignor"
           },
           {
-            text: notification.partOne.consignor.companyName
+            text: notification1.partOne.consignor.companyName
           }
         ]
      ]
@@ -196,15 +207,16 @@
      }) }}
      {{ appEntityList({
          headings: [
+           { text: "Item", size: "tiny" },
            { text: "Commodity Code", size: "small" },
            { text: "Commodity Description", size: "small" },
            { text: "Complement Description", size: "small" },
            { text: "Quantity", size: "small" },
            { text: "Weight (KG)", size: "small" },
-           { text: "# Items", size: "small" },
+           { text: "Inspection Status", size: "small" },
            { text: "Match Status", size: "small" }
          ],
-         entityRows: ipaffsCommodities,
+         entityRows: notification1Commodities,
          noResult: "There are no Commodities on the notification"
        }) }}
 

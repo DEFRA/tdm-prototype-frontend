@@ -5,7 +5,6 @@
  */
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import {
-  notificationCommodityMatchStatus,
   notificationMatchStatus,
   notificationStatus,
   notificationPartTwoStatus,
@@ -20,13 +19,10 @@ import {
 
 import { getClient } from '~/src/server/common/models.js'
 import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
-import { weight } from '~/src/server/common/helpers/weight.js'
-import {
-  inspectionStatusElementListItem,
-  inspectionStatusNotification
-} from '~/src/server/common/helpers/inspection-status.js'
+import { inspectionStatusNotification } from '~/src/server/common/helpers/inspection-status.js'
 import { movementViewModelItems } from '~/src/server/common/helpers/movement-view-models.js'
 import { cleanPascalCase } from '~/src/server/common/helpers/string-cleaner.js'
+import { notificationViewModelItems } from '~/src/server/common/helpers/notification-view-model.js'
 
 export const notificationController = {
   async handler(request, h) {
@@ -46,7 +42,6 @@ export const notificationController = {
       //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${notification.id}`)
-
 
     let hmrcChecks = []
     let movements = []
@@ -117,32 +112,8 @@ export const notificationController = {
       : null
 
     try {
-      const ipaffsCommodities =
-        notification.partOne.commodities.commodityComplement.map((c) => [
-          {
-            kind: 'text',
-            value: c.complementID
-          },
-          { kind: 'text', value: c.commodityID },
-          { kind: 'text', value: c.commodityDescription },
-          {
-            kind: 'text',
-            value: c.complementName
-          },
-          {
-            kind: 'text',
-            value: c.additionalData.numberAnimal
-          },
-          {
-            kind: 'text',
-            value: weight(c.additionalData.netWeight)
-          },
-          inspectionStatusElementListItem(c),
-          notificationCommodityMatchStatus(notification.relationships, c)
-        ])
+      const ipaffsCommodities = notificationViewModelItems(notification)
 
-      // logger.info(Object.keys(data))
-      // const auditEntries = [];
       const auditEntries = notification.auditEntries
         ? notification.auditEntries.map((i) => [
             { kind: 'text', value: i.version },
@@ -203,7 +174,6 @@ export const notificationController = {
         partTwoStatus,
         ipaffsChecks,
         hmrcChecks,
-        // matchOutcome: notificationMatchStatus(notification.relationships)
         matchOutcome: notificationMatchStatus(notification),
         // TODO : display the first match info for now
         movement1,
