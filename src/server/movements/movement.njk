@@ -222,6 +222,10 @@
 
 {% endmacro%}
 
+
+{% if notification1 %}
+
+
 {{ govukTabs({
 
   items: [
@@ -236,7 +240,7 @@
 
 }) }}
 
-
+{% endif %}
 
 {% if auditEntries|length %}
 

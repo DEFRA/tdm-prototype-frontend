@@ -3,7 +3,7 @@ import { inspectionStatusElementListItem } from '~/src/server/common/helpers/ins
 import { notificationCommodityMatchStatus } from '~/src/server/common/helpers/notification-status.js'
 
 function notificationViewModelItems(notification) {
-  return notification.partOne.commodities.commodityComplement.map((c) => [
+  return notification.commodities.map((c) => [
     {
       kind: 'text',
       value: c.complementID

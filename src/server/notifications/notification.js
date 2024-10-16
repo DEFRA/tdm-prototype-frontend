@@ -128,21 +128,20 @@ export const notificationController = {
           ])
         : []
 
-      const commodityTabItems =
-        notification.partOne.commodities.commodityComplement.reduce(
-          (memo, c) => {
-            // memo.fragments[c.commodityID] = c
-            memo.tabItems.push({
-              label: `${c.complementID}: ${c.commodityID}`,
-              id: `${c.complementID}-${c.commodityID}`,
-              panel: {
-                html: `<h2 class="govuk-heading-l">${c.complementID}: ${c.commodityID}</h2><div>TODO : Commodity match movement information</div>`
-              }
-            })
-            return memo
-          },
-          { fragments: [], tabItems: [] }
-        )
+      const commodityTabItems = notification.commodities.reduce(
+        (memo, c) => {
+          // memo.fragments[c.commodityID] = c
+          memo.tabItems.push({
+            label: `${c.complementID}: ${c.commodityID}`,
+            id: `${c.complementID}-${c.commodityID}`,
+            panel: {
+              html: `<h2 class="govuk-heading-l">${c.complementID}: ${c.commodityID}</h2><div>TODO : Commodity match movement information</div>`
+            }
+          })
+          return memo
+        },
+        { fragments: [], tabItems: [] }
+      )
 
       const inspectionStatus = inspectionStatusNotification(notification)
       const partTwoStatus = notificationPartTwoStatus(notification)
