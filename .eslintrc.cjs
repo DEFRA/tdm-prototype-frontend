@@ -4,12 +4,8 @@
 module.exports = {
   ignorePatterns: ['.server', '.public', 'src/__fixtures__', 'coverage'],
   globals: {
-<<<<<<< HEAD
-    location: true
-=======
     location: true,
     history: true
->>>>>>> 66da095 (ALVSREP-39 removes cdp-portal-frontend package from the project)
   },
   overrides: [
     {
