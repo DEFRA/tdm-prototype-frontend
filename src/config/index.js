@@ -5,7 +5,8 @@ import { fileURLToPath } from 'node:url'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const oneHour = 1000 * 60 * 60
-const fourHours = oneHour * 4
+// const fourHours = oneHour * 4
+const twelveHours = oneHour * 12
 const oneWeekMillis = oneHour * 24 * 7
 // const oneDay = 1000 * 60 * 60 * 24
 
@@ -136,7 +137,7 @@ export const config = convict({
       ttl: {
         doc: 'server side session cache ttl',
         format: Number,
-        default: fourHours,
+        default: twelveHours,
         env: 'SESSION_CACHE_TTL'
       }
     },
@@ -144,7 +145,7 @@ export const config = convict({
       ttl: {
         doc: 'Session cookie ttl',
         format: Number,
-        default: fourHours,
+        default: twelveHours,
         env: 'SESSION_COOKIE_TTL'
       },
       password: {

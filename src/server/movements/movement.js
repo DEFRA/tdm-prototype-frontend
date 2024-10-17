@@ -104,7 +104,9 @@ export const movementController = {
         decision: movementDecisionStatusFromChecks(checkStatus),
         // TODO : display the first match info for now
         notification1,
-        notification1Status: notificationStatus(notification1),
+        notification1Status: notification1
+          ? notificationStatus(notification1)
+          : null,
         notification1Commodities
       })
     } catch (e) {

@@ -82,17 +82,16 @@ function notificationMatchStatus(notification) {
     `notificationMatchStatus : ${notification.relationships ? notification.relationships.movements : 'No Match'}`
   )
 
-  const commoditiesWithMatches =
-    notification.partOne.commodities.commodityComplement.map((c) => {
-      let match = false
-      if (notification.relationships.movements?.data) {
-        match = notification.relationships.movements?.data.find(
-          (m) => m.sourceItem === c.complementID
-        )
-      }
-      c.match = match
-      return c
-    })
+  const commoditiesWithMatches = notification.commodities.map((c) => {
+    let match = false
+    if (notification.relationships.movements?.data) {
+      match = notification.relationships.movements?.data.find(
+        (m) => m.sourceItem === c.complementID
+      )
+    }
+    c.match = match
+    return c
+  })
 
   const matched = commoditiesWithMatches.every((c) => c.match)
 

@@ -105,25 +105,25 @@ const getClient = async function (request) {
         ]
       }
     },
+    commodities: [
+      {
+        commodityID: '',
+        commodityDescription: '',
+        complementName: '',
+        complementID: 0,
+        additionalData: {
+          numberPackage: '',
+          numberAnimal: '',
+          netWeight: ''
+        }
+      }
+    ],
+    commoditiesSummary: {
+      numberOfPackages: 0,
+      countryOfOrigin: ''
+    },
     // movements: [{ ...matchModel }],
     partOne: {
-      commodities: {
-        numberOfPackages: 0,
-        countryOfOrigin: '',
-        commodityComplement: [
-          {
-            commodityID: '',
-            commodityDescription: '',
-            complementName: '',
-            complementID: 0,
-            additionalData: {
-              numberPackage: '',
-              numberAnimal: '',
-              netWeight: ''
-            }
-          }
-        ]
-      },
       pointOfEntry: '',
       pointOfEntryControlPoint: '',
       arrivalDate: '',

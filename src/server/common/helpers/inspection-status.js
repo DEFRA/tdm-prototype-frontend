@@ -36,10 +36,9 @@ function inspectionStatusNotification(notification) {
 
   let lowestLabel = seniority[0]
   try {
-    const riskAssessments =
-      notification.partOne.commodities.commodityComplement.map((c) =>
-        getRiskAssesment(c)
-      )
+    const riskAssessments = notification.commodities.map((c) =>
+      getRiskAssesment(c)
+    )
 
     logger.debug(`riskAssessments : ${riskAssessments}`)
 
