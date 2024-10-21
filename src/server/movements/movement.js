@@ -8,7 +8,11 @@ import { mediumDateTime } from '~/src/server/common/helpers/date-time.js'
 
 import { getClient } from '~/src/server/common/models.js'
 import { movementViewModelItems } from '~/src/server/common/helpers/movement-view-models.js'
-import { notificationStatus } from '~/src/server/common/helpers/notification-status.js'
+import {
+  notificationMatchStatus,
+  notificationPartTwoStatus,
+  notificationStatus
+} from '~/src/server/common/helpers/notification-status.js'
 import { notificationViewModelItems } from '~/src/server/common/helpers/notification-view-model.js'
 
 export const movementController = {
@@ -35,12 +39,11 @@ export const movementController = {
       let notifications = []
       let notification1 = null
       let notification1Commodities = []
-
-      if (data.relationships.notifications.matched) {
-        logger.info(`Movement matched, ${data.relationships.notifications}`)
-        const notificationIds = new Set(
-          data.relationships.notifications.data.map((n) => n.id)
-        )
+      let notification1MatchStatus = null
+      let notification1PartTwoStatus = null
+      if (data.notifications) {
+        logger.info(`Movement matched, ${data.notifications}`)
+        const notificationIds = new Set(data.notifications.map((n) => n.id))
 
         // Get notification(s)
         notifications = await Promise.all(
@@ -53,6 +56,12 @@ export const movementController = {
 
         notification1 = notifications ? notifications[0] : null
         notification1Commodities = notificationViewModelItems(notification1)
+        notification1MatchStatus = notification1
+          ? notificationMatchStatus(notification1)
+          : null
+        notification1PartTwoStatus = notification1
+          ? notificationPartTwoStatus(notification1)
+          : null
       }
 
       const items = movementViewModelItems(data)
@@ -100,14 +109,16 @@ export const movementController = {
         items,
         auditEntries,
         checks,
-        matchOutcome: movementMatchStatus(data?.relationships),
+        matchOutcome: movementMatchStatus(data),
         decision: movementDecisionStatusFromChecks(checkStatus),
         // TODO : display the first match info for now
         notification1,
         notification1Status: notification1
           ? notificationStatus(notification1)
           : null,
-        notification1Commodities
+        notification1MatchStatus,
+        notification1Commodities,
+        notification1PartTwoStatus
       })
     } catch (e) {
       logger.error(e)

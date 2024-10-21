@@ -129,6 +129,64 @@
 
 {% macro getPanelHtml(item) %}
  <h2 class="govuk-heading-l">Item #1</h2>
+ {{ govukTable({
+      caption: "Import Documentation Outcome",
+      captionClasses: "govuk-table__caption--m",
+      rows: [
+        [
+          {
+            text: "IPAFFS Status"
+          },
+          {
+            text: appTag({
+              text: notification1Status.text,
+              classes: notification1Status.classes
+            })
+          }
+        ],
+        [
+          {
+            text: "Matching Outcome"
+          },
+          {
+            text: appTag({
+              text: notification1MatchStatus.value,
+              classes: notification1MatchStatus.classes
+            })
+          }
+        ]
+
+      ]
+    }) }}
+ {{ govukTable({
+      caption: "Inspection Outcome",
+      captionClasses: "govuk-table__caption--m",
+      rows: [
+        [
+          {
+            text: "Consignment Acceptable"
+          },
+          {
+            text: appTag({
+              text: notification1PartTwoStatus.acceptable.text,
+              classes: notification1PartTwoStatus.acceptable.classes
+            })
+          }
+        ],
+        [
+          {
+            text: "Decision"
+          },
+          {
+            text: appTag({
+              text: notification1PartTwoStatus.decision.text,
+              classes: notification1PartTwoStatus.decision.classes
+            })
+          }
+        ]
+
+      ]
+    }) }}
    {{ govukTable({
      caption: "IPAFFS Notification (CHED) Information",
      captionClasses: "govuk-table__caption--m",
@@ -149,17 +207,6 @@
             text: notification1.lastUpdated
           }
         ],
-       [
-         {
-           text: "Status"
-         },
-         {
-           text: appTag({
-             text: notification1Status.text,
-             classes: notification1Status.classes
-           })
-         }
-       ],
        [
          {
            text: "Country Of Origin"

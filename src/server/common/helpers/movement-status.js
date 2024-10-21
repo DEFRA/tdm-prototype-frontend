@@ -1,15 +1,15 @@
 import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 const logger = createLogger()
 
-function movementItemMatchStatus(relationships, item) {
-  const match = relationships?.notifications.data.find(
-    (m) => m.sourceItem === item.itemNumber
+function movementItemMatchStatus(movement, item) {
+  const match = movement?.notifications.find(
+    (m) => m.meta.sourceItem === item.itemNumber
   )
   // TODO : m.item is not coming through, use the index instead
   // const match = relationships.notifications.data[index]
 
   logger.debug(`movementCommodityMatchStatus : ${match || 'No match object'}`)
-  const matched = match?.matched
+  const matched = match?.meta.matched
   return {
     kind: 'tag',
     value: matched ? 'Matched' : 'No Match',
@@ -17,11 +17,14 @@ function movementItemMatchStatus(relationships, item) {
   }
 }
 
-function movementMatchStatus(relationships) {
+function movementMatchStatus(movement) {
   logger.debug(
-    `movementMatchStatus : ${relationships ? relationships.notifications : 'No Match'}`
+    `movementMatchStatus : ${movement ? movement.notifications : 'No Match'}`
   )
-  const matched = relationships?.notifications?.matched
+
+  // movement.items
+
+  const matched = movement?.notifications?.every((n) => n.meta.matched)
   return {
     kind: 'tag',
     value: matched ? 'Matched' : 'No Match',

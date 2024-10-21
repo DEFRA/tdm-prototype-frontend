@@ -22,8 +22,8 @@ function notificationViewModelItems(notification) {
       kind: 'text',
       value: weight(c.additionalData.netWeight)
     },
-    inspectionStatusElementListItem(c),
-    notificationCommodityMatchStatus(notification.relationships, c)
+    notificationCommodityMatchStatus(notification, c),
+    inspectionStatusElementListItem(c)
   ])
 }
 

@@ -51,22 +51,6 @@ const getClient = async function (request) {
     declarantName: '',
     dispatchCountryCode: '',
     goodsLocationCode: '',
-    relationships: {
-      notifications: {
-        matched: false,
-        data: [
-          {
-            matched: false,
-            id: '',
-            sourceItem: 0,
-            destinationItem: 0,
-            additionalInformation: {
-              matchingLevel: ''
-            }
-          }
-        ]
-      }
-    },
     items: [
       {
         itemNumber: 0,
@@ -76,7 +60,11 @@ const getClient = async function (request) {
         gmr: { ...matchModel }
       }
     ],
-    auditEntries: { ...auditEntries }
+    auditEntries: { ...auditEntries },
+    notifications: {
+      jsonApi: 'hasMany',
+      type: 'notifications'
+    }
   })
 
   jsonApi.define('notification', {
@@ -88,22 +76,6 @@ const getClient = async function (request) {
     lastUpdatedBy: {
       displayName: '',
       userId: ''
-    },
-    relationships: {
-      movements: {
-        matched: false,
-        data: [
-          {
-            matched: false,
-            id: '',
-            sourceItem: 0,
-            destinationItem: 0,
-            additionalInformation: {
-              matchingLevel: ''
-            }
-          }
-        ]
-      }
     },
     commodities: [
       {
@@ -158,7 +130,11 @@ const getClient = async function (request) {
         decision: ''
       }
     },
-    auditEntries: { ...auditEntries }
+    auditEntries: { ...auditEntries },
+    movements: {
+      jsonApi: 'hasMany',
+      type: 'movements'
+    }
   })
 
   // Define Model

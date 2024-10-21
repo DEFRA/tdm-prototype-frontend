@@ -17,37 +17,38 @@ export const notificationsListController = {
     try {
       logger.info(`Querying JSON API for notifications, chedType=${chedType}`)
       const client = await getClient(request)
-      const { data } = await client.findAll('notifications', {
-        sort: '-lastUpdated',
-        filter: `equals(ipaffsType,'${chedType}')`
-        // 'page[size]':1,
-        // 'fields[notifications]': 'movements,lastUpdated,status,ipaffsType,partOne'
-      })
-
-      const notifications = data.map(
-        (
-          /**
-           * @type {{ id: any; movements: any, status: any; lastUpdated: string | number | Date; relationships: any;
-            partOne: { commodities: { numberOfPackages: any; }; arrivalDate: any, arrivalTime: any, pointOfEntry:any }; }} */ n
-        ) => [
-          {
-            kind: 'link',
-            url: `/notifications/${n.id}?chedType=${chedType}`,
-            value: n.id
-          },
-          // { kind: 'text', value: n.status },
-          {
-            kind: 'text',
-            value: mediumDateTime(
-              `${n.partOne.arrivalDate}T${n.partOne.arrivalTime}`
-            )
-          },
-          { kind: 'text', value: n.partOne.pointOfEntry },
-          { kind: 'text', value: mediumDateTime(n.lastUpdated) },
-          notificationStatusTag(n),
-          notificationMatchStatus(n)
-        ]
+      const { data, errors, meta, links } = await client.findAll(
+        'notifications',
+        {
+          sort: '-lastUpdated',
+          filter: `equals(ipaffsType,'${chedType}')`
+          // 'page[size]':1,
+          // 'fields[notifications]': 'movements,lastUpdated,status,ipaffsType,partOne'
+        }
       )
+
+      logger.info(`errors ${errors}`)
+      logger.info(`meta ${meta}`)
+      logger.info(`links ${links}`)
+
+      const notifications = data.map((n) => [
+        {
+          kind: 'link',
+          url: `/notifications/${n.id}?chedType=${chedType}`,
+          value: n.id
+        },
+        // { kind: 'text', value: n.status },
+        {
+          kind: 'text',
+          value: mediumDateTime(
+            `${n.partOne.arrivalDate}T${n.partOne.arrivalTime}`
+          )
+        },
+        { kind: 'text', value: n.partOne.pointOfEntry },
+        { kind: 'text', value: mediumDateTime(n.lastUpdated) },
+        notificationStatusTag(n),
+        notificationMatchStatus(n)
+      ])
 
       return h.view('notifications/notifications-list', {
         pageTitle: 'Notifications',

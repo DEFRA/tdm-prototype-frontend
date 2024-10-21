@@ -37,11 +37,20 @@ export const notificationController = {
     )
 
     const client = await getClient(request)
-    const { data: notification } = await client.find('notifications', chedId, {
+    const {
+      data: notification,
+      errors,
+      meta,
+      links
+    } = await client.find('notifications', chedId, {
       // 'fields[notifications]':
       //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
     })
     logger.info(`Result received, ${notification.id}`)
+
+    logger.info(`errors ${errors}`)
+    logger.info(`meta ${meta}`)
+    logger.info(`links ${links}`)
 
     let hmrcChecks = []
     let movements = []
@@ -50,13 +59,9 @@ export const notificationController = {
     let movement1Decision = null
     let movement1Item1 = null
 
-    if (notification.relationships.movements.matched) {
-      logger.info(
-        `Notification matched, ${notification.relationships.movements}`
-      )
-      const movementIds = new Set(
-        notification.relationships.movements.data.map((m) => m.id)
-      )
+    if (notification?.movements) {
+      logger.info(`Notification matched, ${notification.movements}`)
+      const movementIds = new Set(notification.movements.map((m) => m.id))
 
       // Get movement(s)
       movements = await Promise.all(
@@ -82,7 +87,7 @@ export const notificationController = {
 
       movement1 = movements ? movements[0] : null
       movement1Commodities = movementViewModelItems(movement1)
-      movement1Decision = movementDecisionStatus(movement1)
+      movement1Decision = movement1 ? movementDecisionStatus(movement1) : null
       movement1Item1 = movement1?.items.length ? movement1.items[0] : null
     }
 
@@ -94,8 +99,9 @@ export const notificationController = {
       movementItemCheckDecisionStatus(c)
     ])
 
-    const ipaffsChecks = notification.partTwo?.commodityChecks
-      ? notification.partTwo.commodityChecks[0].checks.map((c) => [
+    // TODO : deal with all commodities
+    const ipaffsChecks = notification.commodities
+      ? notification.commodities[0].checks?.map((c) => [
           {
             kind: 'text',
             value: 1

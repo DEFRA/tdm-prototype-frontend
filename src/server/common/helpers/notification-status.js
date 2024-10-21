@@ -60,16 +60,16 @@ function booleanTag(status) {
   }
 }
 
-function notificationCommodityMatchStatus(relationships, item) {
-  const match = relationships.movements.data.find(
-    (m) => m.sourceItem === item.complementID
+function notificationCommodityMatchStatus(notification, item) {
+  const match = notification.movements?.find(
+    (m) => m.meta.sourceItem === item.complementID
   )
   // TODO : m.item is not coming through, use the index instead
   // const match = relationships.movements.data[index]
   logger.debug(
     `notificationCommodityMatchStatus : ${match || 'No match object'}`
   )
-  const matched = match?.matched
+  const matched = match?.meta.matched
   return {
     kind: 'tag',
     value: matched ? 'Matched' : 'No Match',
@@ -79,14 +79,14 @@ function notificationCommodityMatchStatus(relationships, item) {
 
 function notificationMatchStatus(notification) {
   logger.debug(
-    `notificationMatchStatus : ${notification.relationships ? notification.relationships.movements : 'No Match'}`
+    `notificationMatchStatus : ${notification.movements ? notification.movements : 'No Match'}`
   )
 
   const commoditiesWithMatches = notification.commodities.map((c) => {
     let match = false
-    if (notification.relationships.movements?.data) {
-      match = notification.relationships.movements?.data.find(
-        (m) => m.sourceItem === c.complementID
+    if (notification.movements) {
+      match = notification.movements.find(
+        (m) => m.meta.sourceItem === c.complementID
       )
     }
     c.match = match

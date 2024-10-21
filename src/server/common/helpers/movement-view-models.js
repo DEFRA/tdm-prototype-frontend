@@ -27,7 +27,7 @@ function movementViewModelItems(movement) {
       kind: 'text',
       value: i.itemSupplementaryUnits > 0 ? i.itemSupplementaryUnits : ''
     },
-    movementItemMatchStatus(movement.relationships, i),
+    movementItemMatchStatus(movement, i),
     movementItemDecisionStatus(i)
   ])
 }

@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.ASB", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdmPrototypeBackend.Azure", "..\tdm-prototype-backend\TdmPrototypeBackend.Azure\TdmPrototypeBackend.Azure.csproj", "{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdmPrototypeBackend.Cli", "..\tdm-prototype-backend\TdmPrototypeBackend.Cli\TdmPrototypeBackend.Cli.csproj", "{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{B539C8D0-934F-4FCB-8D77-9AEC79322977} = {A8F17233-AE7A-405B-A340-E9E2B301F08F}
 		{8FD2EFB8-4ABE-4D22-AADC-6B04694AFC5E} = {B539C8D0-934F-4FCB-8D77-9AEC79322977}
 		{DFB7B123-DC3A-4C99-BE07-8A3FEA97B0BD} = {A8F17233-AE7A-405B-A340-E9E2B301F08F}
+		{2FD08F5C-519A-4B70-A9D6-1FB1A0E1DB75} = {9828C164-5BF5-4DC5-BBE1-8AB88E4BFF79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {143C4A3C-A8D7-409A-8933-91352348ED08}
