@@ -14,6 +14,7 @@ import { dropUserSession } from '~/src/server/common/helpers/auth/drop-user-sess
 import { secureContext } from '~/src/server/common/helpers/secure-context/index.js'
 import { getCacheEngine } from '~/src/server/common/helpers/session-cache/cache-engine.js'
 import { pulse } from '~/src/server/common/helpers/pulse.js'
+import { serverVersion } from '~/src/server/common/helpers/server-version.js'
 
 export async function createServer() {
   const server = hapi.server({
@@ -63,6 +64,7 @@ export async function createServer() {
   server.decorate('request', 'dropUserSession', dropUserSession)
 
   await server.register([
+    serverVersion,
     sessionManager,
     defraId,
     sessionCookie,

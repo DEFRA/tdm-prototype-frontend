@@ -48,7 +48,6 @@
 
 {% block beforeContent %}
 
-
   {{ govukPhaseBanner({
     tag: {
       text: "Alpha"
@@ -67,6 +66,7 @@
 {% block footer %}
   {{ govukFooter({
     meta: {
+      text: "Version Info : " +versionInfo,
       items: [
         {
           href: "https://www.gov.uk/help/privacy-notice",
