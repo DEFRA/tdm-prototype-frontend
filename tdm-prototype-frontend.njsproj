@@ -66,6 +66,7 @@
     <Content Include="src\server\common\helpers\notification-status.js" />
     <Content Include="src\server\common\helpers\notification-view-model.js" />
     <Content Include="src\server\common\helpers\string-cleaner.js" />
+    <Content Include="src\server\common\helpers\server-version.js" />
     <Content Include="src\server\common\helpers\weight.js" />
     <Content Include="src\server\common\models.js" />
     <Content Include="stylelint.config.js" />

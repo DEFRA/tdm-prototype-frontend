@@ -36,6 +36,7 @@ export async function context(request) {
     serviceName: config.get('serviceName'),
     serviceUrl: '/',
     breadcrumbs: [],
+    versionInfo: `TDM Backend ${config.get('tdmBackendVersion')}, TDM Frontend ${config.get('tdmFrontendVersion')}`,
     navigation: buildNavigation(request),
 
     /**

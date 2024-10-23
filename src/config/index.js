@@ -37,6 +37,17 @@ export const config = convict({
     default: 'CHEDA.GB.2024.1009875',
     env: 'TDM_API_EXAMPLE_NOTIFICATION'
   },
+  tdmFrontendVersion: {
+    doc: 'The version number of the frontend service',
+    format: String,
+    default: '0.0.0 (local)',
+    env: 'CONTAINER_VERSION'
+  },
+  tdmBackendVersion: {
+    doc: 'The version number of the backend service',
+    format: String,
+    default: '0.0.0 (local)'
+  },
   staticCacheTimeout: {
     doc: 'Static cache timeout in milliseconds',
     format: Number,
