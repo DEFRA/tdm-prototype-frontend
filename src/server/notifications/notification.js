@@ -93,7 +93,7 @@ export const notificationController = {
       movement1Item1 = movement1?.items.length ? movement1.items[0] : null
     }
 
-    hmrcChecks = hmrcChecks.map((c) => [
+    const hmrcChecksViewModel = hmrcChecks.map((c) => [
       { kind: 'text', value: c.item },
       { kind: 'text', value: c.checkCode },
       { kind: 'text', value: c.documentCode },
@@ -153,6 +153,7 @@ export const notificationController = {
 
       const inspectionStatus = inspectionStatusNotification(notification)
       const partTwoStatus = notificationPartTwoStatus(notification)
+      const matchOutcome = notificationMatchStatus(notification)
 
       return h.view('notifications/notification', {
         pageTitle: `Notification ${chedId}`,
@@ -180,13 +181,19 @@ export const notificationController = {
         notificationStatus: notificationStatus(notification),
         partTwoStatus,
         ipaffsChecks,
-        hmrcChecks,
-        matchOutcome: notificationMatchStatus(notification),
+        hmrcChecks: hmrcChecksViewModel,
+        matchOutcome,
         // TODO : display the first match info for now
         movement1,
         movement1Item1,
         movement1Decision,
-        movement1Commodities
+        movement1Commodities,
+        features: {
+          disableSendDecisions: matchOutcome.matched
+            ? hmrcChecks.every((c) => c.decisionCode)
+            : true,
+          disableCreateClearanceRequests: matchOutcome.matched
+        }
       })
     } catch (e) {
       logger.error(e)

@@ -72,15 +72,32 @@
     isPageHeading: false
   }
 }) %}
-  <form method="post" action="/cds-simulator/create-clearance-request/{{notification.id}}" autocomplete="off" novalidate>
   <div class="govuk-button-group">
-    {{ govukButton({
-      text: "Create Test CR",
-      classes: "govuk-button--secondary",
-      preventDoubleClick: true
-    }) }}
-  </div>
-  </form>
+    <form method="post" action="/cds-simulator/create-clearance-request/{{notification.id}}" autocomplete="off" novalidate>
+      {{ govukButton({
+        text: "Create Test CR",
+        classes: "govuk-button--secondary",
+        preventDoubleClick: true,
+        disabled: features.disableCreateClearanceRequests
+      }) }}
+    </form>
+    <form method="post" action="/cds-simulator/send-decisions/{{notification.id}}/release" autocomplete="off" novalidate>
+      {{ govukButton({
+        text: "Send Release Decisions",
+        classes: "govuk-button--secondary",
+        preventDoubleClick: true,
+        disabled: features.disableSendDecisions
+      }) }}
+    </form>
+    <form method="post" action="/cds-simulator/send-decisions/{{notification.id}}/hold" autocomplete="off" novalidate>
+      {{ govukButton({
+        text: "Send Hold Decisions",
+        classes: "govuk-button--secondary",
+        preventDoubleClick: true,
+        disabled: features.disableSendDecisions
+      }) }}
+    </form>
+    </div>
 {% endcall %}
 
 {{ govukTable({
@@ -254,6 +271,29 @@
      entityRows: movement1Commodities,
      noResult: "There are no Commodities on the movement"
    }) }}
+
+  {% call govukFieldset({
+    legend: {
+      text: "HMRC Check Information",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: false
+    }
+  }) %}
+
+    {{ appEntityList({
+        headings: [
+          { text: "Item ID", size: "tiny" },
+          { text: "Check Code", size: "small" },
+          { text: "Decision Code", size: "small" },
+          { text: "Department", size: "small" },
+          { text: "Decision", size: "large" }
+        ],
+        entityRows: hmrcChecks,
+        noResult: "There are no hmrc checks for this notification at this time"
+      }) }}
+
+  {% endcall %}
+
 {% endmacro%}
 
 {% if movement1 %}
@@ -273,29 +313,6 @@
 }) }}
 
 {% endif %}
-
-
-{% call govukFieldset({
-  legend: {
-    text: "HMRC Check Information",
-    classes: "govuk-fieldset__legend--l",
-    isPageHeading: false
-  }
-}) %}
-
-  {{ appEntityList({
-      headings: [
-        { text: "Item ID", size: "tiny" },
-        { text: "Check Code", size: "small" },
-        { text: "Decision Code", size: "small" },
-        { text: "Department", size: "small" },
-        { text: "Decision", size: "large" }
-      ],
-      entityRows: hmrcChecks,
-      noResult: "There are no hmrc checks for this notification at this time"
-    }) }}
-
-{% endcall %}
 
 {% if auditEntries|length %}
 

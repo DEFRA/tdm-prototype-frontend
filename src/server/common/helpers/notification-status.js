@@ -98,7 +98,8 @@ function notificationMatchStatus(notification) {
   return {
     kind: 'tag',
     value: matched ? 'Matched' : 'No Match',
-    classes: matched ? 'govuk-tag--green' : 'govuk-tag--red'
+    classes: matched ? 'govuk-tag--green' : 'govuk-tag--red',
+    matched
   }
 }
 
