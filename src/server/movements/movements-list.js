@@ -20,19 +20,24 @@ export const movementsListController = {
     })
 
     logger.info(data)
+    let movements = []
 
-    const movements = data.map((m) => [
-      {
-        kind: 'link',
-        url: `/movements/${m.id}`,
-        value: m.id
-      },
-      { kind: 'text', value: m.goodsLocationCode }, // m.status
-      { kind: 'text', value: m.items.length }, // m.status
-      { kind: 'text', value: mediumDateTime(m.lastUpdated) }, // new Date(m.lastUpdated).toLocaleString()
-      movementDecisionStatus(m),
-      movementMatchStatus(m)
-    ])
+    try {
+      movements = data.map((m) => [
+        {
+          kind: 'link',
+          url: `/movements/${m.id}`,
+          value: m.id
+        },
+        { kind: 'text', value: m.goodsLocationCode }, // m.status
+        { kind: 'text', value: m.items.length }, // m.status
+        { kind: 'text', value: mediumDateTime(m.lastUpdated) }, // new Date(m.lastUpdated).toLocaleString()
+        movementDecisionStatus(m),
+        movementMatchStatus(m)
+      ])
+    } catch (e) {
+      logger.error(e)
+    }
 
     return h.view('movements/movements-list', {
       pageTitle: 'Movements',

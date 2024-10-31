@@ -41,7 +41,10 @@ function movementDecisionStatusFromChecks(checks) {
   logger.debug(`movementDecisionStatus : ${checks}`)
 
   // We want the 'worst' decision from all the items on the document
-  const lowest = Math.min(...checks.map((c) => c[1].decisionIndex))
+  const lowest =
+    checks && checks.length > 0
+      ? Math.min(...checks.map((c) => c[1].decisionIndex))
+      : 0
   const statusItem = Object.values(statusMap)[lowest]
 
   return {
@@ -55,12 +58,12 @@ function movementItemDecisionStatus(item) {
   // TODO : at the moment we only expect one check per item
   // may not be correct
   logger.debug(`movementItemDecisionStatus : ${item}`)
-  return movementItemCheckDecisionStatus(item?.checks[0])
+  return movementItemCheckDecisionStatus(item?.checks ? item?.checks[0] : {})
 }
 
 function movementGetChecks(movement) {
   return movement?.items
-    .map((i) => i.checks.map((c) => [i, c]))
+    .map((i) => (i.checks ? i.checks.map((c) => [i, c]) : []))
     .flat()
     .map((i) => movementItemCheckAddStatus(i[0], i[1]))
 }

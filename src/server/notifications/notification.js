@@ -78,9 +78,11 @@ export const notificationController = {
       hmrcChecks = movements
         .map((m) =>
           m.items.map((i) =>
-            i.checks.map((c) => {
-              return { ...c, movement: m.id, item: i.itemNumber }
-            })
+            i.checks
+              ? i.checks.map((c) => {
+                  return { ...c, movement: m.id, item: i.itemNumber }
+                })
+              : []
           )
         )
         .flat(2)

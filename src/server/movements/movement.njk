@@ -158,6 +158,9 @@
 
       ]
     }) }}
+
+ {% if notification1PartTwoStatus.display %}
+
  {{ govukTable({
       caption: "Inspection Outcome",
       captionClasses: "govuk-table__caption--m",
@@ -187,6 +190,8 @@
 
       ]
     }) }}
+ {% endif %}
+
    {{ govukTable({
      caption: "IPAFFS Notification (CHED) Information",
      captionClasses: "govuk-table__caption--m",

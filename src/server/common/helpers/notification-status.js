@@ -116,7 +116,7 @@ function notificationPartTwoStatus(notification) {
   return {
     display: decision,
     decision: {
-      text: cleanPascalCase(decisionText),
+      text: decisionText ? cleanPascalCase(decisionText) : 'TBC',
       classes:
         // decision && decisionText.startsWith('Acceptable')
         acceptable ? 'govuk-tag--green' : 'govuk-tag--red'
