@@ -67,7 +67,7 @@ For example to use the compose stack API from the local frontend set the followi
 Or to use the compose stack frontend, but the local backend, set the following var in your compose front end environment (./compose/local.env):
 
 ```
-TDM_API_BACKEND=https://host.docker.internal:3080/api
+TDM_API_BACKEND=http://host.docker.internal:3080/api
 NODE_TLS_REJECT_UNAUTHORIZED=0
 ```
 
