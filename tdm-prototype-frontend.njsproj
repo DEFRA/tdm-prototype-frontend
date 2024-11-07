@@ -65,6 +65,7 @@
     <Content Include="src\server\common\helpers\movement-view-models.js" />
     <Content Include="src\server\common\helpers\notification-status.js" />
     <Content Include="src\server\common\helpers\notification-view-model.js" />
+    <Content Include="src\server\common\helpers\otel-tracer.js" />
     <Content Include="src\server\common\helpers\string-cleaner.js" />
     <Content Include="src\server\common\helpers\server-version.js" />
     <Content Include="src\server\common\helpers\weight.js" />

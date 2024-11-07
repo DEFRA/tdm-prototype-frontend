@@ -1,3 +1,4 @@
+import { initialise } from '~/src/server/common/helpers/otel-tracer.js'
 import path from 'path'
 import hapi from '@hapi/hapi'
 
@@ -15,8 +16,23 @@ import { secureContext } from '~/src/server/common/helpers/secure-context/index.
 import { getCacheEngine } from '~/src/server/common/helpers/session-cache/cache-engine.js'
 import { pulse } from '~/src/server/common/helpers/pulse.js'
 import { serverVersion } from '~/src/server/common/helpers/server-version.js'
+import { trace } from '@opentelemetry/api'
+initialise('tdm-prototype-frontend')
 
 export async function createServer() {
+  const tracer = trace.getTracer('globals')
+
+  return tracer.startActiveSpan('create-server', async (span) => {
+    span.addEvent('create-server')
+    span.setAttribute('Date', new Date().toString())
+
+    const result = await createServerWithTracing()
+    span.end()
+    return result
+  })
+}
+
+async function createServerWithTracing() {
   const server = hapi.server({
     port: config.get('port'),
     routes: {
