@@ -2,9 +2,18 @@ import { createLogger } from '~/src/server/common/helpers/logging/logger.js'
 import { config } from '~/src/config/index.js'
 import axios from 'axios'
 
+import { trace, context } from '@opentelemetry/api'
+
 const createClearanceRequestController = {
   handler: async (request, h) => {
     const logger = createLogger()
+
+    const currentSpan = trace.getSpan(context.active())
+    if (currentSpan) {
+      currentSpan.addEvent('CDS Simulator : Create clearance request')
+      currentSpan.setAttribute('Date', new Date().toString())
+    }
+
     const requested = { params: request.params, query: request.query }
     logger.info(
       `Simulator Actions received request: ${JSON.stringify(requested)}`

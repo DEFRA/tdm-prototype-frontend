@@ -1,5 +1,6 @@
 import JsonApi from 'devour-client'
 import { config } from '~/src/config/index.js'
+import axios from 'axios'
 
 // const authedUser = await request.getUserSession()
 
@@ -9,6 +10,10 @@ const getClient = async function (request) {
     apiUrl: `${config.get('tdmBackendApi')}/api`,
     bearer: authedUser.jwt
   })
+
+  // Provide a custom axios, as this means anything we setup (for example tracing interceptors), is used by
+  // the json API client
+  jsonApi.axios = axios
 
   // const jsonApi = new JsonApi({ apiUrl: config.get('tdmBackendApi'), bearer: authedUser.jwt })
 

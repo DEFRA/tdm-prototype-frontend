@@ -26,179 +26,192 @@ import { notificationViewModelItems } from '~/src/server/common/helpers/notifica
 
 export const notificationController = {
   async handler(request, h) {
-    const logger = createLogger()
-    const chedId = request.params.id
+    return await handler(request, h)
+    // return tracer.startActiveSpan('notificationSpan', async (span) => {
+    //   // const currentSpan = tracer.startSpan('notificationSpan');
+    //   span.addEvent('Added post');
+    //   span.setAttribute('Date', new Date());
+    //
+    //   var result =  await handler(request, h)
+    //   span.end()
+    //   return result
+    // })
+  }
+}
 
-    // Get filter details to include on breadcrumb
-    const chedType = request.query?.chedType || 'Cveda'
+async function handler(request, h) {
+  const logger = createLogger()
+  const chedId = request.params.id
 
-    logger.info(
-      `Querying JSON API for notification, chedId=${chedId}, chedType=${chedType}`
+  // Get filter details to include on breadcrumb
+  const chedType = request.query?.chedType || 'Cveda'
+
+  logger.info(
+    `Querying JSON API for notification, chedId=${chedId}, chedType=${chedType}`
+  )
+
+  const client = await getClient(request)
+  const {
+    data: notification,
+    errors,
+    meta,
+    links
+  } = await client.find('notifications', chedId, {
+    // 'fields[notifications]':
+    //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+  })
+  logger.info(`Result received, ${notification.id}`)
+
+  logger.info(`errors ${errors}`)
+  logger.info(`meta ${meta}`)
+  logger.info(`links ${links}`)
+
+  let hmrcChecks = []
+  let movements = []
+  let movement1 = null
+  let movement1Commodities = []
+  let movement1Decision = null
+  let movement1Item1 = null
+
+  if (notification?.movements) {
+    logger.info(`Notification matched, ${notification.movements}`)
+    const movementIds = new Set(notification.movements.map((m) => m.id))
+
+    // Get movement(s)
+    movements = await Promise.all(
+      Array.from(movementIds).map(async (id) => {
+        const { data: m } = await client.find('movements', id, {
+          // 'fields[notifications]':
+          //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
+        })
+
+        return m
+      })
+    )
+    // [m.id, i.itemNumber, i.checks]
+    hmrcChecks = movements
+      .map((m) =>
+        m.items.map((i) =>
+          i.checks
+            ? i.checks.map((c) => {
+                return { ...c, movement: m.id, item: i.itemNumber }
+              })
+            : []
+        )
+      )
+      .flat(2)
+
+    movement1 = movements ? movements[0] : null
+    movement1Commodities = movementViewModelItems(movement1)
+    movement1Decision = movement1 ? movementDecisionStatus(movement1) : null
+    movement1Item1 = movement1?.items.length ? movement1.items[0] : null
+  }
+
+  const hmrcChecksViewModel = hmrcChecks.map((c) => [
+    { kind: 'text', value: c.item },
+    { kind: 'text', value: c.checkCode },
+    { kind: 'text', value: c.documentCode },
+    { kind: 'text', value: c.departmentCode },
+    movementItemCheckDecisionStatus(c)
+  ])
+
+  // TODO : deal with all commodities
+  const ipaffsChecks = notification.commodities
+    ? notification.commodities[0].checks?.map((c) => [
+        {
+          kind: 'text',
+          value: 1
+        },
+        {
+          kind: 'text',
+          value: cleanPascalCase(c.type)
+        },
+        { kind: 'text', value: c.reason },
+        booleanTag(c.isSelectedForChecks),
+        booleanTag(c.hasChecksComplete),
+        notificationCheckStatus(c)
+      ])
+    : null
+
+  try {
+    const ipaffsCommodities = notificationViewModelItems(notification)
+
+    const auditEntries = notification.auditEntries
+      ? notification.auditEntries.map((i) => [
+          { kind: 'text', value: i.version },
+          {
+            kind: 'text',
+            value: i.createdBy,
+            itemClasses: ['tdm-text-truncate']
+          },
+          { kind: 'text', value: mediumDateTime(i.createdSource) },
+          { kind: 'text', value: mediumDateTime(i.createdLocal) },
+          { kind: 'text', value: i.status }
+        ])
+      : []
+
+    const commodityTabItems = notification.commodities.reduce(
+      (memo, c) => {
+        // memo.fragments[c.commodityID] = c
+        memo.tabItems.push({
+          label: `${c.complementID}: ${c.commodityID}`,
+          id: `${c.complementID}-${c.commodityID}`,
+          panel: {
+            html: `<h2 class="govuk-heading-l">${c.complementID}: ${c.commodityID}</h2><div>TODO : Commodity match movement information</div>`
+          }
+        })
+        return memo
+      },
+      { fragments: [], tabItems: [] }
     )
 
-    const client = await getClient(request)
-    const {
-      data: notification,
-      errors,
-      meta,
-      links
-    } = await client.find('notifications', chedId, {
-      // 'fields[notifications]':
-      //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
-    })
-    logger.info(`Result received, ${notification.id}`)
+    const inspectionStatus = inspectionStatusNotification(notification)
+    const partTwoStatus = notificationPartTwoStatus(notification)
+    const matchOutcome = notificationMatchStatus(notification)
 
-    logger.info(`errors ${errors}`)
-    logger.info(`meta ${meta}`)
-    logger.info(`links ${links}`)
-
-    let hmrcChecks = []
-    let movements = []
-    let movement1 = null
-    let movement1Commodities = []
-    let movement1Decision = null
-    let movement1Item1 = null
-
-    if (notification?.movements) {
-      logger.info(`Notification matched, ${notification.movements}`)
-      const movementIds = new Set(notification.movements.map((m) => m.id))
-
-      // Get movement(s)
-      movements = await Promise.all(
-        Array.from(movementIds).map(async (id) => {
-          const { data: m } = await client.find('movements', id, {
-            // 'fields[notifications]':
-            //   'movements,lastUpdated,lastUpdatedBy,status,ipaffsType,partOne,auditEntries'
-          })
-
-          return m
-        })
-      )
-      // [m.id, i.itemNumber, i.checks]
-      hmrcChecks = movements
-        .map((m) =>
-          m.items.map((i) =>
-            i.checks
-              ? i.checks.map((c) => {
-                  return { ...c, movement: m.id, item: i.itemNumber }
-                })
-              : []
-          )
-        )
-        .flat(2)
-
-      movement1 = movements ? movements[0] : null
-      movement1Commodities = movementViewModelItems(movement1)
-      movement1Decision = movement1 ? movementDecisionStatus(movement1) : null
-      movement1Item1 = movement1?.items.length ? movement1.items[0] : null
-    }
-
-    const hmrcChecksViewModel = hmrcChecks.map((c) => [
-      { kind: 'text', value: c.item },
-      { kind: 'text', value: c.checkCode },
-      { kind: 'text', value: c.documentCode },
-      { kind: 'text', value: c.departmentCode },
-      movementItemCheckDecisionStatus(c)
-    ])
-
-    // TODO : deal with all commodities
-    const ipaffsChecks = notification.commodities
-      ? notification.commodities[0].checks?.map((c) => [
-          {
-            kind: 'text',
-            value: 1
-          },
-          {
-            kind: 'text',
-            value: cleanPascalCase(c.type)
-          },
-          { kind: 'text', value: c.reason },
-          booleanTag(c.isSelectedForChecks),
-          booleanTag(c.hasChecksComplete),
-          notificationCheckStatus(c)
-        ])
-      : null
-
-    try {
-      const ipaffsCommodities = notificationViewModelItems(notification)
-
-      const auditEntries = notification.auditEntries
-        ? notification.auditEntries.map((i) => [
-            { kind: 'text', value: i.version },
-            {
-              kind: 'text',
-              value: i.createdBy,
-              itemClasses: ['tdm-text-truncate']
-            },
-            { kind: 'text', value: mediumDateTime(i.createdSource) },
-            { kind: 'text', value: mediumDateTime(i.createdLocal) },
-            { kind: 'text', value: i.status }
-          ])
-        : []
-
-      const commodityTabItems = notification.commodities.reduce(
-        (memo, c) => {
-          // memo.fragments[c.commodityID] = c
-          memo.tabItems.push({
-            label: `${c.complementID}: ${c.commodityID}`,
-            id: `${c.complementID}-${c.commodityID}`,
-            panel: {
-              html: `<h2 class="govuk-heading-l">${c.complementID}: ${c.commodityID}</h2><div>TODO : Commodity match movement information</div>`
-            }
-          })
-          return memo
+    return h.view('notifications/notification', {
+      pageTitle: `Notification ${chedId}`,
+      heading: `Notification ${chedId}`,
+      breadcrumbs: [
+        {
+          text: 'Home',
+          href: '/'
         },
-        { fragments: [], tabItems: [] }
-      )
-
-      const inspectionStatus = inspectionStatusNotification(notification)
-      const partTwoStatus = notificationPartTwoStatus(notification)
-      const matchOutcome = notificationMatchStatus(notification)
-
-      return h.view('notifications/notification', {
-        pageTitle: `Notification ${chedId}`,
-        heading: `Notification ${chedId}`,
-        breadcrumbs: [
-          {
-            text: 'Home',
-            href: '/'
-          },
-          {
-            text: 'Notifications',
-            href: `/notifications?chedType=${chedType}`
-          },
-          {
-            text: `Notification ${chedId}`,
-            href: `/auth/proxy/api/notifications/${chedId}`
-          }
-        ],
-        notification,
-        lastUpdated: mediumDateTime(notification.lastUpdated),
-        ipaffsCommodities,
-        commodityTabItems,
-        auditEntries,
-        inspectionStatus,
-        notificationStatus: notificationStatus(notification),
-        partTwoStatus,
-        ipaffsChecks,
-        hmrcChecks: hmrcChecksViewModel,
-        matchOutcome,
-        // TODO : display the first match info for now
-        movement1,
-        movement1Item1,
-        movement1Decision,
-        movement1Commodities,
-        features: {
-          disableSendDecisions: matchOutcome.matched
-            ? hmrcChecks.every((c) => c.decisionCode)
-            : true,
-          disableCreateClearanceRequests: matchOutcome.matched
+        {
+          text: 'Notifications',
+          href: `/notifications?chedType=${chedType}`
+        },
+        {
+          text: `Notification ${chedId}`,
+          href: `/auth/proxy/api/notifications/${chedId}`
         }
-      })
-    } catch (e) {
-      logger.error(e)
-      throw e
-    }
+      ],
+      notification,
+      lastUpdated: mediumDateTime(notification.lastUpdated),
+      ipaffsCommodities,
+      commodityTabItems,
+      auditEntries,
+      inspectionStatus,
+      notificationStatus: notificationStatus(notification),
+      partTwoStatus,
+      ipaffsChecks,
+      hmrcChecks: hmrcChecksViewModel,
+      matchOutcome,
+      // TODO : display the first match info for now
+      movement1,
+      movement1Item1,
+      movement1Decision,
+      movement1Commodities,
+      features: {
+        disableSendDecisions: matchOutcome.matched
+          ? hmrcChecks.every((c) => c.decisionCode)
+          : true,
+        disableCreateClearanceRequests: matchOutcome.matched
+      }
+    })
+  } catch (e) {
+    logger.error(e)
+    throw e
   }
 }
 

@@ -28,7 +28,7 @@ export const config = convict({
   tdmBackendApi: {
     doc: 'The Trade Data Matching json:api backend.',
     format: String,
-    default: 'https://tdm-prototype-backend.localtest.me:3080',
+    default: 'http://tdm-prototype-backend.localtest.me:3080',
     env: 'TDM_API_BACKEND'
   },
   tdmBackendExampleNotification: {
